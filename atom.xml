@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[blog.dm4.tw]]></title>
   <link href="http://dm4.github.com/atom.xml" rel="self"/>
   <link href="http://dm4.github.com/"/>
-  <updated>2012-05-07T13:39:08+08:00</updated>
+  <updated>2012-05-08T01:55:39+08:00</updated>
   <id>http://dm4.github.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[dm4]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[First Post]]></title>
+    <link href="http://dm4.github.com/blog/2012/05/08/first-post/"/>
+    <updated>2012-05-08T00:27:00+08:00</updated>
+    <id>http://dm4.github.com/blog/2012/05/08/first-post</id>
+    <content type="html"><![CDATA[<p>聽說很潮來用一下傳說中的 octopress</p>
+
+<p>本來覺得不會 ruby 怕怕的，可是還是忍不住想試試看用 <a href="http://markdown.tw">Markdown</a> 寫 blog 的感覺，一試之下才發現……也太方便了吧！</p>
+]]></content>
+  </entry>
   
 </feed>
