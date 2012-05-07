@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://dm4.github.com/blog/2012/05/08/first-post/</loc>
+        <loc>http://blog.dm4.tw/blog/2012/05/08/first-post/</loc>
         <lastmod>2012-05-08T01:53:42+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dm4.github.com/blog/archives/</loc>
+        <loc>http://blog.dm4.tw/blog/archives/</loc>
         <lastmod>2012-05-08T01:53:42+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dm4.github.com/</loc>
+        <loc>http://blog.dm4.tw/</loc>
         <lastmod>2012-05-08T01:53:42+08:00</lastmod>
     </url>
 </urlset>

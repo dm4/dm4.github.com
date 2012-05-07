@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[blog.dm4.tw]]></title>
-  <link href="http://dm4.github.com/atom.xml" rel="self"/>
-  <link href="http://dm4.github.com/"/>
-  <updated>2012-05-08T01:55:39+08:00</updated>
-  <id>http://dm4.github.com/</id>
+  <link href="http://blog.dm4.tw/atom.xml" rel="self"/>
+  <link href="http://blog.dm4.tw/"/>
+  <updated>2012-05-08T02:03:49+08:00</updated>
+  <id>http://blog.dm4.tw/</id>
   <author>
     <name><![CDATA[dm4]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[First Post]]></title>
-    <link href="http://dm4.github.com/blog/2012/05/08/first-post/"/>
+    <link href="http://blog.dm4.tw/blog/2012/05/08/first-post/"/>
     <updated>2012-05-08T00:27:00+08:00</updated>
-    <id>http://dm4.github.com/blog/2012/05/08/first-post</id>
+    <id>http://blog.dm4.tw/blog/2012/05/08/first-post</id>
     <content type="html"><![CDATA[<p>聽說很潮來用一下傳說中的 octopress</p>
 
 <p>本來覺得不會 ruby 怕怕的，可是還是忍不住想試試看用 <a href="http://markdown.tw">Markdown</a> 寫 blog 的感覺，一試之下才發現……也太方便了吧！</p>
