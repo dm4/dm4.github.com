@@ -9,8 +9,8 @@
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="聽說很潮來用一下傳說中的 octopress 本來覺得不會 ruby 怕怕的，可是還是忍不住想試試看用 Markdown 寫 blog 的感覺，一試之下才發現……也太方便了吧！
-">
+  <meta name="description" content="終於搞懂在 shell script 裡 [ ... ] 和 [[ ... ]] 的差別了 $ help [
+[: [ arg... ] This is a synonym for the "test" builtin, but the last argument must be a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +71,66 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2012/05/10/and-in-shell-script/">[ and [[ in Shell Script</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-10T17:01:00+08:00" pubdate data-updated="true">May 10<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/05/10/and-in-shell-script/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>終於搞懂在 shell script 裡 <code>[ ... ]</code> 和 <code>[[ ... ]]</code> 的差別了</p>
+
+<pre><code>$ help [
+[: [ arg... ]
+    This is a synonym for the "test" builtin, but the last
+    argument must be a literal `]', to match the opening `['.
+[[ ... ]]: [[ expression ]]
+    Returns a status of 0 or 1 depending on the evaluation of the conditional
+    expression EXPRESSION.  Expressions are composed of the same primaries used
+    by the `test' builtin, and may be combined using the following operators
+
+        ( EXPRESSION )  Returns the value of EXPRESSION
+        ! EXPRESSION    True if EXPRESSION is false; else false
+        EXPR1 &amp;&amp; EXPR2  True if both EXPR1 and EXPR2 are true; else false
+        EXPR1 || EXPR2  True if either EXPR1 or EXPR2 is true; else false
+
+    When the `==' and `!=' operators are used, the string to the right of the
+    operator is used as a pattern and pattern matching is performed.  The
+    &amp;&amp; and || operators do not evaluate EXPR2 if EXPR1 is sufficient to
+    determine the expression's value.
+</code></pre>
+
+<p>簡單的說就是要用 <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>, <code>()</code> 的話要用 <code>[[ ... ]]</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2012/05/08/first-post/">First Post</a></h1>
     
     
@@ -117,6 +177,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/05/10/and-in-shell-script/">[ and [[ in shell script</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/05/08/first-post/">First Post</a>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[blog.dm4.tw]]></title>
-  <link href="http://blog.dm4.tw/atom.xml" rel="self"/>
+  <title><![CDATA[Category: linux | blog.dm4.tw]]></title>
+  <link href="http://blog.dm4.tw/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://blog.dm4.tw/"/>
   <updated>2012-05-10T19:21:38+08:00</updated>
   <id>http://blog.dm4.tw/</id>
@@ -41,17 +41,6 @@
 </code></pre>
 
 <p>簡單的說就是要用 <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>, <code>()</code> 的話要用 <code>[[ ... ]]</code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[First Post]]></title>
-    <link href="http://blog.dm4.tw/blog/2012/05/08/first-post/"/>
-    <updated>2012-05-08T00:27:00+08:00</updated>
-    <id>http://blog.dm4.tw/blog/2012/05/08/first-post</id>
-    <content type="html"><![CDATA[<p>聽說很潮來用一下傳說中的 octopress</p>
-
-<p>本來覺得不會 ruby 怕怕的，可是還是忍不住想試試看用 <a href="http://markdown.tw">Markdown</a> 寫 blog 的感覺，一試之下才發現……也太方便了吧！</p>
 ]]></content>
   </entry>
   
