@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>First Post - blog.dm4.tw</title>
+  <title>.bashrc sourced twice - blog.dm4.tw</title>
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="聽說很潮來用一下傳說中的 octopress 本來覺得不會 ruby 怕怕的，可是還是忍不住想試試看用 Markdown 寫 blog 的感覺，一試之下才發現……也太方便了吧！
-">
+  <meta name="description" content="昨天解決了困擾了一陣子的問題，在 .bashrc 裡，如果有改到 $PATH ： export PATH=~/bin:$PATH 又因為我會用到 tmux ，所以在 tmux 裡開新的 shell 時，會再 source 一次 .bashrc ，本來我的解法是這樣： [ -z "$TMUX &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.dm4.tw/blog/2012/05/08/first-post">
+  <link rel="canonical" href="http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -80,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">First Post</h1>
+      <h1 class="entry-title">.bashrc Sourced Twice</h1>
     
     
       <p class="meta">
@@ -96,7 +95,7 @@
   
 
 
-<time datetime="2012-05-08T00:27:00+08:00" pubdate data-updated="true">May 8<span>th</span>, 2012</time>
+<time datetime="2012-05-11T21:08:00+08:00" pubdate data-updated="true">May 11<span>th</span>, 2012</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -105,9 +104,33 @@
   </header>
 
 
-<div class="entry-content"><p>聽說很潮來用一下傳說中的 octopress</p>
+<div class="entry-content"><p>昨天解決了困擾了一陣子的問題，在 <code>.bashrc</code> 裡，如果有改到 <code>$PATH</code> ：</p>
 
-<p>本來覺得不會 ruby 怕怕的，可是還是忍不住想試試看用 <a href="http://markdown.tw">Markdown</a> 寫 blog 的感覺，一試之下才發現……也太方便了吧！</p>
+<pre><code>export PATH=~/bin:$PATH
+</code></pre>
+
+<p>又因為我會用到 <a href="http://tmux.sourceforge.net/">tmux</a> ，所以在 <code>tmux</code> 裡開新的 shell 時，會再 source 一次 <code>.bashrc</code> ，本來我的解法是這樣：</p>
+
+<pre><code>[ -z "$TMUX" ] &amp;&amp; export PATH=~/bin:$PATH
+</code></pre>
+
+<p>也就是在 <code>tmux</code> 裡新開啟的 shell 並不會再改一次 <code>$PATH</code> ，可是這樣又遇到了另一個問題：當新的 shell 打開時，本來應該被加在前面的 <code>~/bin</code> 會被接到後面去，我在想應該是開新 shell 時 bash 自己做的處理，我在 <code>/etc/bashrc</code> 裡也沒有看到相關的 script 。</p>
+
+<p>對於這個問題我最後的解法是參考 <a href="http://perlbrew.pl/">perlbrew</a> 裡的這段 script ：</p>
+
+<pre><code>export PATH_WITHOUT_PERLBREW="$(perl -e 'print join ":", grep { index($_, $ENV{PERLBREW_ROOT}) } split/:/,$ENV{PATH};')"
+
+if [[ -z "$PERLBREW_PATH" ]]; then
+    export PERLBREW_PATH="$PERLBREW_ROOT/bin"
+fi
+
+export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
+</code></pre>
+
+<p>最後的結果：</p>
+
+<pre><code>export PATH="~/bin:$(perl -e 'print join ":", grep { $_ ne "~/bin" } split/:/, $ENV{PATH};')"
+</code></pre>
 </div>
 
 
@@ -130,15 +153,21 @@
   
 
 
-<time datetime="2012-05-08T00:27:00+08:00" pubdate data-updated="true">May 8<span>th</span>, 2012</time>
+<time datetime="2012-05-11T21:08:00+08:00" pubdate data-updated="true">May 11<span>th</span>, 2012</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/bash/'>bash</a>, <a class='category' href='/blog/categories/linux/'>linux</a>, <a class='category' href='/blog/categories/shellscript/'>shellscript</a>
+  
+</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2012/05/08/first-post/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2012/05/08/first-post/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -151,8 +180,8 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2012/05/10/and-in-shell-script/" title="Previous Post: [ and [[ in shell script">&laquo; [ and [[ in shell script</a>
       
-        <a class="basic-alignment right" href="/blog/2012/05/10/and-in-shell-script/" title="Next Post: [ and [[ in shell script">[ and [[ in shell script &raquo;</a>
       
     </p>
   </footer>
@@ -265,8 +294,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.dm4.tw/blog/2012/05/08/first-post/';
-        var disqus_url = 'http://blog.dm4.tw/blog/2012/05/08/first-post/';
+        var disqus_identifier = 'http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice/';
+        var disqus_url = 'http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice/';
         var disqus_script = 'embed.js';
       
     (function () {
