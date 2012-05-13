@@ -131,6 +131,13 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
 
 <pre><code>export PATH="~/bin:$(perl -e 'print join ":", grep { $_ ne "~/bin" } split/:/, $ENV{PATH};')"
 </code></pre>
+
+<p><strong>Update</strong> 2012-05-13</p>
+
+<p>為了避免 <code>~/bin</code> 和 <code>$HOME/bin</code> 混用，所以改了一下 script</p>
+
+<pre><code>export PATH=$HOME/bin:"$(perl -e 'print join ":", grep { $_ ne "$ENV{HOME}/bin" &amp;&amp; $_ ne "~/bin" } split/:/, $ENV{PATH};')"
+</code></pre>
 </div>
 
 
