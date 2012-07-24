@@ -9,8 +9,8 @@
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="今年是第二年來 HITCON ，去年感謝 atdog 大大帶我一起報名 HITCON 玩 wargame ，
-本來想說和去年一樣解解 QR code 我就很開心了，沒想到今年運氣不錯 XD 感謝同隊 crax 的組員： atdog, xman, jeffxx, lence, &hellip;">
+  <meta name="description" content="聽說 HackBar 是 Firefox 下很好用的 extension ，
+不過在 Mac OSX 下的字型實在是&#8230;&#8230;慘不忍賭，所以找了一下設定檔在哪裡，Firefox extension 在 Mac OSX 下的路徑是： ~/Library/Application &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,62 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/">Firefox HackBar Font Setting on Mac OSX</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-24T20:32:00+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>聽說 <a href="https://addons.mozilla.org/en-us/firefox/addon/hackbar/">HackBar</a> 是 Firefox 下很好用的 extension ，
+不過在 Mac OSX 下的字型實在是&#8230;&#8230;慘不忍賭，所以找了一下設定檔在哪裡，Firefox extension 在 Mac OSX 下的路徑是：</p>
+
+<pre><code>~/Library/Application Support/Firefox/Profiles/xxxxxxxx.default/extensions/{F5DDF39C-9293-4d5e-9AA8-E04E6DD5E9B4}.xpi
+</code></pre>
+
+<p>其中 <code>xxxxxxxx.default</code> 可能要自己找一下，找到 <code>.xpi</code> 之後可以直接用 <code>vim</code> 來改裡面的檔（.xpi 就是一包 .zip），找到
+<code>chrome/skin/hackbar.css</code> 把 textbox 的部份加上想要的字型和大小：</p>
+
+<pre><code>textbox#hackBarTargetUrl,
+textbox#hackBarTargetUrlPostField,
+textbox#hackBarTargetUrlReferrerField { font-family: monaco, monospace, courier; font-size: 16px; }
+</code></pre>
+
+<p>就有舒服的 <a href="https://addons.mozilla.org/en-us/firefox/addon/hackbar/">HackBar</a> 可以看了~</p>
+
+<p><a href="http://www.flickr.com/photos/51077287@N06/7636698076/" title="Flickr 上 sunrisedm4 的 hackbar-font-setting"><img src="http://farm8.staticflickr.com/7248/7636698076_ccf7da7915.jpg" width="500" height="318" alt="hackbar-font-setting"></a></p>
+
+<p>如果想要自己改 source 話，也可以到 <a href="http://code.google.com/p/hackbar/">HackBar Firefox Extension</a> 來載 source code</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -415,6 +471,10 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/">Firefox HackBar Font Setting on Mac OSX</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/07/22/hitcon-2012-wargame-notes/">HITCON 2012 Wargame Notes</a>

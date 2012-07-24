@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>[ and [[ in shell script - blog.dm4.tw</title>
+  <title>Category: firefox - blog.dm4.tw</title>
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="終於搞懂在 shell script 裡 [ ... ] 和 [[ ... ]] 的差別了 $ help [
-[: [ arg... ] This is a synonym for the "test" builtin, but the last argument must be a &hellip;">
+  <meta name="description" content="Category: firefox">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.dm4.tw/blog/2012/05/10/and-in-shell-script">
+  <link rel="canonical" href="http://blog.dm4.twblog/categories/firefox">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,121 +75,36 @@
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">[ and [[ in Shell Script</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-05-10T17:01:00+08:00" pubdate data-updated="true">May 10<span>th</span>, 2012</time>
-        
-         | <a href="#disqus_thread">Comments</a>
-        
-      </p>
+    <h1 class="entry-title">Category: Firefox</h1>
     
   </header>
-
-
-<div class="entry-content"><p>終於搞懂在 shell script 裡 <code>[ ... ]</code> 和 <code>[[ ... ]]</code> 的差別了</p>
-
-<pre><code>$ help [
-[: [ arg... ]
-    This is a synonym for the "test" builtin, but the last
-    argument must be a literal `]', to match the opening `['.
-[[ ... ]]: [[ expression ]]
-    Returns a status of 0 or 1 depending on the evaluation of the conditional
-    expression EXPRESSION.  Expressions are composed of the same primaries used
-    by the `test' builtin, and may be combined using the following operators
-
-        ( EXPRESSION )  Returns the value of EXPRESSION
-        ! EXPRESSION    True if EXPRESSION is false; else false
-        EXPR1 &amp;&amp; EXPR2  True if both EXPR1 and EXPR2 are true; else false
-        EXPR1 || EXPR2  True if either EXPR1 or EXPR2 is true; else false
-
-    When the `==' and `!=' operators are used, the string to the right of the
-    operator is used as a pattern and pattern matching is performed.  The
-    &amp;&amp; and || operators do not evaluate EXPR2 if EXPR1 is sufficient to
-    determine the expression's value.
-</code></pre>
-
-<p>簡單的說就是要用 <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>, <code>()</code> 的話要用 <code>[[ ... ]]</code></p>
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">dm4</span></span>
-
-      
-
-
-
-
-
+  <div id="blog-archives" class="category">
 
 
 
   
+  <h2>2012</h2>
+
+<article>
+  
+<h1><a href="/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/">Firefox HackBar Font Setting on Mac OSX</a></h1>
+<time datetime="2012-07-24T20:32:00+08:00" pubdate><span class='month'>Jul</span> <span class='day'>24</span> <span class='year'>2012</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/extension/'>extension</a>, <a class='category' href='/blog/categories/firefox/'>firefox</a>, <a class='category' href='/blog/categories/hackbar/'>hackbar</a></span>
+</footer>
 
 
-<time datetime="2012-05-10T17:01:00+08:00" pubdate data-updated="true">May 10<span>th</span>, 2012</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/bash/'>bash</a>, <a class='category' href='/blog/categories/linux/'>linux</a>, <a class='category' href='/blog/categories/shellscript/'>shellscript</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2012/05/10/and-in-shell-script/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2012/05/10/and-in-shell-script/" >Tweet</a>
-  
-  
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2012/05/08/first-post/" title="Previous Post: First Post">&laquo; First Post</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2012/05/11/dot-bashrc-sourced-twice/" title="Next Post: .bashrc sourced twice">.bashrc sourced twice &raquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  </section>
+
+  
+</article>
 
 </div>
 
@@ -300,10 +214,7 @@
       var disqus_shortname = 'dm4';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.dm4.tw/blog/2012/05/10/and-in-shell-script/';
-        var disqus_url = 'http://blog.dm4.tw/blog/2012/05/10/and-in-shell-script/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
