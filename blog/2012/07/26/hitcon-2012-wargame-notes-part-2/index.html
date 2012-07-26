@@ -5,11 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: note - blog.dm4.tw</title>
+  <title>HITCON 2012 Wargame Notes - Part 2 - blog.dm4.tw</title>
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="Category: note">
+  <meta name="description" content="Web 5 結果回家研究了一下，終於把 Web 5 也解出來了！好後悔在 HITCON 花太多時間在看
+駭客觀察日記 啊啊啊 orz 這題的 提示二
+出來之後，可以發現長檔名的檔案/資料夾會因為 ~ 的縮寫而 disclosure ，所以可以寫個
+script 來踹，或是用 hint 裡有提到的 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.dm4.twblog/categories/note">
+  <link rel="canonical" href="http://blog.dm4.tw/blog/2012/07/26/hitcon-2012-wargame-notes-part-2">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -75,50 +78,119 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Note</h1>
+    
+      <h1 class="entry-title">HITCON 2012 Wargame Notes - Part 2</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-26T14:21:00+08:00" pubdate data-updated="true">Jul 26<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><h3>Web 5</h3>
 
-  
-  <h2>2012</h2>
+<p>結果回家研究了一下，終於把 Web 5 也解出來了！好後悔在 HITCON 花太多時間在看
+<a href="http://www.youtube.com/watch?v=l2dvg3KJoPo">駭客觀察日記</a> 啊啊啊 orz</p>
 
-<article>
-  
-<h1><a href="/blog/2012/07/26/hitcon-2012-wargame-notes-part-2/">HITCON 2012 Wargame Notes - Part 2</a></h1>
-<time datetime="2012-07-26T14:21:00+08:00" pubdate><span class='month'>Jul</span> <span class='day'>26</span> <span class='year'>2012</span></time>
+<p>這題的 <a href="http://www.exploit-db.com/wp-content/themes/exploit/docs/19527.pdf">提示二</a>
+出來之後，可以發現長檔名的檔案/資料夾會因為 <code>~</code> 的縮寫而 disclosure ，所以可以寫個
+<a href="https://gist.github.com/3180618">script</a> 來踹，或是用 hint 裡有提到的 <a href="http://code.google.com/p/iis-shortname-scanner-poc/">iis-shortname-scanner-poc</a></p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/hack/'>hack</a>, <a class='category' href='/blog/categories/hit/'>hit</a>, <a class='category' href='/blog/categories/hitcon/'>hitcon</a>, <a class='category' href='/blog/categories/note/'>note</a>, <a class='category' href='/blog/categories/security/'>security</a>, <a class='category' href='/blog/categories/wargame/'>wargame</a>, <a class='category' href='/blog/categories/web/'>web</a></span>
-</footer>
+<p>不過試了之後發現 file disclosure 只限於有 <code>~</code> 的長檔名，
+如果只是 6, 7 個字的檔案/資料夾是不會被套用縮寫的規則，所以也就踹不出來，
+在 HITCON 的時候我們就是卡在這裡。</p>
 
+<p>回家再查了多一點資料的時候，看到更多有關 <a href="http://scilnet.fortlewis.edu/tech/NT-Server/File_Names.htm">8.3 Filename</a>
+的介紹，其中提到：</p>
 
-</article>
+<blockquote><p>To disable short filename support, use the registration database editor, REGEDT32.EXE,
+and search the HKEY_LOCAL_MACHINE section for the entry HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\FileSystem.
+Change the value of the parameter NtfsDisable8dot3NameCreation to a value of 1 (one),
+and then short filename generation will be disabled.</p></blockquote>
 
-
-
-<article>
-  
-<h1><a href="/blog/2012/07/22/hitcon-2012-wargame-notes/">HITCON 2012 Wargame Notes</a></h1>
-<time datetime="2012-07-22T11:27:00+08:00" pubdate><span class='month'>Jul</span> <span class='day'>22</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/hack/'>hack</a>, <a class='category' href='/blog/categories/hit/'>hit</a>, <a class='category' href='/blog/categories/hitcon/'>hitcon</a>, <a class='category' href='/blog/categories/note/'>note</a>, <a class='category' href='/blog/categories/wargame/'>wargame</a>, <a class='category' href='/blog/categories/web/'>web</a></span>
-</footer>
-
-
-</article>
-
+<p>所以就想到去試一下 <a href="http://wg2.hack.idv.tw:2012/HKEY_LOCAL_MACHINE/System/CurrentControlSet/Control/FileSystem/NtfsDisable8dot3NameCreation/key.txt">http://wg2.hack.idv.tw:2012/HKEY_LOCAL_MACHINE/System/CurrentControlSet/Control/FileSystem/NtfsDisable8dot3NameCreation/key.txt</a>
+沒想到就&#8230;&#8230; orz</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">dm4</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-26T14:21:00+08:00" pubdate data-updated="true">Jul 26<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/hack/'>hack</a>, <a class='category' href='/blog/categories/hit/'>hit</a>, <a class='category' href='/blog/categories/hitcon/'>hitcon</a>, <a class='category' href='/blog/categories/note/'>note</a>, <a class='category' href='/blog/categories/security/'>security</a>, <a class='category' href='/blog/categories/wargame/'>wargame</a>, <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2012/07/26/hitcon-2012-wargame-notes-part-2/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2012/07/26/hitcon-2012-wargame-notes-part-2/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/" title="Previous Post: Firefox HackBar Font Setting on Mac OSX">&laquo; Firefox HackBar Font Setting on Mac OSX</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -232,7 +304,10 @@
       var disqus_shortname = 'dm4';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.dm4.tw/blog/2012/07/26/hitcon-2012-wargame-notes-part-2/';
+        var disqus_url = 'http://blog.dm4.tw/blog/2012/07/26/hitcon-2012-wargame-notes-part-2/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
