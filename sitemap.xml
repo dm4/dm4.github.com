@@ -2,34 +2,42 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://blog.dm4.tw/blog/2012/05/08/first-post/</loc>
-        <lastmod>2012-05-08T01:53:42+08:00</lastmod>
+        <lastmod>2013-01-27T23:44:56+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.dm4.tw/blog/2012/05/10/and-in-shell-script/</loc>
-        <lastmod>2012-05-10T19:19:57+08:00</lastmod>
+        <lastmod>2013-01-27T23:44:56+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice/</loc>
-        <lastmod>2012-05-13T16:18:11+08:00</lastmod>
+        <lastmod>2013-01-27T23:44:56+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.dm4.tw/blog/2012/07/22/hitcon-2012-wargame-notes/</loc>
-        <lastmod>2012-07-26T15:09:21+08:00</lastmod>
+        <lastmod>2013-01-27T23:44:56+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.dm4.tw/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/</loc>
-        <lastmod>2012-07-24T21:05:52+08:00</lastmod>
+        <lastmod>2013-01-27T23:44:56+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.dm4.tw/blog/2012/07/26/hitcon-2012-wargame-notes-part-2/</loc>
-        <lastmod>2012-07-26T14:57:43+08:00</lastmod>
+        <lastmod>2013-01-27T23:44:56+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.dm4.tw/blog/2013/01/27/command-line-xiao-zhi-shi/</loc>
+        <lastmod>2013-01-27T23:44:56+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.dm4.tw/blog/archives/</loc>
-        <lastmod>2012-07-26T15:09:21+08:00</lastmod>
+        <lastmod>2013-01-27T23:44:56+08:00</lastmod>
     </url>
     <url>
         <loc>http://blog.dm4.tw/</loc>
-        <lastmod>2012-07-26T15:09:21+08:00</lastmod>
+        <lastmod>2013-01-27T23:44:57+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.dm4.tw/robots.txt</loc>
+        <lastmod>2013-01-27T23:44:57+08:00</lastmod>
     </url>
 </urlset>

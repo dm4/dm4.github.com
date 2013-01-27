@@ -5,12 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Firefox HackBar Font Setting on Mac OSX - blog.dm4.tw</title>
+  <title>Command Line 小知識 - blog.dm4.tw</title>
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="聽說 HackBar 是 Firefox 下很好用的 extension ，
-不過在 Mac OSX 下的字型實在是&#8230;&#8230;慘不忍賭，所以找了一下設定檔在哪裡，Firefox extension 在 Mac OSX 下的路徑是： ~/Library/Application &hellip;">
+  <meta name="description" content="前幾天看了這篇 To understand the command line&#8230; 覺得蠻有趣的，大概是在說： awk: 作者名字的縮寫
+cat: concatenate
+more: 螢幕最下面會顯示 &#8220;More&#8221;
+less: more 的加強版，因為 &#8220 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.dm4.tw/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/">
+  <link rel="canonical" href="http://blog.dm4.tw/blog/2013/01/27/command-line-xiao-zhi-shi/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -80,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">Firefox HackBar Font Setting on Mac OSX</h1>
+      <h1 class="entry-title">Command Line 小知識</h1>
     
     
       <p class="meta">
@@ -96,7 +98,7 @@
   
 
 
-<time datetime="2012-07-24T20:32:00+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2012</time>
+<time datetime="2013-01-27T22:35:00+08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -105,25 +107,21 @@
   </header>
 
 
-<div class="entry-content"><p>聽說 <a href="https://addons.mozilla.org/en-us/firefox/addon/hackbar/">HackBar</a> 是 Firefox 下很好用的 extension ，
-不過在 Mac OSX 下的字型實在是&#8230;&#8230;慘不忍賭，所以找了一下設定檔在哪裡，Firefox extension 在 Mac OSX 下的路徑是：</p>
+<div class="entry-content"><p>前幾天看了這篇 <a href="http://geekblog.oneandoneis2.org/index.php/2012/09/30/to-understand-the-command-line">To understand the command line&#8230;</a> 覺得蠻有趣的，大概是在說：</p>
 
-<pre><code>~/Library/Application Support/Firefox/Profiles/xxxxxxxx.default/extensions/{F5DDF39C-9293-4d5e-9AA8-E04E6DD5E9B4}.xpi
-</code></pre>
+<ul>
+<li><code>awk</code>: 作者名字的縮寫</li>
+<li><code>cat</code>: concatenate</li>
+<li><code>more</code>: 螢幕最下面會顯示 &#8220;More&#8221;</li>
+<li><code>less</code>: more 的加強版，因為 &#8220;less is more&#8221; 所以叫 less</li>
+<li><code>ed</code>: editor</li>
+<li><code>sed</code>: stream editor</li>
+<li><code>grep</code>: 在 <code>ed</code> 裡要找有包含特定字串的行並印出，本來是要用 <code>g/regular expression/p</code> ，簡寫成 <code>g/re/p</code> 就變成 <code>grep</code> 了</li>
+<li>hjkl 方向鍵是因為 <a href="http://www.catonmat.net/blog/why-vim-uses-hjkl-as-arrow-keys/">ADM-3A</a></li>
+<li><code>~</code> 代表 HOME 也是因為 <a href="http://www.catonmat.net/blog/why-vim-uses-hjkl-as-arrow-keys/">ADM-3A</a></li>
+<li><code>.</code> 開頭的檔案是隱藏檔，本來只是要跳過 <code>.</code> 和 <code>..</code> ，結果寫出有 bug 的 <code>if (name[0] == '.') continue;</code></li>
+</ul>
 
-<p>其中 <code>xxxxxxxx.default</code> 可能要自己找一下，找到 <code>.xpi</code> 之後可以直接用 <code>vim</code> 來改裡面的檔（.xpi 就是一包 .zip），找到
-<code>chrome/skin/hackbar.css</code> 把 textbox 的部份加上想要的字型和大小：</p>
-
-<pre><code>textbox#hackBarTargetUrl,
-textbox#hackBarTargetUrlPostField,
-textbox#hackBarTargetUrlReferrerField { font-family: monaco, monospace, courier; font-size: 16px; }
-</code></pre>
-
-<p>就有舒服的 <a href="https://addons.mozilla.org/en-us/firefox/addon/hackbar/">HackBar</a> 可以看了~</p>
-
-<p><a href="http://www.flickr.com/photos/51077287@N06/7636698076/" title="Flickr 上 sunrisedm4 的 hackbar-font-setting"><img src="http://farm8.staticflickr.com/7248/7636698076_ccf7da7915.jpg" width="500" height="318" alt="hackbar-font-setting"></a></p>
-
-<p>如果想要自己改 source 話，也可以到 <a href="http://code.google.com/p/hackbar/">HackBar Firefox Extension</a> 來載 source code</p>
 </div>
 
 
@@ -146,12 +144,12 @@ textbox#hackBarTargetUrlReferrerField { font-family: monaco, monospace, courier;
   
 
 
-<time datetime="2012-07-24T20:32:00+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2012</time>
+<time datetime="2013-01-27T22:35:00+08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/extension/'>extension</a>, <a class='category' href='/blog/categories/firefox/'>firefox</a>, <a class='category' href='/blog/categories/hackbar/'>hackbar</a>
+    <a class='category' href='/blog/categories/cli/'>cli</a>, <a class='category' href='/blog/categories/linux/'>linux</a>, <a class='category' href='/blog/categories/unix/'>unix</a>
   
 </span>
 
@@ -160,7 +158,7 @@ textbox#hackBarTargetUrlReferrerField { font-family: monaco, monospace, courier;
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2013/01/27/command-line-xiao-zhi-shi/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2013/01/27/command-line-xiao-zhi-shi/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -173,10 +171,8 @@ textbox#hackBarTargetUrlReferrerField { font-family: monaco, monospace, courier;
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/07/22/hitcon-2012-wargame-notes/" title="Previous Post: HITCON 2012 Wargame Notes">&laquo; HITCON 2012 Wargame Notes</a>
+        <a class="basic-alignment left" href="/blog/2012/07/26/hitcon-2012-wargame-notes-part-2/" title="Previous Post: HITCON 2012 Wargame Notes - Part 2">&laquo; HITCON 2012 Wargame Notes - Part 2</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/07/26/hitcon-2012-wargame-notes-part-2/" title="Next Post: HITCON 2012 Wargame Notes - Part 2">HITCON 2012 Wargame Notes - Part 2 &raquo;</a>
       
     </p>
   </footer>
@@ -305,8 +301,8 @@ textbox#hackBarTargetUrlReferrerField { font-family: monaco, monospace, courier;
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.dm4.tw/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/';
-        var disqus_url = 'http://blog.dm4.tw/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/';
+        var disqus_identifier = 'http://blog.dm4.tw/blog/2013/01/27/command-line-xiao-zhi-shi/';
+        var disqus_url = 'http://blog.dm4.tw/blog/2013/01/27/command-line-xiao-zhi-shi/';
         var disqus_script = 'embed.js';
       
     (function () {

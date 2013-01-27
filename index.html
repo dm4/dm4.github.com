@@ -9,10 +9,10 @@
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="Web 5 結果回家研究了一下，終於把 Web 5 也解出來了！好後悔在 HITCON 花太多時間在看
-駭客觀察日記 啊啊啊 orz 這題的 提示二
-出來之後，可以發現長檔名的檔案/資料夾會因為 ~ 的縮寫而 disclosure ，所以可以寫個
-script 來踹，或是用 hint 裡有提到的 &hellip;">
+  <meta name="description" content="前幾天看了這篇 To understand the command line&#8230; 覺得蠻有趣的，大概是在說： awk: 作者名字的縮寫
+cat: concatenate
+more: 螢幕最下面會顯示 &#8220;More&#8221;
+less: more 的加強版，因為 &#8220 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +21,7 @@ script 來踹，或是用 hint 裡有提到的 &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.dm4.tw">
+  <link rel="canonical" href="http://blog.dm4.tw/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,6 +79,58 @@ script 來踹，或是用 hint 裡有提到的 &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/27/command-line-xiao-zhi-shi/">Command Line 小知識</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-27T22:35:00+08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/01/27/command-line-xiao-zhi-shi/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前幾天看了這篇 <a href="http://geekblog.oneandoneis2.org/index.php/2012/09/30/to-understand-the-command-line">To understand the command line&#8230;</a> 覺得蠻有趣的，大概是在說：</p>
+
+<ul>
+<li><code>awk</code>: 作者名字的縮寫</li>
+<li><code>cat</code>: concatenate</li>
+<li><code>more</code>: 螢幕最下面會顯示 &#8220;More&#8221;</li>
+<li><code>less</code>: more 的加強版，因為 &#8220;less is more&#8221; 所以叫 less</li>
+<li><code>ed</code>: editor</li>
+<li><code>sed</code>: stream editor</li>
+<li><code>grep</code>: 在 <code>ed</code> 裡要找有包含特定字串的行並印出，本來是要用 <code>g/regular expression/p</code> ，簡寫成 <code>g/re/p</code> 就變成 <code>grep</code> 了</li>
+<li>hjkl 方向鍵是因為 <a href="http://www.catonmat.net/blog/why-vim-uses-hjkl-as-arrow-keys/">ADM-3A</a></li>
+<li><code>~</code> 代表 HOME 也是因為 <a href="http://www.catonmat.net/blog/why-vim-uses-hjkl-as-arrow-keys/">ADM-3A</a></li>
+<li><code>.</code> 開頭的檔案是隱藏檔，本來只是要跳過 <code>.</code> 和 <code>..</code> ，結果寫出有 bug 的 <code>if (name[0] == '.') continue;</code></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -535,6 +587,10 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/27/command-line-xiao-zhi-shi/">Command Line 小知識</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/07/26/hitcon-2012-wargame-notes-part-2/">HITCON 2012 Wargame Notes - Part 2</a>
       </li>
     
@@ -626,7 +682,7 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - dm4 -
+  Copyright &copy; 2013 - dm4 -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
