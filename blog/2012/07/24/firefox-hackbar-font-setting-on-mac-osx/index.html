@@ -10,7 +10,7 @@
 
   
   <meta name="description" content="聽說 HackBar 是 Firefox 下很好用的 extension ，
-不過在 Mac OSX 下的字型實在是&#8230;&#8230;慘不忍賭，所以找了一下設定檔在哪裡，Firefox extension 在 Mac OSX 下的路徑是： ~/Library/Application &hellip;">
+不過在 Mac OSX 下的字型實在是&hellip;&hellip;慘不忍賭，所以找了一下設定檔在哪裡，Firefox extension 在 Mac OSX 下的路徑是： ~/Library/Application &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,13 +19,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.dm4.tw/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/">
+  <link rel="canonical" href="http://blog.dm4.tw/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="blog.dm4.tw" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -98,7 +99,8 @@
 
 <time datetime="2012-07-24T20:32:00+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2012</time>
         
-         | <a href="#disqus_thread">Comments</a>
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://blog.dm4.tw">Comments</a>
         
       </p>
     
@@ -106,7 +108,7 @@
 
 
 <div class="entry-content"><p>聽說 <a href="https://addons.mozilla.org/en-us/firefox/addon/hackbar/">HackBar</a> 是 Firefox 下很好用的 extension ，
-不過在 Mac OSX 下的字型實在是&#8230;&#8230;慘不忍賭，所以找了一下設定檔在哪裡，Firefox extension 在 Mac OSX 下的路徑是：</p>
+不過在 Mac OSX 下的字型實在是&hellip;&hellip;慘不忍賭，所以找了一下設定檔在哪裡，Firefox extension 在 Mac OSX 下的路徑是：</p>
 
 <pre><code>~/Library/Application Support/Firefox/Profiles/xxxxxxxx.default/extensions/{F5DDF39C-9293-4d5e-9AA8-E04E6DD5E9B4}.xpi
 </code></pre>
@@ -160,7 +162,7 @@ textbox#hackBarTargetUrlReferrerField { font-family: monaco, monospace, courier;
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -213,11 +215,11 @@ textbox#hackBarTargetUrlReferrerField { font-family: monaco, monospace, courier;
       </li>
     
       <li class="post">
-        <a href="/blog/2012/05/11/dot-bashrc-sourced-twice/">.bashrc sourced twice</a>
+        <a href="/blog/2012/05/11/dot-bashrc-sourced-twice/">.bashrc Sourced Twice</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2012/05/10/and-in-shell-script/">[ and [[ in shell script</a>
+        <a href="/blog/2012/05/10/and-in-shell-script/">[ and [[ in Shell Script</a>
       </li>
     
       <li class="post">
@@ -228,23 +230,6 @@ textbox#hackBarTargetUrlReferrerField { font-family: monaco, monospace, courier;
 </section>
 
 <section>
-  <h1>Latest Tweets</h1>
-  <ul id="tweets">
-    <li class="loading">Status updating...</li>
-  </ul>
-  <script type="text/javascript">
-    $.domReady(function(){
-      getTwitterFeed("dm4", 5, false);
-    });
-  </script>
-  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
-  
-    <a href="http://twitter.com/dm4" class="twitter-follow-button" data-show-count="false">Follow @dm4</a>
-  
-</section>
-
-
-<section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
     <li class="loading">Status updating...</li>
@@ -253,7 +238,7 @@ textbox#hackBarTargetUrlReferrerField { font-family: monaco, monospace, courier;
   <a href="https://github.com/dm4">@dm4</a> on GitHub
   
   <script type="text/javascript">
-    $.domReady(function(){
+    $(document).ready(function(){
         if (!window.jXHR){
             var jxhr = document.createElement('script');
             jxhr.type = 'text/javascript';
@@ -311,7 +296,7 @@ textbox#hackBarTargetUrlReferrerField { font-family: monaco, monospace, courier;
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -322,7 +307,7 @@ textbox#hackBarTargetUrlReferrerField { font-family: monaco, monospace, courier;
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
+  js = d.createElement(s); js.id = id; js.async = true;
   js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
@@ -344,7 +329,7 @@ textbox#hackBarTargetUrlReferrerField { font-family: monaco, monospace, courier;
       var twitterWidgets = document.createElement('script');
       twitterWidgets.type = 'text/javascript';
       twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
       document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
     })();
   </script>

