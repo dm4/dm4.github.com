@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: airplay | blog.dm4.tw]]></title>
+  <link href="http://blog.dm4.tw/blog/categories/airplay/atom.xml" rel="self"/>
+  <link href="http://blog.dm4.tw/"/>
+  <updated>2013-11-08T12:04:34+08:00</updated>
+  <id>http://blog.dm4.tw/</id>
+  <author>
+    <name><![CDATA[dm4]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[dns-sd &amp; AirPlay / AirTunes]]></title>
+    <link href="http://blog.dm4.tw/blog/2013/11/08/dns-sd-and-airplay-slash-airtunes/"/>
+    <updated>2013-11-08T11:59:00+08:00</updated>
+    <id>http://blog.dm4.tw/blog/2013/11/08/dns-sd-and-airplay-slash-airtunes</id>
+    <content type="html"><![CDATA[<h2>Usage</h2>
+
+<pre><code>$ dns-sd
+dns-sd -E                  (Enumerate recommended registration domains)
+dns-sd -F                      (Enumerate recommended browsing domains)
+dns-sd -R &lt;Name&gt; &lt;Type&gt; &lt;Domain&gt; &lt;Port&gt; [&lt;TXT&gt;...] (Register a service)
+dns-sd -B        &lt;Type&gt; &lt;Domain&gt;        (Browse for services instances)
+dns-sd -L &lt;Name&gt; &lt;Type&gt; &lt;Domain&gt;           (Look up a service instance)
+dns-sd -P &lt;Name&gt; &lt;Type&gt; &lt;Domain&gt; &lt;Port&gt; &lt;Host&gt; &lt;IP&gt; [&lt;TXT&gt;...]  (Proxy)
+dns-sd -q &lt;name&gt; &lt;rrtype&gt; &lt;rrclass&gt; (Generic query for any record type)
+dns-sd -Z        &lt;Type&gt; &lt;Domain&gt;   (Output results in Zone File format)
+dns-sd -G     v4/v6/v4v6 &lt;name&gt;  (Get address information for hostname)
+dns-sd -V    (Get version of currently running daemon / system service)
+</code></pre>
+
+<h2>Type</h2>
+
+<ul>
+<li>AirTunes 是 <code>_raop._tcp.</code></li>
+<li>AirPlay 是 <code>_airplay._tcp.</code></li>
+</ul>
+
+
+<h2>Browse &amp; Look up</h2>
+
+<pre><code>$ dns-sd -B _raop._tcp
+Browsing for _raop._tcp
+Timestamp     A/R Flags if Domain                    Service Type              Instance Name
+17:05:13.971  Add     3  8 local.                    _raop._tcp.               C92A14084F64@Hello
+
+$ dns-sd -L "C92A14084F64@Hello" _raop._tcp.
+Lookup C92A14084F64@Hello._raop._tcp..local
+17:11:26.993  C92A14084F64@Hello._raop._tcp.local. can be reached at Hello.local.:50391 (interface 8) Flags: 1
+ et=0,3,5 cn=1,2,3 da=true sf=0x4 tp=UDP vv=1 pw=false am=AppleTV3,1 txtvers=1 vn=65537 md=0,1,2 vs=150.33 sv=false ch=2 sr=44100 rhd=4.6.5 ss=16
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>
