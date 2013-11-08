@@ -9,10 +9,10 @@
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="Usage $ dns-sd
-dns-sd -E (Enumerate recommended registration domains)
-dns-sd -F (Enumerate recommended browsing domains)
-dns-sd -R &lt;Name&gt; &lt; &hellip;">
+  <meta name="description" content="本來解 hex string 都是用有點醜的 perl one-liner 1
+2
+$ perl -ne 'print map chr hex, m/../g' &lt;&lt;&lt; 646d340a
+dm4 不過昨天又研究了一下 xxd 發現一些神秘的功能，像是發現有 C style 的 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +80,109 @@ dns-sd -R &lt;Name&gt; &lt; &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/08/yong-xxd-jie-hex-string/">用 Xxd 解 Hex String</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-08T13:57:00+08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2013</time>
+        
+           | <a href="/blog/2013/11/08/yong-xxd-jie-hex-string/#disqus_thread"
+             data-disqus-identifier="http://blog.dm4.tw/blog/2013/11/08/yong-xxd-jie-hex-string/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本來解 hex string 都是用有點醜的 perl one-liner</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ perl -ne 'print map chr hex, m/../g' &lt;&lt;&lt; 646d340a
+</span><span class='line'>dm4</span></code></pre></td></tr></table></div></figure>
+
+
+<p>不過昨天又研究了一下 <code>xxd</code> 發現一些神秘的功能，像是發現有 C style 的 output ！</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ xxd -i data
+</span><span class='line'>unsigned char data[] = {
+</span><span class='line'>  0x74, 0x68, 0x69, 0x73, 0x20, 0x69, 0x73, 0x20, 0x62, 0x69, 0x61, 0x6e,
+</span><span class='line'>  0x72, 0x79, 0x3f, 0x0a
+</span><span class='line'>};
+</span><span class='line'>unsigned int data_len = 16;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>還可以調 column 數</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ xxd -i -c 8 data
+</span><span class='line'>unsigned char data[] = {
+</span><span class='line'>  0x74, 0x68, 0x69, 0x73, 0x20, 0x69, 0x73, 0x20,
+</span><span class='line'>  0x62, 0x69, 0x61, 0x6e, 0x72, 0x79, 0x3f, 0x0a
+</span><span class='line'>};
+</span><span class='line'>unsigned int data_len = 16;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然後 <a href="http://blog.atdog.org">atdog</a> 大大看到之後，又教了我怎麼用 <code>xxd</code> 解 hex string</p>
+
+<ul>
+<li>生 hex string</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ xxd -p &lt;&lt;&lt; dm4
+</span><span class='line'>646d340a</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>解 hex string</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ xxd -p -r &lt;&lt;&lt; 646d340a
+</span><span class='line'>dm4</span></code></pre></td></tr></table></div></figure>
+
+
+<p>太帥了！而且比原本 perl one-liner 短好多啊啊啊</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -668,6 +771,10 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/11/08/yong-xxd-jie-hex-string/">用 Xxd 解 Hex String</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/11/08/dns-sd-and-airplay-slash-airtunes/">Dns-sd &amp; AirPlay / AirTunes</a>
       </li>
     
@@ -693,10 +800,6 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
     
       <li class="post">
         <a href="/blog/2012/05/10/and-in-shell-script/">[ and [[ in Shell Script</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/05/08/first-post/">First Post</a>
       </li>
     
   </ul>

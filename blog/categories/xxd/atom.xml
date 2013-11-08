@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: xxd | blog.dm4.tw]]></title>
+  <link href="http://blog.dm4.tw/blog/categories/xxd/atom.xml" rel="self"/>
+  <link href="http://blog.dm4.tw/"/>
+  <updated>2013-11-08T17:22:11+08:00</updated>
+  <id>http://blog.dm4.tw/</id>
+  <author>
+    <name><![CDATA[dm4]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[用 xxd 解 Hex String]]></title>
+    <link href="http://blog.dm4.tw/blog/2013/11/08/yong-xxd-jie-hex-string/"/>
+    <updated>2013-11-08T13:57:00+08:00</updated>
+    <id>http://blog.dm4.tw/blog/2013/11/08/yong-xxd-jie-hex-string</id>
+    <content type="html"><![CDATA[<p>本來解 hex string 都是用有點醜的 perl one-liner</p>
+
+<p><code>
+$ perl -ne 'print map chr hex, m/../g' &lt;&lt;&lt; 646d340a
+dm4
+</code></p>
+
+<p>不過昨天又研究了一下 <code>xxd</code> 發現一些神秘的功能，像是發現有 C style 的 output ！</p>
+
+<p><code>
+$ xxd -i data
+unsigned char data[] = {
+  0x74, 0x68, 0x69, 0x73, 0x20, 0x69, 0x73, 0x20, 0x62, 0x69, 0x61, 0x6e,
+  0x72, 0x79, 0x3f, 0x0a
+};
+unsigned int data_len = 16;
+</code></p>
+
+<p>還可以調 column 數</p>
+
+<p><code>
+$ xxd -i -c 8 data
+unsigned char data[] = {
+  0x74, 0x68, 0x69, 0x73, 0x20, 0x69, 0x73, 0x20,
+  0x62, 0x69, 0x61, 0x6e, 0x72, 0x79, 0x3f, 0x0a
+};
+unsigned int data_len = 16;
+</code></p>
+
+<p>然後 <a href="http://blog.atdog.org">atdog</a> 大大看到之後，又教了我怎麼用 <code>xxd</code> 解 hex string</p>
+
+<ul>
+<li>生 hex string</li>
+</ul>
+
+
+<p><code>
+$ xxd -p &lt;&lt;&lt; dm4
+646d340a
+</code></p>
+
+<ul>
+<li>解 hex string</li>
+</ul>
+
+
+<p><code>
+$ xxd -p -r &lt;&lt;&lt; 646d340a
+dm4
+</code></p>
+
+<p>太帥了！而且比原本 perl one-liner 短好多啊啊啊</p>
+]]></content>
+  </entry>
+  
+</feed>
