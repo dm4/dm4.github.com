@@ -29,6 +29,25 @@
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<!-- Social media content metadata -->
+
+<meta property="fb:admins" content="1360542987" />
+<meta property="og:title" content=".bashrc sourced twice" />
+<meta property="og:site_name" content="blog.dm4.tw" />
+<meta property="og:url" content="http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice/" />
+<meta property="og:description" content="昨天解決了困擾了一陣子的問題，在 .bashrc 裡，如果有改到 $PATH ： export PATH=~/bin:$PATH 又因為我會用到 tmux ，所以在 tmux 裡開新的 shell 時，會再 source 一次 .bashrc ，本來我的解法是這樣： [ -z "$TMUX" ] &amp;&amp; export PATH=~/bin:$PATH 也就是在 tmux 裡新開啟的 &hellip;" />
+<meta property="og:author" content="https://www.facebook.com/sunrisedm4" />
+
+
+
+<meta property="twitter:card" content="summary" />
+<meta property="twitter:site" content="dm4" />
+<meta property="twitter:url" content="http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice" />
+<meta property="twitter:title" content=".bashrc sourced twice" />
+<meta property="twitter:description" content="昨天解決了困擾了一陣子的問題，在 .bashrc 裡，如果有改到 $PATH ： export PATH=~/bin:$PATH 又因為我會用到 tmux ，所以在 tmux 裡開新的 shell 時，會再 source 一次 .bashrc ，本來我的解法是這樣： [ -z "$TMUX" ] &amp;&amp; export PATH=~/bin:$PATH 也就是在 tmux 裡新開啟的 &hellip;" />
+<meta property="twitter:creator" content="dm4" />
+
+
 
   
   <script type="text/javascript">
@@ -211,6 +230,10 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/11/08/ebctf-2013-writeup/">ebCTF 2013 Writeup</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/11/08/yong-xxd-jie-hex-string/">用 Xxd 解 Hex String</a>
       </li>
     
@@ -236,10 +259,6 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
     
       <li class="post">
         <a href="/blog/2012/05/11/dot-bashrc-sourced-twice/">.bashrc Sourced Twice</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/05/10/and-in-shell-script/">[ and [[ in Shell Script</a>
       </li>
     
   </ul>

