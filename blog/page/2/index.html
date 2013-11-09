@@ -5,14 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>用 xxd 解 Hex String - blog.dm4.tw</title>
+  <title>blog.dm4.tw</title>
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="本來解 hex string 都是用有點醜的 perl one-liner 1
-2
-$ perl -ne 'print map chr hex, m/../g' &lt;&lt;&lt; 646d340a
-dm4 不過昨天又研究了一下 xxd 發現一些神秘的功能，像是發現有 C style 的 &hellip;">
+  <meta name="description" content="聽說很潮來用一下傳說中的 octopress 本來覺得不會 ruby 怕怕的，可是還是忍不住想試試看用 Markdown 寫 blog 的感覺，一試之下才發現……也太方便了吧！
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +19,7 @@ dm4 不過昨天又研究了一下 xxd 發現一些神秘的功能，像是發�
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.dm4.tw/blog/2013/11/08/yong-xxd-jie-hex-string">
+  <link rel="canonical" href="http://blog.dm4.tw/blog/page/2">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="blog.dm4.tw" type="application/atom+xml">
@@ -35,22 +33,13 @@ dm4 不過昨天又研究了一下 xxd 發現一些神秘的功能，像是發�
 <!-- Social media content metadata -->
 
 <meta property="fb:admins" content="1360542987" />
-<meta property="og:title" content="用 xxd 解 Hex String" />
+<meta property="og:title" content="blog.dm4.tw" />
 <meta property="og:site_name" content="blog.dm4.tw" />
-<meta property="og:url" content="http://blog.dm4.tw/blog/2013/11/08/yong-xxd-jie-hex-string/" />
-<meta property="og:description" content="本來解 hex string 都是用有點醜的 perl one-liner 1
-2
-$ perl -ne 'print map chr hex, m/../g' &lt;&lt;&lt; 646d340a
-dm4 不過昨天又研究了一下 xxd 發現一些神秘的功能，像是發現有 C style 的 output ！ 1
-2
-3
-4
-5
-6
-$ xxd -i data
-unsigned char &hellip;" />
+<meta property="og:url" content="http://blog.dm4.tw/blog/page/2/" />
+<meta property="og:description" content="聽說很潮來用一下傳說中的 octopress 本來覺得不會 ruby 怕怕的，可是還是忍不住想試試看用 Markdown 寫 blog 的感覺，一試之下才發現……也太方便了吧！
+" />
 <meta property="og:image" content="http://www.gravatar.com/avatar/1b0b7bab4c837d80e1b110bd7127a0d8?s=200" />
-<meta property="og:type" content="article" />
+<meta property="og:type" content="website" />
 
 
   
@@ -98,12 +87,15 @@ unsigned char &hellip;" />
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">用 Xxd 解 Hex String</h1>
+      <h1 class="entry-title"><a href="/blog/2012/05/08/first-post/">First Post</a></h1>
     
     
       <p class="meta">
@@ -119,145 +111,34 @@ unsigned char &hellip;" />
   
 
 
-<time datetime="2013-11-08T13:57:00+08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2013</time>
+<time datetime="2012-05-08T00:27:00+08:00" pubdate data-updated="true">May 8<span>th</span>, 2012</time>
         
-           | <a href="#disqus_thread"
-             data-disqus-identifier="http://blog.dm4.tw">Comments</a>
+           | <a href="/blog/2012/05/08/first-post/#disqus_thread"
+             data-disqus-identifier="http://blog.dm4.tw/blog/2012/05/08/first-post/">Comments</a>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>本來解 hex string 都是用有點醜的 perl one-liner</p>
+  <div class="entry-content"><p>聽說很潮來用一下傳說中的 octopress</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ perl -ne 'print map chr hex, m/../g' &lt;&lt;&lt; 646d340a
-</span><span class='line'>dm4</span></code></pre></td></tr></table></div></figure>
-
-
-<p>不過昨天又研究了一下 <code>xxd</code> 發現一些神秘的功能，像是發現有 C style 的 output ！</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ xxd -i data
-</span><span class='line'>unsigned char data[] = {
-</span><span class='line'>  0x74, 0x68, 0x69, 0x73, 0x20, 0x69, 0x73, 0x20, 0x62, 0x69, 0x61, 0x6e,
-</span><span class='line'>  0x72, 0x79, 0x3f, 0x0a
-</span><span class='line'>};
-</span><span class='line'>unsigned int data_len = 16;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>還可以調 column 數</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ xxd -i -c 8 data
-</span><span class='line'>unsigned char data[] = {
-</span><span class='line'>  0x74, 0x68, 0x69, 0x73, 0x20, 0x69, 0x73, 0x20,
-</span><span class='line'>  0x62, 0x69, 0x61, 0x6e, 0x72, 0x79, 0x3f, 0x0a
-</span><span class='line'>};
-</span><span class='line'>unsigned int data_len = 16;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然後 <a href="http://blog.atdog.org">atdog</a> 大大看到之後，又教了我怎麼用 <code>xxd</code> 解 hex string</p>
-
-<ul>
-<li>生 hex string</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ xxd -p &lt;&lt;&lt; dm4
-</span><span class='line'>646d340a</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>解 hex string</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ xxd -p -r &lt;&lt;&lt; 646d340a
-</span><span class='line'>dm4</span></code></pre></td></tr></table></div></figure>
-
-
-<p>太帥了！而且比原本 perl one-liner 短好多啊啊啊</p>
+<p>本來覺得不會 ruby 怕怕的，可是還是忍不住想試試看用 <a href="http://markdown.tw">Markdown</a> 寫 blog 的感覺，一試之下才發現……也太方便了吧！</p>
 </div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">dm4</span></span>
-
-      
-
-
-
-
-
-
-
-
   
 
 
-<time datetime="2013-11-08T13:57:00+08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2013</time>
-      
-
-<span class="categories">
+    </article>
   
-    <a class='category' href='/blog/categories/linux/'>linux</a>, <a class='category' href='/blog/categories/xxd/'>xxd</a>
-  
-</span>
-
-
-    </p>
+  <div class="pagination">
     
-      <div class="sharing">
-  
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2013/11/08/yong-xxd-jie-hex-string/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2013/11/08/yong-xxd-jie-hex-string/" >Tweet</a>
-  
-  
-  
-    <div class="fb-like" data-send="false" data-width="450" data-show-faces="false"></div>
-  
-</div>
-
+    <a href="/blog/archives">Blog Archives</a>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2013/11/08/dns-sd-and-airplay-slash-airtunes/" title="Previous Post: dns-sd &amp; AirPlay / AirTunes">&laquo; dns-sd &amp; AirPlay / AirTunes</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2013/11/08/ebctf-2013-writeup/" title="Next Post: ebCTF 2013 Writeup">ebCTF 2013 Writeup &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
 </div>
-  </section>
-
-</div>
-
 <aside class="sidebar">
   
     <section>
@@ -302,7 +183,7 @@ unsigned char &hellip;" />
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/dm4">@dm4</a> on GitHub
@@ -348,7 +229,6 @@ unsigned char &hellip;" />
   
 </aside>
 
-
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -363,10 +243,7 @@ unsigned char &hellip;" />
       var disqus_shortname = 'dm4';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.dm4.tw/blog/2013/11/08/yong-xxd-jie-hex-string/';
-        var disqus_url = 'http://blog.dm4.tw/blog/2013/11/08/yong-xxd-jie-hex-string/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
