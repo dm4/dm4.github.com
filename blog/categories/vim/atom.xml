@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vim | blog.dm4.tw]]></title>
+  <link href="http://blog.dm4.tw/blog/categories/vim/atom.xml" rel="self"/>
+  <link href="http://blog.dm4.tw/"/>
+  <updated>2013-11-23T11:21:35+08:00</updated>
+  <id>http://blog.dm4.tw/</id>
+  <author>
+    <name><![CDATA[dm4]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Vim iA Writer Theme for Markdown]]></title>
+    <link href="http://blog.dm4.tw/blog/2013/11/23/vim-ia-writer-theme-for-markdown/"/>
+    <updated>2013-11-23T10:45:00+08:00</updated>
+    <id>http://blog.dm4.tw/blog/2013/11/23/vim-ia-writer-theme-for-markdown</id>
+    <content type="html"><![CDATA[<p>前幾天看到 <a href="http://astrails.com/blog/2013/8/12/writing-markdown-with-style-in-vim">Writing Markdown With Style in Vim</a> 在講 vim 的 iA Writer theme
+，試了之後覺得超棒的，決定以後的 markdown editor 就用 MacVim 了！</p>
+
+<p>接著就查了一下 vim 的 ftplugin 大概怎麼做，然後因為寫 octopress
+要用，所以也找了一下 Jekyll 的 YAML header syntax ，包一包就上傳啦！成品在
+<a href="https://github.com/dm4/vim-writer">dm4/vim-writer</a>。</p>
+
+<p>Screenshot:</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/158785/blog/2013-11-23-screenshot.png" alt="screenshot" /></p>
+]]></content>
+  </entry>
+  
+</feed>

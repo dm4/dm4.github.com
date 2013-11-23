@@ -9,8 +9,8 @@
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="最近好像很流行收到這種奇怪的簡訊 用 iPhone 點開網址之後發現會被導到一個已經關閉的無名相簿，研究了一下發現他會判斷 User-Agent 來決定要導到哪裡，
-如果把 User-Agent 設成 Android 瀏覽器的話，會被導到一個下載 Andorid apk 的連結 &hellip;">
+  <meta name="description" content="前幾天看到 Writing Markdown With Style in Vim 在講 vim 的 iA Writer theme
+，試了之後覺得超棒的，決定以後的 markdown editor 就用 MacVim 了！ 接著就查了一下 vim 的 ftplugin 大概怎麼做，然後因為寫 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -36,8 +36,9 @@
 <meta property="og:title" content="blog.dm4.tw" />
 <meta property="og:site_name" content="blog.dm4.tw" />
 <meta property="og:url" content="http://blog.dm4.tw/" />
-<meta property="og:description" content="最近好像很流行收到這種奇怪的簡訊 用 iPhone 點開網址之後發現會被導到一個已經關閉的無名相簿，研究了一下發現他會判斷 User-Agent 來決定要導到哪裡，
-如果把 User-Agent 設成 Android 瀏覽器的話，會被導到一個下載 Andorid apk 的連結 不過大概是新聞報很大的原因，詐騙連結幾乎都已經失效了 把載下來的 apk 拆開會發現它是一個偽裝成 Google &hellip;" />
+<meta property="og:description" content="前幾天看到 Writing Markdown With Style in Vim 在講 vim 的 iA Writer theme
+，試了之後覺得超棒的，決定以後的 markdown editor 就用 MacVim 了！ 接著就查了一下 vim 的 ftplugin 大概怎麼做，然後因為寫 octopress
+要用，所以也找了一下 Jekyll 的 YAML header syntax ， &hellip;" />
 <meta property="og:image" content="http://www.gravatar.com/avatar/1b0b7bab4c837d80e1b110bd7127a0d8?s=200" />
 <meta property="og:type" content="website" />
 
@@ -89,6 +90,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/23/vim-ia-writer-theme-for-markdown/">Vim iA Writer Theme for Markdown</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-23T10:45:00+08:00" pubdate data-updated="true">Nov 23<span>rd</span>, 2013</time>
+        
+           | <a href="/blog/2013/11/23/vim-ia-writer-theme-for-markdown/#disqus_thread"
+             data-disqus-identifier="http://blog.dm4.tw/blog/2013/11/23/vim-ia-writer-theme-for-markdown/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前幾天看到 <a href="http://astrails.com/blog/2013/8/12/writing-markdown-with-style-in-vim">Writing Markdown With Style in Vim</a> 在講 vim 的 iA Writer theme
+，試了之後覺得超棒的，決定以後的 markdown editor 就用 MacVim 了！</p>
+
+<p>接著就查了一下 vim 的 ftplugin 大概怎麼做，然後因為寫 octopress
+要用，所以也找了一下 Jekyll 的 YAML header syntax ，包一包就上傳啦！成品在
+<a href="https://github.com/dm4/vim-writer">dm4/vim-writer</a>。</p>
+
+<p>Screenshot:</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/158785/blog/2013-11-23-screenshot.png" alt="screenshot" /></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1637,67 +1686,6 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/05/10/and-in-shell-script/">[ and [[ in Shell Script</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-05-10T17:01:00+08:00" pubdate data-updated="true">May 10<span>th</span>, 2012</time>
-        
-           | <a href="/blog/2012/05/10/and-in-shell-script/#disqus_thread"
-             data-disqus-identifier="http://blog.dm4.tw/blog/2012/05/10/and-in-shell-script/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>終於搞懂在 shell script 裡 <code>[ ... ]</code> 和 <code>[[ ... ]]</code> 的差別了</p>
-
-<pre><code>$ help [
-[: [ arg... ]
-    This is a synonym for the "test" builtin, but the last
-    argument must be a literal `]', to match the opening `['.
-[[ ... ]]: [[ expression ]]
-    Returns a status of 0 or 1 depending on the evaluation of the conditional
-    expression EXPRESSION.  Expressions are composed of the same primaries used
-    by the `test' builtin, and may be combined using the following operators
-
-        ( EXPRESSION )  Returns the value of EXPRESSION
-        ! EXPRESSION    True if EXPRESSION is false; else false
-        EXPR1 &amp;&amp; EXPR2  True if both EXPR1 and EXPR2 are true; else false
-        EXPR1 || EXPR2  True if either EXPR1 or EXPR2 is true; else false
-
-    When the `==' and `!=' operators are used, the string to the right of the
-    operator is used as a pattern and pattern matching is performed.  The
-    &amp;&amp; and || operators do not evaluate EXPR2 if EXPR1 is sufficient to
-    determine the expression's value.
-</code></pre>
-
-<p>簡單的說就是要用 <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>, <code>()</code> 的話要用 <code>[[ ... ]]</code></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1711,6 +1699,10 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/11/23/vim-ia-writer-theme-for-markdown/">Vim iA Writer Theme for Markdown</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/11/09/xiao-e-fu-fei-jian-xun-zha-pian/">小額付費簡訊詐騙</a>
@@ -1738,10 +1730,6 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
     
       <li class="post">
         <a href="/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/">Firefox HackBar Font Setting on Mac OSX</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/07/22/hitcon-2012-wargame-notes/">HITCON 2012 Wargame Notes</a>
       </li>
     
   </ul>
