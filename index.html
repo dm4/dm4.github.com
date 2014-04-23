@@ -9,8 +9,9 @@
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="前幾天看到 Writing Markdown With Style in Vim 在講 vim 的 iA Writer theme
-，試了之後覺得超棒的，決定以後的 markdown editor 就用 MacVim 了！ 接著就查了一下 vim 的 ftplugin 大概怎麼做，然後因為寫 &hellip;">
+  <meta name="description" content="測試影片 材料 Arduino Pro Mini
+USB Host Shield for Arduino Pro Mini
+BlueSMiRF HID 一開始是因為想要有無線的機械式鍵盤，後來覺得如果可以做成 USB 轉藍芽的模組，就可以把不同的機械式鍵盤都轉成無線的！ 不過硬體不太熟， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -36,9 +37,9 @@
 <meta property="og:title" content="blog.dm4.tw" />
 <meta property="og:site_name" content="blog.dm4.tw" />
 <meta property="og:url" content="http://blog.dm4.tw/" />
-<meta property="og:description" content="前幾天看到 Writing Markdown With Style in Vim 在講 vim 的 iA Writer theme
-，試了之後覺得超棒的，決定以後的 markdown editor 就用 MacVim 了！ 接著就查了一下 vim 的 ftplugin 大概怎麼做，然後因為寫 octopress
-要用，所以也找了一下 Jekyll 的 YAML header syntax ， &hellip;" />
+<meta property="og:description" content="測試影片 材料 Arduino Pro Mini
+USB Host Shield for Arduino Pro Mini
+BlueSMiRF HID 一開始是因為想要有無線的機械式鍵盤，後來覺得如果可以做成 USB 轉藍芽的模組，就可以把不同的機械式鍵盤都轉成無線的！ 不過硬體不太熟，所以就用了比較好寫軟體的 Arduino 來開始，整體流程大致是用 USB Host Shield &hellip;" />
 <meta property="og:image" content="http://www.gravatar.com/avatar/1b0b7bab4c837d80e1b110bd7127a0d8?s=200" />
 <meta property="og:type" content="website" />
 
@@ -90,6 +91,65 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/22/convert-usb-keyboard-to-bluetooth-keyboard/">自製 USB 鍵盤轉藍芽鍵盤轉接器</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-22T10:03:00+08:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2014</time>
+        
+           | <a href="/blog/2014/04/22/convert-usb-keyboard-to-bluetooth-keyboard/#disqus_thread"
+             data-disqus-identifier="http://blog.dm4.tw/blog/2014/04/22/convert-usb-keyboard-to-bluetooth-keyboard/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>測試影片</h2>
+
+<div class="embed-video-container"><iframe src="http://www.youtube.com/embed/RL4jmP1iwRM "></iframe></div>
+
+
+<h2>材料</h2>
+
+<ul>
+<li><a href="http://www.icshop.com.tw/product_info.php/products_id/10617">Arduino Pro Mini</a></li>
+<li><a href="https://www.circuitsathome.com/products-page/arduino-shields/usb-host-shield-for-arduino-pro-mini">USB Host Shield for Arduino Pro Mini</a></li>
+<li><a href="https://www.sparkfun.com/products/10938">BlueSMiRF HID</a></li>
+</ul>
+
+
+<p>一開始是因為想要有無線的機械式鍵盤，後來覺得如果可以做成 USB 轉藍芽的模組，就可以把不同的機械式鍵盤都轉成無線的！</p>
+
+<p>不過硬體不太熟，所以就用了比較好寫軟體的 Arduino 來開始，整體流程大致是用 USB Host Shield 來讀鍵盤訊號，然後從 BlueSMiRF HID 送出藍芽的 HID report ，這樣只要有支援藍芽鍵盤的電腦都可以用了！</p>
+
+<p>不過只是 prototype 而且還有很多可以改進的地方，像是現在看起來超醜 XD 而且不知道為什麼用起來有一點點可以感覺到的延遲，是說不知道有沒有廠商要做類似的東西來賣，好想要啊！</p>
+
+<p>下次可以試試看拿 <a href="http://www.aten.com.tw/products/KVM%E5%A4%9A%E9%9B%BB%E8%85%A6%E5%88%87%E6%8F%9B%E5%99%A8/%E7%84%A1%E7%B7%9A%E5%88%87%E6%8F%9B%E7%94%A2%E5%93%81/~CS533.html">ATEN CS533</a> 拆開來玩，看會不會比較省事 XD</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1614,78 +1674,6 @@ local: key.txt remote: ..:/..:/..:/..:/key/dm4key.txt
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/05/11/dot-bashrc-sourced-twice/">.bashrc Sourced Twice</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-05-11T21:08:00+08:00" pubdate data-updated="true">May 11<span>th</span>, 2012</time>
-        
-           | <a href="/blog/2012/05/11/dot-bashrc-sourced-twice/#disqus_thread"
-             data-disqus-identifier="http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>昨天解決了困擾了一陣子的問題，在 <code>.bashrc</code> 裡，如果有改到 <code>$PATH</code> ：</p>
-
-<pre><code>export PATH=~/bin:$PATH
-</code></pre>
-
-<p>又因為我會用到 <a href="http://tmux.sourceforge.net/">tmux</a> ，所以在 <code>tmux</code> 裡開新的 shell 時，會再 source 一次 <code>.bashrc</code> ，本來我的解法是這樣：</p>
-
-<pre><code>[ -z "$TMUX" ] &amp;&amp; export PATH=~/bin:$PATH
-</code></pre>
-
-<p>也就是在 <code>tmux</code> 裡新開啟的 shell 並不會再改一次 <code>$PATH</code> ，可是這樣又遇到了另一個問題：當新的 shell 打開時，本來應該被加在前面的 <code>~/bin</code> 會被接到後面去，我在想應該是開新 shell 時 bash 自己做的處理，我在 <code>/etc/bashrc</code> 裡也沒有看到相關的 script 。</p>
-
-<p>對於這個問題我最後的解法是參考 <a href="http://perlbrew.pl/">perlbrew</a> 裡的這段 script ：</p>
-
-<pre><code>export PATH_WITHOUT_PERLBREW="$(perl -e 'print join ":", grep { index($_, $ENV{PERLBREW_ROOT}) } split/:/,$ENV{PATH};')"
-
-if [[ -z "$PERLBREW_PATH" ]]; then
-    export PERLBREW_PATH="$PERLBREW_ROOT/bin"
-fi
-
-export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
-</code></pre>
-
-<p>最後的結果：</p>
-
-<pre><code>export PATH="~/bin:$(perl -e 'print join ":", grep { $_ ne "~/bin" } split/:/, $ENV{PATH};')"
-</code></pre>
-
-<p><strong>Update</strong> 2012-05-13</p>
-
-<p>為了避免 <code>~/bin</code> 和 <code>$HOME/bin</code> 混用，所以改了一下 script</p>
-
-<pre><code>export PATH=$HOME/bin:"$(perl -e 'print join ":", grep { $_ ne "$ENV{HOME}/bin" &amp;&amp; $_ ne "~/bin" } split/:/, $ENV{PATH};')"
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1699,6 +1687,10 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/04/22/convert-usb-keyboard-to-bluetooth-keyboard/">自製 USB 鍵盤轉藍芽鍵盤轉接器</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/11/23/vim-ia-writer-theme-for-markdown/">Vim iA Writer Theme for Markdown</a>
@@ -1726,10 +1718,6 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
     
       <li class="post">
         <a href="/blog/2012/07/26/hitcon-2012-wargame-notes-part-2/">HITCON 2012 Wargame Notes - Part 2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/07/24/firefox-hackbar-font-setting-on-mac-osx/">Firefox HackBar Font Setting on Mac OSX</a>
       </li>
     
   </ul>
