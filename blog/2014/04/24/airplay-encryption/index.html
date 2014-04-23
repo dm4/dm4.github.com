@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>.bashrc sourced twice - blog.dm4.tw</title>
+  <title>AirPlay Encryption - blog.dm4.tw</title>
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="昨天解決了困擾了一陣子的問題，在 .bashrc 裡，如果有改到 $PATH ： export PATH=~/bin:$PATH 又因為我會用到 tmux ，所以在 tmux 裡開新的 shell 時，會再 source 一次 .bashrc ，本來我的解法是這樣： [ -z "$TMUX &hellip;">
+  <meta name="description" content="From iOS Security February 2014 (p.16) AirPlay also utilizes the authentication IC to verify that receivers have been approved by Apple. AirPlay &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice">
+  <link rel="canonical" href="http://blog.dm4.tw/blog/2014/04/24/airplay-encryption">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="blog.dm4.tw" type="application/atom+xml">
@@ -32,10 +32,10 @@
 <!-- Social media content metadata -->
 
 <meta property="fb:admins" content="1360542987" />
-<meta property="og:title" content=".bashrc sourced twice" />
+<meta property="og:title" content="AirPlay Encryption" />
 <meta property="og:site_name" content="blog.dm4.tw" />
-<meta property="og:url" content="http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice/" />
-<meta property="og:description" content="昨天解決了困擾了一陣子的問題，在 .bashrc 裡，如果有改到 $PATH ： export PATH=~/bin:$PATH 又因為我會用到 tmux ，所以在 tmux 裡開新的 shell 時，會再 source 一次 .bashrc ，本來我的解法是這樣： [ -z "$TMUX" ] &amp;&amp; export PATH=~/bin:$PATH 也就是在 tmux 裡新開啟的 &hellip;" />
+<meta property="og:url" content="http://blog.dm4.tw/blog/2014/04/24/airplay-encryption/" />
+<meta property="og:description" content="From iOS Security February 2014 (p.16) AirPlay also utilizes the authentication IC to verify that receivers have been approved by Apple. AirPlay audio and video streams utilize the MFi-SAP (Secure &hellip;" />
 <meta property="og:image" content="http://www.gravatar.com/avatar/1b0b7bab4c837d80e1b110bd7127a0d8?s=200" />
 <meta property="og:type" content="article" />
 
@@ -90,7 +90,7 @@
   
   <header>
     
-      <h1 class="entry-title">.bashrc Sourced Twice</h1>
+      <h1 class="entry-title">AirPlay Encryption</h1>
     
     
       <p class="meta">
@@ -106,7 +106,7 @@
   
 
 
-<time datetime="2012-05-11T21:08:00+08:00" pubdate data-updated="true">May 11<span>th</span>, 2012</time>
+<time datetime="2014-04-24T00:19:00+08:00" pubdate data-updated="true">Apr 24<span>th</span>, 2014</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://blog.dm4.tw">Comments</a>
@@ -116,40 +116,9 @@
   </header>
 
 
-<div class="entry-content"><p>昨天解決了困擾了一陣子的問題，在 <code>.bashrc</code> 裡，如果有改到 <code>$PATH</code> ：</p>
+<div class="entry-content"><p>From <a href="http://images.apple.com/iphone/business/docs/iOS_Security_Feb14.pdf">iOS Security February 2014</a> (p.16)</p>
 
-<pre><code>export PATH=~/bin:$PATH
-</code></pre>
-
-<p>又因為我會用到 <a href="http://tmux.sourceforge.net/">tmux</a> ，所以在 <code>tmux</code> 裡開新的 shell 時，會再 source 一次 <code>.bashrc</code> ，本來我的解法是這樣：</p>
-
-<pre><code>[ -z "$TMUX" ] &amp;&amp; export PATH=~/bin:$PATH
-</code></pre>
-
-<p>也就是在 <code>tmux</code> 裡新開啟的 shell 並不會再改一次 <code>$PATH</code> ，可是這樣又遇到了另一個問題：當新的 shell 打開時，本來應該被加在前面的 <code>~/bin</code> 會被接到後面去，我在想應該是開新 shell 時 bash 自己做的處理，我在 <code>/etc/bashrc</code> 裡也沒有看到相關的 script 。</p>
-
-<p>對於這個問題我最後的解法是參考 <a href="http://perlbrew.pl/">perlbrew</a> 裡的這段 script ：</p>
-
-<pre><code>export PATH_WITHOUT_PERLBREW="$(perl -e 'print join ":", grep { index($_, $ENV{PERLBREW_ROOT}) } split/:/,$ENV{PATH};')"
-
-if [[ -z "$PERLBREW_PATH" ]]; then
-    export PERLBREW_PATH="$PERLBREW_ROOT/bin"
-fi
-
-export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
-</code></pre>
-
-<p>最後的結果：</p>
-
-<pre><code>export PATH="~/bin:$(perl -e 'print join ":", grep { $_ ne "~/bin" } split/:/, $ENV{PATH};')"
-</code></pre>
-
-<p><strong>Update</strong> 2012-05-13</p>
-
-<p>為了避免 <code>~/bin</code> 和 <code>$HOME/bin</code> 混用，所以改了一下 script</p>
-
-<pre><code>export PATH=$HOME/bin:"$(perl -e 'print join ":", grep { $_ ne "$ENV{HOME}/bin" &amp;&amp; $_ ne "~/bin" } split/:/, $ENV{PATH};')"
-</code></pre>
+<blockquote><p>AirPlay also utilizes the authentication IC to verify that receivers have been approved by Apple. AirPlay audio and video streams utilize the MFi-SAP (Secure Association Protocol), which encrypts communication between the accessory and device using ECDH key exchange (Curve25519) with 2048-bit RSA keys and AES-128 in CTR mode.</p></blockquote>
 </div>
 
 
@@ -172,12 +141,12 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
   
 
 
-<time datetime="2012-05-11T21:08:00+08:00" pubdate data-updated="true">May 11<span>th</span>, 2012</time>
+<time datetime="2014-04-24T00:19:00+08:00" pubdate data-updated="true">Apr 24<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/bash/'>bash</a>, <a class='category' href='/blog/categories/linux/'>linux</a>, <a class='category' href='/blog/categories/shellscript/'>shellscript</a>
+    <a class='category' href='/blog/categories/airplay/'>airplay</a>, <a class='category' href='/blog/categories/crypto/'>crypto</a>
   
 </span>
 
@@ -186,7 +155,7 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2014/04/24/airplay-encryption/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2014/04/24/airplay-encryption/" >Tweet</a>
   
   
   
@@ -197,10 +166,8 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/05/10/and-in-shell-script/" title="Previous Post: [ and [[ in shell script">&laquo; [ and [[ in shell script</a>
+        <a class="basic-alignment left" href="/blog/2014/04/22/convert-usb-keyboard-to-bluetooth-keyboard/" title="Previous Post: 自製 USB 鍵盤轉藍芽鍵盤轉接器">&laquo; 自製 USB 鍵盤轉藍芽鍵盤轉接器</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/07/22/hitcon-2012-wargame-notes/" title="Next Post: HITCON 2012 Wargame Notes">HITCON 2012 Wargame Notes &raquo;</a>
       
     </p>
   </footer>
@@ -320,8 +287,8 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice/';
-        var disqus_url = 'http://blog.dm4.tw/blog/2012/05/11/dot-bashrc-sourced-twice/';
+        var disqus_identifier = 'http://blog.dm4.tw/blog/2014/04/24/airplay-encryption/';
+        var disqus_url = 'http://blog.dm4.tw/blog/2014/04/24/airplay-encryption/';
         var disqus_script = 'embed.js';
       
     (function () {
