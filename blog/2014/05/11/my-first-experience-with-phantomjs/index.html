@@ -1,0 +1,421 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>PhantomJS 初體驗 - blog.dm4.tw</title>
+  <meta name="author" content="dm4">
+
+  
+  <meta name="description" content="最近因為想要爬個網頁資料，結果礙於處理不了萬惡的 __VIEWSTATE 和 __EVENTVALIDATION ，在時間的壓力下就決定改用 ggm 推薦 PhantomJS ，一用之下驚為天人啊，太神了！ PhantomJS 概念就是在裡面跑一個 Webkit ，然後讓你用 JavaScript &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.dm4.tw/blog/2014/05/11/my-first-experience-with-phantomjs">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="blog.dm4.tw" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<!-- Social media content metadata -->
+
+<meta property="fb:admins" content="1360542987" />
+<meta property="og:title" content="PhantomJS 初體驗" />
+<meta property="og:site_name" content="blog.dm4.tw" />
+<meta property="og:url" content="http://blog.dm4.tw/blog/2014/05/11/my-first-experience-with-phantomjs/" />
+<meta property="og:description" content="最近因為想要爬個網頁資料，結果礙於處理不了萬惡的 __VIEWSTATE 和 __EVENTVALIDATION ，在時間的壓力下就決定改用 ggm 推薦 PhantomJS ，一用之下驚為天人啊，太神了！ PhantomJS 概念就是在裡面跑一個 Webkit ，然後讓你用 JavaScript 控制它，所以可以模擬瀏覽器載入網頁之後 inject script / evaluate &hellip;" />
+<meta property="og:image" content="http://www.gravatar.com/avatar/1b0b7bab4c837d80e1b110bd7127a0d8?s=200" />
+<meta property="og:type" content="article" />
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-31586582-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">blog.dm4.tw</a></h1>
+  
+    <h2>dm4's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.dm4.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">PhantomJS 初體驗</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-11T20:39:00+08:00" pubdate data-updated="true">May 11<span>th</span>, 2014</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://blog.dm4.tw">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>最近因為想要爬個網頁資料，結果礙於處理不了萬惡的 <code>__VIEWSTATE</code> 和 <code>__EVENTVALIDATION</code> ，在時間的壓力下就決定改用 ggm 推薦 <a href="http://phantomjs.org">PhantomJS</a> ，一用之下驚為天人啊，太神了！</p>
+
+<p><a href="http://phantomjs.org">PhantomJS</a> 概念就是在裡面跑一個 Webkit ，然後讓你用 JavaScript 控制它，所以可以模擬瀏覽器載入網頁之後 inject script / evaluate script / screenshot 的動作，官方文件也有寫到可以拿來作 web 的 testing ，模擬瀏覽、點擊之類的瀏覽器操作。</p>
+
+<p>官網的 <a href="http://phantomjs.org/quick-start.html">Quick Start</a> 寫的蠻清楚的， <a href="http://phantomjs.org/examples/index.html">Examples</a> 也有很多範例可以參考，我自己用到的功能只有連線一個網頁後，對網頁的 <code>document</code> 作操作，然後把結果印出來，下面這段簡單的 code 就是連上 <a href="http://blog.dm4.tw">http://blog.dm4.tw</a> 首頁，拿到最新一篇文章的標題，印出標題之後截圖：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">page</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;webpage&#39;</span><span class="p">).</span><span class="nx">create</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">page</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">&#39;http://blog.dm4.tw&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">article_title</span> <span class="o">=</span> <span class="nx">page</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="s2">&quot;entry-title&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">children</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">innerHTML</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">article_title</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">page</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">&#39;blog.png&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">phantom</span><span class="p">.</span><span class="nx">exit</span><span class="p">();</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>PhantomJS + Node.js</h2>
+
+<p>可以用 <a href="https://github.com/Medium/phantomjs">https://github.com/Medium/phantomjs</a> ，裡面也有提到怎麼用 <code>node</code> 跑起來：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">childProcess</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;child_process&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">phantomjs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">binPath</span> <span class="o">=</span> <span class="nx">phantomjs</span><span class="p">.</span><span class="nx">path</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">childArgs</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>  <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s1">&#39;phantomjs-script.js&#39;</span><span class="p">),</span>
+</span><span class='line'>  <span class="s1">&#39;some other argument (passed to phantomjs script)&#39;</span>
+</span><span class='line'><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">childProcess</span><span class="p">.</span><span class="nx">execFile</span><span class="p">(</span><span class="nx">binPath</span><span class="p">,</span> <span class="nx">childArgs</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">stdout</span><span class="p">,</span> <span class="nx">stderr</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// handle results</span>
+</span><span class='line'><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>不過要注意他是開 process 跑的，不要像我一不注意開太多結果……</p>
+
+<h2>遇到的問題</h2>
+
+<p>因為直接用 <code>node</code> 跑的話沒噴錯誤訊息，所以下面這兩個問題找了好久啊，如果發現 <code>node</code> 跑怪怪的，可以直接用 <code>phantomjs</code> 跑跑看，至少錯誤訊息比較清楚……</p>
+
+<h3>在 Ubuntu 上跑不起來</h3>
+
+<p>因為要 render 的關係，所以要裝 <code>libfontconfig</code></p>
+
+<pre><code>sudo apt-get install libfontconfig
+</code></pre>
+
+<h3>打不開 https 的網頁</h3>
+
+<p>有些 https 網頁憑證沒設好，預設很貼心把它擋下來了，如果要打開的話，執行時要加上參數 <code>phantomjs --ignore-ssl-errors=true</code> ，如果是用 <code>node</code> 跑的話是要加在 arguments 裡：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">childArgs</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>  <span class="s1">&#39;--ignore-ssl-errors=true&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s1">&#39;phantomjs-script.js&#39;</span><span class="p">),</span>
+</span><span class='line'>  <span class="s1">&#39;some other argument (passed to phantomjs script)&#39;</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>雖然跑起來有點慢，不過功能太強了啊！讓我以後有點懶的去看 http request 用 <code>curl</code> 送 query 了 XD</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">dm4</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-11T20:39:00+08:00" pubdate data-updated="true">May 11<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/nodejs/'>nodejs</a>, <a class='category' href='/blog/categories/phantomjs/'>phantomjs</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2014/05/11/my-first-experience-with-phantomjs/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2014/05/11/my-first-experience-with-phantomjs/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="false" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/04/24/airplay-encryption/" title="Previous Post: AirPlay Encryption">&laquo; AirPlay Encryption</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/05/11/my-first-experience-with-phantomjs/">PhantomJS 初體驗</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/24/airplay-encryption/">AirPlay Encryption</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/22/convert-usb-keyboard-to-bluetooth-keyboard/">自製 USB 鍵盤轉藍芽鍵盤轉接器</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/23/vim-ia-writer-theme-for-markdown/">Vim iA Writer Theme for Markdown</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/09/xiao-e-fu-fei-jian-xun-zha-pian/">小額付費簡訊詐騙</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/08/ebctf-2013-writeup/">ebCTF 2013 Writeup</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/08/yong-xxd-jie-hex-string/">用 Xxd 解 Hex String</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/08/dns-sd-and-airplay-slash-airtunes/">Dns-sd &amp; AirPlay / AirTunes</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dm4">@dm4</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dm4',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/111055170376328497079?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+  <h1>Twitter</h1>
+  <a class="twitter-timeline" href="https://twitter.com/dm4" data-widget-id="398539610571014144" data-tweet-limit="5" data-chrome="noscrollbar nofooter transparent">Tweets by @dm4</a>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - dm4 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'dm4';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.dm4.tw/blog/2014/05/11/my-first-experience-with-phantomjs/';
+        var disqus_url = 'http://blog.dm4.tw/blog/2014/05/11/my-first-experience-with-phantomjs/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
