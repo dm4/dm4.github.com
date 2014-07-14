@@ -1,0 +1,916 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SECUINSIDE CTF Finals 2014 Writeup - Reversing 100 - blog.dm4.tw</title>
+  <meta name="author" content="dm4">
+
+  
+  <meta name="description" content="這題在現場沒解完&hellip;因為覺得應該只差一點點，回來之後果然弄出來了啊！ wooyaggo&#8217;s fieldlink1
+2
+3
+4
+5
+6
+7
+8
+decrypt it and submit 4th line(without last character 0x0a) platin &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.dm4.tw/blog/2014/07/13/secuinside-2014-final-writeup-reversing-100">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="blog.dm4.tw" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<!-- Social media content metadata -->
+
+<meta property="fb:admins" content="1360542987" />
+<meta property="og:title" content="SECUINSIDE CTF Finals 2014 Writeup - Reversing 100" />
+<meta property="og:site_name" content="blog.dm4.tw" />
+<meta property="og:url" content="http://blog.dm4.tw/blog/2014/07/13/secuinside-2014-final-writeup-reversing-100/" />
+<meta property="og:description" content="這題在現場沒解完&hellip;因為覺得應該只差一點點，回來之後果然弄出來了啊！ wooyaggo&#8217;s fieldlink1
+2
+3
+4
+5
+6
+7
+8
+decrypt it and submit 4th line(without last character 0x0a) platin text example
+1. AAA-111-ASRT-3.1-CC[n]
+2. BBB-CCC &hellip;" />
+<meta property="og:image" content="http://www.gravatar.com/avatar/1b0b7bab4c837d80e1b110bd7127a0d8?s=200" />
+<meta property="og:type" content="article" />
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-31586582-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">blog.dm4.tw</a></h1>
+  
+    <h2>dm4's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.dm4.tw" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SECUINSIDE CTF Finals 2014 Writeup - Reversing 100</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-13T15:54:00+08:00" pubdate data-updated="true">Jul 13<span>th</span>, 2014</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://blog.dm4.tw">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>這題在現場沒解完&hellip;因為覺得應該只差一點點，回來之後果然弄出來了啊！</p>
+
+<figure class='code'><figcaption><span>wooyaggo&#8217;s field</span><a href='https://ctftime.org/task/1174'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>decrypt it and submit 4th line(without last character 0x0a)
+</span><span class='line'>
+</span><span class='line'>platin text example
+</span><span class='line'>1. AAA-111-ASRT-3.1-CC[n]
+</span><span class='line'>2. BBB-CCC-ASRT-9.5-DD[n]
+</span><span class='line'>
+</span><span class='line'>http://dl.ctftime.org/144/1174/59a67b2df52c3e0a1330a5952a619462584bba28
+</span><span class='line'>http://dl.ctftime.org/144/1174/enc.txt
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第一個連結載下來之後會發現是一個 zip 檔</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>$ file 59a67b2df52c3e0a1330a5952a619462584bba28
+</span><span class='line'>59a67b2df52c3e0a1330a5952a619462584bba28: Zip archive data, at least v1.0 to extract
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看了一下內容，會發現是 iOS App 的結構</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>$ unzip -l 59a67b2df52c3e0a1330a5952a619462584bba28
+</span><span class='line'>Archive:  59a67b2df52c3e0a1330a5952a619462584bba28
+</span><span class='line'>  Length     Date   Time    Name
+</span><span class='line'> --------    ----   ----    ----
+</span><span class='line'>        0  07-03-14 13:55   Payload/
+</span><span class='line'>        0  07-03-14 13:55   Payload/Inverse.app/
+</span><span class='line'>        0  07-03-14 13:55   Payload/Inverse.app/_CodeSignature/
+</span><span class='line'>     3074  07-03-14 13:55   Payload/Inverse.app/_CodeSignature/CodeResources
+</span><span class='line'>        0  07-03-14 13:55   Payload/Inverse.app/Base.lproj/
+</span><span class='line'>        0  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/
+</span><span class='line'>      258  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/Info.plist
+</span><span class='line'>        0  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/UIViewController-vXZ-lx-hvc.nib/
+</span><span class='line'>      953  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/UIViewController-vXZ-lx-hvc.nib/objects.nib
+</span><span class='line'>      953  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/UIViewController-vXZ-lx-hvc.nib/runtime.nib
+</span><span class='line'>        0  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/vXZ-lx-hvc-view-kh9-bI-dsS.nib/
+</span><span class='line'>     4276  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/vXZ-lx-hvc-view-kh9-bI-dsS.nib/objects.nib
+</span><span class='line'>     4454  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/vXZ-lx-hvc-view-kh9-bI-dsS.nib/runtime.nib
+</span><span class='line'>    13944  07-03-14 13:55   Payload/Inverse.app/embedded.mobileprovision
+</span><span class='line'>        0  07-03-14 13:55   Payload/Inverse.app/en.lproj/
+</span><span class='line'>       42  07-03-14 13:55   Payload/Inverse.app/en.lproj/InfoPlist.strings
+</span><span class='line'>     1332  07-03-14 13:55   Payload/Inverse.app/Info.plist
+</span><span class='line'>   210368  07-03-14 13:55   Payload/Inverse.app/Inverse
+</span><span class='line'>    14929  07-03-14 13:55   Payload/Inverse.app/LaunchImage-568h@2x.png
+</span><span class='line'>    14929  07-03-14 13:55   Payload/Inverse.app/LaunchImage-700-568h@2x.png
+</span><span class='line'>        8  07-03-14 13:55   Payload/Inverse.app/PkgInfo
+</span><span class='line'>      150  07-03-14 13:55   Payload/Inverse.app/ResourceRules.plist
+</span><span class='line'> --------                   -------
+</span><span class='line'>   269670                   22 files
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>用 <code>otool</code> 看一下執行檔有沒有被加密</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>$ otool -l Payload/Inverse.app/Inverse | grep -A5 LC_ENCRYPTION_INFO
+</span><span class='line'>          cmd LC_ENCRYPTION_INFO
+</span><span class='line'>      cmdsize 20
+</span><span class='line'>    cryptoff  16384
+</span><span class='line'>    cryptsize 16384
+</span><span class='line'>    cryptid   0
+</span><span class='line'>Load command 13
+</span><span class='line'>--
+</span><span class='line'>          cmd LC_ENCRYPTION_INFO
+</span><span class='line'>      cmdsize 20
+</span><span class='line'>    cryptoff  16384
+</span><span class='line'>    cryptsize 16384
+</span><span class='line'>    cryptid   0
+</span><span class='line'>Load command 13
+</span><span class='line'>--
+</span><span class='line'>          cmd LC_ENCRYPTION_INFO_64
+</span><span class='line'>      cmdsize 24
+</span><span class='line'>    cryptoff  16384
+</span><span class='line'>    cryptsize 16384
+</span><span class='line'>    cryptid   0
+</span><span class='line'>        pad   0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>cryptid</code> 是 0 表示沒有加密，所以我們可以直接來看 <code>Payload/Inverse.app/Inverse</code> ！</p>
+
+<p>看了 code 之後會發現在 <code>[ViewController viewDidLoad]</code> 裡會去讀 <code>/Users/hkpco/tmp/plain.txt</code> ，把檔案的內容當作參數傳給 <code>[ViewController es:]</code> ，在 <code>[ViewController es:]</code> 裡會把 <code>/Users/hkpco/tmp/plain.txt</code> 和 <code>/Users/hkpco/tmp/pass.txt</code> 做一些處理之後，把結果寫到 <code>/Users/hkpco/tmp/enc.txt</code></p>
+
+<p>把整段用 <code>ruby</code> 重寫會長得像</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;digest/sha1&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">s</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>  <span class="ss">Digest</span><span class="p">:</span><span class="ss">:SHA1</span><span class="o">.</span><span class="n">hexdigest</span> <span class="n">i</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">h2i</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">h</span><span class="o">.</span><span class="n">to_i</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">all</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">h</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">h2i</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">}</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="ss">:+</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">es</span><span class="p">(</span><span class="n">plain</span><span class="p">,</span> <span class="n">pass</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">enc</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>  <span class="nb">hash</span> <span class="o">=</span> <span class="n">s</span><span class="p">(</span><span class="n">pass</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">sum</span>  <span class="o">=</span> <span class="n">all</span><span class="p">(</span><span class="nb">hash</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.plain</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">result</span> <span class="o">=</span> <span class="n">plain</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="n">ord</span> <span class="o">+</span> <span class="n">h2i</span><span class="p">(</span><span class="nb">hash</span><span class="o">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">40</span><span class="o">]</span><span class="p">)</span> <span class="o">-</span> <span class="n">sum</span>
+</span><span class='line'>    <span class="n">sum</span>    <span class="o">=</span> <span class="n">all</span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">plain</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.i</span><span class="o">]</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">19</span><span class="o">]</span><span class="p">)</span> <span class="o">+</span> <span class="n">all</span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">sum</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">19</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">enc</span>   <span class="o">+=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">enc</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>所以看到目前為止，我們要做的應該是「只知道 <code>enc</code> ，想辦法推回原本的 <code>plain</code> 」，原本的 <code>pass</code> 是什麼對我們來說不重要，我們只要知道 <code>hash = s(pass)</code> 是什麼就好了！</p>
+
+<p>研究了一下會發現，如果要從 <code>enc</code> 逆推 <code>plain</code> 的話，只要暴搜每一輪的 <code>plain[i]</code> 和 <code>hash[i % 40]</code> ， <code>hash[i % 40]</code> 因為是 hex ，只會有 16 種可能，暴完 40 位的 <code>hash</code> 之後，再看 <code>sum</code> 的起始值有沒有滿足 <code>sum == all(hash)</code> 就可以知道結果了。</p>
+
+<p>比較討厭的是題目給的 <code>1. AAA-111-ASRT-3.1-CC[n]</code> ，真的去試的話會發現用 <code>1.</code> 開頭的 plain 是沒有解的，後面接 <code>[n]</code> 也是一樣，所以最後試出來每行的格式應該是像 <code>[0-9A-Z]{3}-[0-9A-Z]{3}-ASRT-\d\.\d-[0-9A-Z]{2}\n</code>&hellip;解這題的時候因為格式也卡了好久&hellip;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">enc</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>  <span class="o">-</span><span class="mi">178</span><span class="p">,</span> <span class="o">-</span><span class="mi">189</span><span class="p">,</span> <span class="o">-</span><span class="mi">255</span><span class="p">,</span> <span class="o">-</span><span class="mi">256</span><span class="p">,</span> <span class="o">-</span><span class="mi">193</span><span class="p">,</span> <span class="o">-</span><span class="mi">257</span><span class="p">,</span> <span class="o">-</span><span class="mi">235</span><span class="p">,</span> <span class="o">-</span><span class="mi">159</span><span class="p">,</span> <span class="o">-</span><span class="mi">198</span><span class="p">,</span> <span class="o">-</span><span class="mi">227</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">-</span><span class="mi">187</span><span class="p">,</span> <span class="o">-</span><span class="mi">187</span><span class="p">,</span> <span class="o">-</span><span class="mi">267</span><span class="p">,</span> <span class="o">-</span><span class="mi">221</span><span class="p">,</span> <span class="o">-</span><span class="mi">225</span><span class="p">,</span> <span class="o">-</span><span class="mi">228</span><span class="p">,</span> <span class="o">-</span><span class="mi">235</span><span class="p">,</span> <span class="o">-</span><span class="mi">249</span><span class="p">,</span> <span class="o">-</span><span class="mi">259</span><span class="p">,</span> <span class="o">-</span><span class="mi">287</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">-</span><span class="mi">230</span><span class="p">,</span> <span class="o">-</span><span class="mi">190</span><span class="p">,</span> <span class="o">-</span><span class="mi">196</span><span class="p">,</span> <span class="o">-</span><span class="mi">218</span><span class="p">,</span> <span class="o">-</span><span class="mi">269</span><span class="p">,</span> <span class="o">-</span><span class="mi">230</span><span class="p">,</span> <span class="o">-</span><span class="mi">259</span><span class="p">,</span> <span class="o">-</span><span class="mi">239</span><span class="p">,</span> <span class="o">-</span><span class="mi">221</span><span class="p">,</span> <span class="o">-</span><span class="mi">205</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">-</span><span class="mi">233</span><span class="p">,</span> <span class="o">-</span><span class="mi">253</span><span class="p">,</span> <span class="o">-</span><span class="mi">221</span><span class="p">,</span> <span class="o">-</span><span class="mi">228</span><span class="p">,</span> <span class="o">-</span><span class="mi">194</span><span class="p">,</span> <span class="o">-</span><span class="mi">312</span><span class="p">,</span> <span class="o">-</span><span class="mi">258</span><span class="p">,</span> <span class="o">-</span><span class="mi">120</span><span class="p">,</span> <span class="o">-</span><span class="mi">214</span><span class="p">,</span> <span class="o">-</span><span class="mi">269</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">-</span><span class="mi">255</span><span class="p">,</span> <span class="o">-</span><span class="mi">186</span><span class="p">,</span> <span class="o">-</span><span class="mi">215</span><span class="p">,</span> <span class="o">-</span><span class="mi">258</span><span class="p">,</span> <span class="o">-</span><span class="mi">252</span><span class="p">,</span> <span class="o">-</span><span class="mi">229</span><span class="p">,</span> <span class="o">-</span><span class="mi">234</span><span class="p">,</span> <span class="o">-</span><span class="mi">289</span><span class="p">,</span> <span class="o">-</span><span class="mi">215</span><span class="p">,</span> <span class="o">-</span><span class="mi">229</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">-</span><span class="mi">144</span><span class="p">,</span> <span class="o">-</span><span class="mi">199</span><span class="p">,</span> <span class="o">-</span><span class="mi">247</span><span class="p">,</span> <span class="o">-</span><span class="mi">174</span><span class="p">,</span> <span class="o">-</span><span class="mi">291</span><span class="p">,</span> <span class="o">-</span><span class="mi">202</span><span class="p">,</span> <span class="o">-</span><span class="mi">307</span><span class="p">,</span> <span class="o">-</span><span class="mi">195</span><span class="p">,</span> <span class="o">-</span><span class="mi">197</span><span class="p">,</span> <span class="o">-</span><span class="mi">237</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">-</span><span class="mi">264</span><span class="p">,</span> <span class="o">-</span><span class="mi">173</span><span class="p">,</span> <span class="o">-</span><span class="mi">197</span><span class="p">,</span> <span class="o">-</span><span class="mi">249</span><span class="p">,</span> <span class="o">-</span><span class="mi">290</span><span class="p">,</span> <span class="o">-</span><span class="mi">226</span><span class="p">,</span> <span class="o">-</span><span class="mi">225</span><span class="p">,</span> <span class="o">-</span><span class="mi">204</span><span class="p">,</span> <span class="o">-</span><span class="mi">238</span><span class="p">,</span> <span class="o">-</span><span class="mi">244</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">-</span><span class="mi">201</span><span class="p">,</span> <span class="o">-</span><span class="mi">152</span><span class="p">,</span> <span class="o">-</span><span class="mi">270</span><span class="p">,</span> <span class="o">-</span><span class="mi">244</span><span class="p">,</span> <span class="o">-</span><span class="mi">263</span><span class="p">,</span> <span class="o">-</span><span class="mi">155</span><span class="p">,</span> <span class="o">-</span><span class="mi">253</span><span class="p">,</span> <span class="o">-</span><span class="mi">229</span><span class="p">,</span> <span class="o">-</span><span class="mi">247</span><span class="p">,</span> <span class="o">-</span><span class="mi">319</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">-</span><span class="mi">229</span><span class="p">,</span> <span class="o">-</span><span class="mi">272</span><span class="p">,</span> <span class="o">-</span><span class="mi">264</span><span class="p">,</span> <span class="o">-</span><span class="mi">280</span><span class="p">,</span> <span class="o">-</span><span class="mi">188</span><span class="p">,</span> <span class="o">-</span><span class="mi">203</span><span class="p">,</span> <span class="o">-</span><span class="mi">259</span><span class="p">,</span> <span class="o">-</span><span class="mi">258</span><span class="p">,</span> <span class="o">-</span><span class="mi">261</span><span class="p">,</span> <span class="o">-</span><span class="mi">195</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">-</span><span class="mi">257</span><span class="p">,</span> <span class="o">-</span><span class="mi">166</span><span class="p">,</span> <span class="o">-</span><span class="mi">231</span><span class="p">,</span> <span class="o">-</span><span class="mi">207</span><span class="p">,</span> <span class="o">-</span><span class="mi">281</span><span class="p">,</span> <span class="o">-</span><span class="mi">191</span><span class="p">,</span> <span class="o">-</span><span class="mi">234</span><span class="p">,</span> <span class="o">-</span><span class="mi">210</span><span class="p">,</span> <span class="o">-</span><span class="mi">187</span><span class="p">,</span> <span class="o">-</span><span class="mi">309</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="o">-</span><span class="mi">172</span><span class="p">,</span> <span class="o">-</span><span class="mi">239</span><span class="p">,</span> <span class="o">-</span><span class="mi">225</span><span class="p">,</span> <span class="o">-</span><span class="mi">195</span><span class="p">,</span> <span class="o">-</span><span class="mi">238</span><span class="p">,</span> <span class="o">-</span><span class="mi">265</span><span class="p">,</span> <span class="o">-</span><span class="mi">260</span><span class="p">,</span> <span class="o">-</span><span class="mi">291</span><span class="p">,</span> <span class="o">-</span><span class="mi">185</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">-</span><span class="mi">196</span><span class="p">,</span> <span class="o">-</span><span class="mi">191</span><span class="p">,</span> <span class="o">-</span><span class="mi">216</span><span class="p">,</span> <span class="o">-</span><span class="mi">225</span><span class="p">,</span> <span class="o">-</span><span class="mi">237</span><span class="p">,</span> <span class="o">-</span><span class="mi">248</span><span class="p">,</span> <span class="o">-</span><span class="mi">222</span><span class="p">,</span> <span class="o">-</span><span class="mi">167</span><span class="p">,</span> <span class="o">-</span><span class="mi">240</span><span class="p">,</span> <span class="o">-</span><span class="mi">269</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">-</span><span class="mi">205</span><span class="p">,</span> <span class="o">-</span><span class="mi">172</span><span class="p">,</span> <span class="o">-</span><span class="mi">208</span><span class="p">,</span> <span class="o">-</span><span class="mi">235</span><span class="p">,</span> <span class="o">-</span><span class="mi">235</span><span class="p">,</span> <span class="o">-</span><span class="mi">223</span><span class="p">,</span> <span class="o">-</span><span class="mi">201</span><span class="p">,</span> <span class="o">-</span><span class="mi">254</span><span class="p">,</span> <span class="o">-</span><span class="mi">229</span><span class="p">,</span> <span class="o">-</span><span class="mi">230</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">-</span><span class="mi">209</span><span class="p">,</span> <span class="o">-</span><span class="mi">265</span><span class="p">,</span> <span class="o">-</span><span class="mi">312</span><span class="p">,</span> <span class="o">-</span><span class="mi">240</span><span class="p">,</span> <span class="o">-</span><span class="mi">201</span><span class="p">,</span> <span class="o">-</span><span class="mi">274</span><span class="p">,</span> <span class="o">-</span><span class="mi">258</span><span class="p">,</span> <span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="o">-</span><span class="mi">223</span><span class="p">,</span> <span class="o">-</span><span class="mi">250</span><span class="p">,</span>
+</span><span class='line'><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">plain</span><span class="p">,</span> <span class="n">enc</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">round</span> <span class="o">=</span> <span class="n">plain</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">round</span> <span class="o">&gt;</span> <span class="mi">39</span>
+</span><span class='line'>    <span class="nb">p</span> <span class="n">plain</span>
+</span><span class='line'>    <span class="k">return</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">round</span> <span class="sx">%= 20</span>
+</span><span class='line'><span class="sx">  if round =</span><span class="o">=</span> <span class="mi">3</span> <span class="o">||</span> <span class="n">round</span> <span class="o">==</span> <span class="mi">7</span> <span class="o">||</span> <span class="n">round</span> <span class="o">==</span> <span class="mi">12</span> <span class="o">||</span> <span class="n">round</span> <span class="o">==</span> <span class="mi">16</span>
+</span><span class='line'>    <span class="n">chars</span> <span class="o">=</span> <span class="o">[</span> <span class="s2">&quot;-&quot;</span> <span class="o">]</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">round</span> <span class="o">&gt;=</span> <span class="mi">8</span> <span class="o">&amp;&amp;</span> <span class="n">round</span> <span class="o">&lt;=</span> <span class="mi">11</span>
+</span><span class='line'>    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;ASRT&quot;</span>
+</span><span class='line'>    <span class="n">chars</span> <span class="o">=</span> <span class="o">[</span> <span class="n">s</span><span class="o">[</span><span class="n">round</span> <span class="o">-</span> <span class="mi">8</span><span class="o">]</span> <span class="o">]</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">round</span> <span class="o">==</span> <span class="mi">14</span>
+</span><span class='line'>    <span class="n">chars</span> <span class="o">=</span> <span class="o">[</span> <span class="s2">&quot;.&quot;</span> <span class="o">]</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">round</span> <span class="o">==</span> <span class="mi">13</span> <span class="o">||</span> <span class="n">round</span> <span class="o">==</span> <span class="mi">15</span>
+</span><span class='line'>    <span class="n">chars</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>    <span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;9&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="n">chars</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">round</span> <span class="o">==</span> <span class="mi">19</span>
+</span><span class='line'>    <span class="n">chars</span> <span class="o">=</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">]</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">chars</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>    <span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;9&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="n">chars</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>    <span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="n">chars</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">chars</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">plain</span> <span class="o">=</span> <span class="n">plain</span> <span class="o">+</span> <span class="n">c</span>
+</span><span class='line'>    <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">brute_es</span><span class="p">(</span><span class="n">plain</span><span class="p">,</span> <span class="n">enc</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">dfs</span><span class="p">(</span><span class="n">plain</span><span class="p">,</span> <span class="n">enc</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">break</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">plain</span> <span class="o">=</span> <span class="n">plain</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dfs</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">enc</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>一共會跑出 34 組，看到 <code>SEC-</code> 和 <code>KOR-</code> 就覺得應該沒解錯，不過直接用 ruby 跑其實有點久，有時間再來看一下怎麼加速 XD</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>$ time ruby solve.rb
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-J1\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-J2\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KD\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KE\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KJ\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KM\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KN\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KO\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-L0\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-L2\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-MR\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-MX\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-N5\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-NB\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-NC\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-ND\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-PT\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-PY\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q0\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q1\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q2\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q3\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-RX\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SN\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SQ\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SR\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SU\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-T7\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-TE\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-UP\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-UU\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-W0\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-W6\n&quot;
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-W8\n&quot;
+</span><span class='line'>
+</span><span class='line'>real    92m16.033s
+</span><span class='line'>user    92m12.464s
+</span><span class='line'>sys     0m3.675s
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下來就對這幾組，看他們的 <code>hash</code> 和 <code>sum == all(hash)</code> 了</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">plains</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-J1</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-J2</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-KD</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-KE</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-KJ</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-KM</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-KN</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-KO</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-L0</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-L2</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-MR</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-MX</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-N5</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-NB</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-NC</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-ND</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-PT</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-PY</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-Q0</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-Q1</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-Q2</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-Q3</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-RX</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-SN</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-SQ</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-SR</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-SU</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-T7</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-TE</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-UP</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-UU</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-W0</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-W6</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;SEC-41A-ASRT-3.1-OK</span><span class="se">\n</span><span class="s2">KOR-A43-ASRT-9.3-W8</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">rev_es</span><span class="p">(</span><span class="n">plain</span><span class="p">,</span> <span class="n">enc</span><span class="p">,</span> <span class="n">start</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">hash</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>  <span class="nb">hash</span> <span class="o">+=</span> <span class="n">start</span><span class="o">.</span><span class="n">to_s</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">first_sum</span> <span class="o">=</span> <span class="n">plain</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">ord</span> <span class="o">+</span> <span class="n">start</span> <span class="o">-</span> <span class="n">enc</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">sum</span> <span class="o">=</span> <span class="n">first_sum</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">sum</span> <span class="o">=</span> <span class="n">all</span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">plain</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">19</span><span class="o">]</span><span class="p">)</span> <span class="o">+</span> <span class="n">all</span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">sum</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">19</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.plain</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">r</span>   <span class="o">=</span> <span class="n">enc</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">-</span> <span class="n">plain</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="n">ord</span> <span class="o">+</span> <span class="n">sum</span>
+</span><span class='line'>    <span class="n">sum</span> <span class="o">=</span> <span class="n">all</span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">plain</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.i</span><span class="o">]</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">19</span><span class="o">]</span><span class="p">)</span> <span class="o">+</span> <span class="n">all</span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">sum</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">19</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">15</span>
+</span><span class='line'>    <span class="nb">hash</span> <span class="o">+=</span> <span class="n">r</span><span class="o">.</span><span class="n">to_s</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">p</span> <span class="nb">hash</span> <span class="k">if</span> <span class="n">all</span><span class="p">(</span><span class="nb">hash</span><span class="p">)</span> <span class="o">==</span> <span class="n">first_sum</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">decode_hash</span><span class="p">(</span><span class="n">plains</span><span class="p">,</span> <span class="n">enc</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>只有兩組符合條件</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>$ ruby solve.rb
+</span><span class='line'>&quot;011c945f30ce2cbafc452f39840f025693339c42&quot;
+</span><span class='line'>&quot;011c945f30ce2cbafc452f39840f025693339909&quot;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接著就直接用這兩組來解 enc ，看看哪個才是正解！</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">es_hash</span><span class="p">(</span><span class="n">enc</span><span class="p">,</span> <span class="nb">hash</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>  <span class="n">sum</span>  <span class="o">=</span> <span class="n">all</span><span class="p">(</span><span class="nb">hash</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.enc</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">c</span> <span class="o">=</span> <span class="n">enc</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">-</span> <span class="n">h2i</span><span class="p">(</span><span class="nb">hash</span><span class="o">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">40</span><span class="o">]</span><span class="p">)</span> <span class="o">+</span> <span class="n">sum</span>
+</span><span class='line'>    <span class="n">output</span> <span class="o">+=</span> <span class="n">c</span><span class="o">.</span><span class="n">chr</span>
+</span><span class='line'>    <span class="n">sum</span>    <span class="o">=</span> <span class="n">all</span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">19</span><span class="o">]</span><span class="p">)</span> <span class="o">+</span> <span class="n">all</span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">sum</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">19</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">output</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">p</span> <span class="n">es_hash</span><span class="p">(</span><span class="n">enc</span><span class="p">,</span> <span class="s2">&quot;011c945f30ce2cbafc452f39840f025693339c42&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">es_hash</span><span class="p">(</span><span class="n">enc</span><span class="p">,</span> <span class="s2">&quot;011c945f30ce2cbafc452f39840f025693339909&quot;</span><span class="p">)</span> <span class="c1"># error</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>用第一個 <code>hash</code> 可以成功還原 <code>plain</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>$ ruby solve.rb
+</span><span class='line'>&quot;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KO\nCOV-718-ASRT-7.9-QE\nCON-C1D-ASRT-1.1-CO\nCOM-ICQ-ASRT-1.9-KR\nLSA-IQ1-ASRT-3.0-KR\nAES-JOO-ASRT-9.9-KR\n&quot;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>所以 flag 應該就是第四行的 <code>CON-C1D-ASRT-1.1-CO</code> ！</p>
+
+<p>不過最後正確的 <code>hash</code> 是 <code>011c945f30ce2cbafc452f39840f025693339c42</code> ，其實 <code>pass</code> 就只是 <code>1111</code> 而已&hellip;</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">dm4</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-13T15:54:00+08:00" pubdate data-updated="true">Jul 13<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ctf/'>ctf</a>, <a class='category' href='/blog/categories/writeup/'>writeup</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.dm4.tw/blog/2014/07/13/secuinside-2014-final-writeup-reversing-100/" data-via="dm4" data-counturl="http://blog.dm4.tw/blog/2014/07/13/secuinside-2014-final-writeup-reversing-100/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="false" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/11/my-first-experience-with-phantomjs/" title="Previous Post: PhantomJS 初體驗">&laquo; PhantomJS 初體驗</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/07/13/secuinside-2014-final-writeup-reversing-100/">SECUINSIDE CTF Finals 2014 Writeup - Reversing 100</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/11/my-first-experience-with-phantomjs/">PhantomJS 初體驗</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/24/airplay-encryption/">AirPlay Encryption</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/22/convert-usb-keyboard-to-bluetooth-keyboard/">自製 USB 鍵盤轉藍芽鍵盤轉接器</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/23/vim-ia-writer-theme-for-markdown/">Vim iA Writer Theme for Markdown</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/09/xiao-e-fu-fei-jian-xun-zha-pian/">小額付費簡訊詐騙</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/08/ebctf-2013-writeup/">ebCTF 2013 Writeup</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/08/yong-xxd-jie-hex-string/">用 Xxd 解 Hex String</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dm4">@dm4</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dm4',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/111055170376328497079?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+  <h1>Twitter</h1>
+  <a class="twitter-timeline" href="https://twitter.com/dm4" data-widget-id="398539610571014144" data-tweet-limit="5" data-chrome="noscrollbar nofooter transparent">Tweets by @dm4</a>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - dm4 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'dm4';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.dm4.tw/blog/2014/07/13/secuinside-2014-final-writeup-reversing-100/';
+        var disqus_url = 'http://blog.dm4.tw/blog/2014/07/13/secuinside-2014-final-writeup-reversing-100/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
