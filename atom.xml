@@ -4,7 +4,7 @@
   <title><![CDATA[blog.dm4.tw]]></title>
   <link href="http://blog.dm4.tw/atom.xml" rel="self"/>
   <link href="http://blog.dm4.tw/"/>
-  <updated>2015-03-18T01:05:48+08:00</updated>
+  <updated>2015-03-18T01:10:24+08:00</updated>
   <id>http://blog.dm4.tw/</id>
   <author>
     <name><![CDATA[dm4]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[在 Mac OSX 上編譯 GH60 RevCHN firmware]]></title>
+    <title type="html"><![CDATA[在 Mac OSX 上編譯 GH60 RevCHN Firmware]]></title>
     <link href="http://blog.dm4.tw/blog/2015/03/17/build-gh60-revchn-on-mac/"/>
     <updated>2015-03-17T22:49:00+08:00</updated>
     <id>http://blog.dm4.tw/blog/2015/03/17/build-gh60-revchn-on-mac</id>
