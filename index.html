@@ -172,7 +172,65 @@ https://www.ptt.cc/bbs/Key_Mou_Pad/M.1390542876.A.073.html 步驟 根據 &hellip
 </pre></td><td class='code'><pre><code class=''><span class='line'>KEYMAP_IN_EEPROM_ENABLE = yes # Read keymap from eeprom</span></code></pre></td></tr></table></div></figure>
 
 
-<p>接下來就插上鍵盤，按一下背面的按鈕，直接試刷預設的 poker layout 看看</p>
+<p>接下來就插上鍵盤， OSX 應該會抓到一隻 GH60 ，可以用 <code>system_profiler SPUSBDataType</code> 指令檢查一下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(master) [~/workspace/tmk_keyboard_custom/keyboard/gh60] ➟  system_profiler SPUSBDataType
+</span><span class='line'>...
+</span><span class='line'>GH60:
+</span><span class='line'>
+</span><span class='line'>  Product ID: 0x6060
+</span><span class='line'>  Vendor ID: 0xfeed
+</span><span class='line'>  Version:  0.01
+</span><span class='line'>  Speed: Up to 12 Mb/sec
+</span><span class='line'>  Manufacturer: geekhack
+</span><span class='line'>  Location ID: 0x14100000 / 15
+</span><span class='line'>  Current Available (mA): 500
+</span><span class='line'>  Current Required (mA): 100</span></code></pre></td></tr></table></div></figure>
+
+
+<p>按一下背面的按鈕會進入 dfu 模式，這時候 OSX 應該會抓到一個 Atmel 的設備</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(master) [~/workspace/tmk_keyboard_custom/keyboard/gh60] ➟  system_profiler SPUSBDataType
+</span><span class='line'>...
+</span><span class='line'>ATm32U4DFU:
+</span><span class='line'>
+</span><span class='line'>  Product ID: 0x2ff4
+</span><span class='line'>  Vendor ID: 0x03eb  (Atmel Corporation)
+</span><span class='line'>  Version:  0.00
+</span><span class='line'>  Serial Number: 1.0.0
+</span><span class='line'>  Speed: Up to 12 Mb/sec
+</span><span class='line'>  Manufacturer: ATMEL
+</span><span class='line'>  Location ID: 0x14100000 / 16
+</span><span class='line'>  Current Available (mA): 500
+</span><span class='line'>  Current Required (mA): Unknown (Device has not been configured)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然後就可以直接試刷預設的 poker layout 看看</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>make dfu</span></code></pre></td></tr></table></div></figure>
