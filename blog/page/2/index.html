@@ -9,10 +9,10 @@
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="Web 5 結果回家研究了一下，終於把 Web 5 也解出來了！好後悔在 HITCON 花太多時間在看
-駭客觀察日記 啊啊啊 orz 這題的 提示二
-出來之後，可以發現長檔名的檔案/資料夾會因為 ~ 的縮寫而 disclosure ，所以可以寫個
-script 來踹，或是用 hint 裡有提到的 &hellip;">
+  <meta name="description" content="前幾天看了這篇 To understand the command line&hellip; 覺得蠻有趣的，大概是在說： awk: 作者名字的縮寫
+cat: concatenate
+more: 螢幕最下面會顯示 &ldquo;More&rdquo;
+less: more 的加強版，因為 & &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -38,10 +38,12 @@ script 來踹，或是用 hint 裡有提到的 &hellip;">
 <meta property="og:title" content="blog.dm4.tw" />
 <meta property="og:site_name" content="blog.dm4.tw" />
 <meta property="og:url" content="http://blog.dm4.tw/blog/page/2/" />
-<meta property="og:description" content="Web 5 結果回家研究了一下，終於把 Web 5 也解出來了！好後悔在 HITCON 花太多時間在看
-駭客觀察日記 啊啊啊 orz 這題的 提示二
-出來之後，可以發現長檔名的檔案/資料夾會因為 ~ 的縮寫而 disclosure ，所以可以寫個
-script 來踹，或是用 hint 裡有提到的 iis-shortname-scanner-poc 不過試了之後發現 file disclosure &hellip;" />
+<meta property="og:description" content="前幾天看了這篇 To understand the command line&hellip; 覺得蠻有趣的，大概是在說： awk: 作者名字的縮寫
+cat: concatenate
+more: 螢幕最下面會顯示 &ldquo;More&rdquo;
+less: more 的加強版，因為 &ldquo;less is more&rdquo; 所以叫 less
+ed: editor
+sed: &hellip;" />
 <meta property="og:image" content="http://www.gravatar.com/avatar/1b0b7bab4c837d80e1b110bd7127a0d8?s=200" />
 <meta property="og:type" content="website" />
 
@@ -93,6 +95,59 @@ script 來踹，或是用 hint 裡有提到的 iis-shortname-scanner-poc 不過�
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/27/command-line-xiao-zhi-shi/">Command Line 小知識</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-27T22:35:00+08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2013</time>
+        
+           | <a href="/blog/2013/01/27/command-line-xiao-zhi-shi/#disqus_thread"
+             data-disqus-identifier="http://blog.dm4.tw/blog/2013/01/27/command-line-xiao-zhi-shi/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前幾天看了這篇 <a href="http://geekblog.oneandoneis2.org/index.php/2012/09/30/to-understand-the-command-line">To understand the command line&hellip;</a> 覺得蠻有趣的，大概是在說：</p>
+
+<ul>
+<li><code>awk</code>: 作者名字的縮寫</li>
+<li><code>cat</code>: concatenate</li>
+<li><code>more</code>: 螢幕最下面會顯示 &ldquo;More&rdquo;</li>
+<li><code>less</code>: more 的加強版，因為 &ldquo;less is more&rdquo; 所以叫 less</li>
+<li><code>ed</code>: editor</li>
+<li><code>sed</code>: stream editor</li>
+<li><code>grep</code>: 在 <code>ed</code> 裡要找有包含特定字串的行並印出，本來是要用 <code>g/regular expression/p</code> ，簡寫成 <code>g/re/p</code> 就變成 <code>grep</code> 了</li>
+<li>hjkl 方向鍵是因為 <a href="http://www.catonmat.net/blog/why-vim-uses-hjkl-as-arrow-keys/">ADM-3A</a></li>
+<li><code>~</code> 代表 HOME 也是因為 <a href="http://www.catonmat.net/blog/why-vim-uses-hjkl-as-arrow-keys/">ADM-3A</a></li>
+<li><code>.</code> 開頭的檔案是隱藏檔，本來只是要跳過 <code>.</code> 和 <code>..</code> ，結果寫出有 bug 的 <code>if (name[0] == '.') continue;</code></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -557,6 +612,10 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/03/17/build-gh60-revchn-on-mac/">在 Mac OSX 上編譯 GH60 RevCHN Firmware</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/07/13/secuinside-2014-final-writeup-reversing-100/">SECUINSIDE CTF Finals 2014 Writeup - Reversing 100</a>
       </li>
     
@@ -582,10 +641,6 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
     
       <li class="post">
         <a href="/blog/2013/11/08/ebctf-2013-writeup/">ebCTF 2013 Writeup</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/11/08/yong-xxd-jie-hex-string/">用 Xxd 解 Hex String</a>
       </li>
     
   </ul>
@@ -643,7 +698,7 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - dm4 -
+  Copyright &copy; 2015 - dm4 -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

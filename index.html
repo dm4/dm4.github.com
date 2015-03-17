@@ -9,15 +9,9 @@
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="這題在現場沒解完&hellip;因為覺得應該只差一點點，回來之後果然弄出來了啊！ wooyaggo&#8217;s fieldlink1
-2
-3
-4
-5
-6
-7
-8
-decrypt it and submit 4th line(without last character 0x0a) platin &hellip;">
+  <meta name="description" content="來記錄一下在 Mac OSX 上，怎麼編譯和刷 GH60 RevCHN 的韌體 參考資料 http://www.v2ex.com/t/161887
+https://www.ptt.cc/bbs/Key_Mou_Pad/M.1426361327.A.EEB.html
+https://www.ptt. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -43,17 +37,9 @@ decrypt it and submit 4th line(without last character 0x0a) platin &hellip;">
 <meta property="og:title" content="blog.dm4.tw" />
 <meta property="og:site_name" content="blog.dm4.tw" />
 <meta property="og:url" content="http://blog.dm4.tw/" />
-<meta property="og:description" content="這題在現場沒解完&hellip;因為覺得應該只差一點點，回來之後果然弄出來了啊！ wooyaggo&#8217;s fieldlink1
-2
-3
-4
-5
-6
-7
-8
-decrypt it and submit 4th line(without last character 0x0a) platin text example
-1. AAA-111-ASRT-3.1-CC[n]
-2. BBB-CCC &hellip;" />
+<meta property="og:description" content="來記錄一下在 Mac OSX 上，怎麼編譯和刷 GH60 RevCHN 的韌體 參考資料 http://www.v2ex.com/t/161887
+https://www.ptt.cc/bbs/Key_Mou_Pad/M.1426361327.A.EEB.html
+https://www.ptt.cc/bbs/Key_Mou_Pad/M.1390542876.A.073.html 步驟 根據 &hellip;" />
 <meta property="og:image" content="http://www.gravatar.com/avatar/1b0b7bab4c837d80e1b110bd7127a0d8?s=200" />
 <meta property="og:type" content="website" />
 
@@ -105,6 +91,228 @@ decrypt it and submit 4th line(without last character 0x0a) platin text example
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/17/build-gh60-revchn-on-mac/">在 Mac OSX 上編譯 GH60 RevCHN Firmware</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-17T22:49:00+08:00" pubdate data-updated="true">Mar 17<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/03/17/build-gh60-revchn-on-mac/#disqus_thread"
+             data-disqus-identifier="http://blog.dm4.tw/blog/2015/03/17/build-gh60-revchn-on-mac/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>來記錄一下在 Mac OSX 上，怎麼編譯和刷 GH60 RevCHN 的韌體</p>
+
+<h3>參考資料</h3>
+
+<ul>
+<li><a href="http://www.v2ex.com/t/161887">http://www.v2ex.com/t/161887</a></li>
+<li><a href="https://www.ptt.cc/bbs/Key_Mou_Pad/M.1426361327.A.EEB.html">https://www.ptt.cc/bbs/Key_Mou_Pad/M.1426361327.A.EEB.html</a></li>
+<li><a href="https://www.ptt.cc/bbs/Key_Mou_Pad/M.1390542876.A.073.html">https://www.ptt.cc/bbs/Key_Mou_Pad/M.1390542876.A.073.html</a></li>
+</ul>
+
+
+<h3>步驟</h3>
+
+<p>根據 <a href="http://www.v2ex.com/t/161887">http://www.v2ex.com/t/161887</a> 首先要先用 brew 裝crosspack 和 dfu-programmer ，不過因為時間過太久，有點忘記詳細的安裝指令， crosspack 需要 <code>brew tap</code> 的樣子。</p>
+
+<p>裝完之後可以來載 source ，因為 [tmk/tmk_keyboard] 不支援 RevCHN ，所以要用 <a href="https://github.com/kairyu/tmk_keyboard_custom">kairyu/tmk_keyboard_custom</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone https://github.com/kairyu/tmk_keyboard_custom.git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>需要在 <code>config.h</code> 加上設定，來切換成 GH60 RevCHN</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd keyboard/gh60
+</span><span class='line'>vim config.h</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在檔案裡加上（如果你不確定加在哪，加到 <code>#define CONFIG_H</code> 下面就可以了）</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define GH60_REV_CHN</span></code></pre></td></tr></table></div></figure>
+
+
+<p>本來以為這樣就可以了，沒想到一直刷失敗，後來看了 <a href="http://www.v2ex.com/t/161887">http://www.v2ex.com/t/161887</a> 和 <a href="https://www.ptt.cc/bbs/Key_Mou_Pad/M.1426361327.A.EEB.html">https://www.ptt.cc/bbs/Key_Mou_Pad/M.1426361327.A.EEB.html</a> 兩篇，發現應該是要清空 EEPROM 的問題（可是我硬體知識不足，根本不知道那是什麼啊啊啊）</p>
+
+<p>ptt 那篇的解法是「在插入 usb 前，按住 backspace 與 space 」，不過我有找到 Makefie 裡有個設定，刪掉（註解掉）也是可以的，和大家分享一下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vim Makefile</span></code></pre></td></tr></table></div></figure>
+
+
+<p>把下面這行刪掉</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>KEYMAP_IN_EEPROM_ENABLE = yes # Read keymap from eeprom</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下來就插上鍵盤，按一下背面的按鈕，直接試刷預設的 poker layout 看看</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>make dfu</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果成功，在一堆 <code>avr-gcc</code> 的編譯訊之後，會看到</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dfu-programmer atmega32u4 erase
+</span><span class='line'>Checking memory from 0x0 to 0x6FFF...  Not blank at 0x1.
+</span><span class='line'>Erasing flash...  Success
+</span><span class='line'>Checking memory from 0x0 to 0x6FFF...  Empty.
+</span><span class='line'>dfu-programmer atmega32u4 flash gh60_lufa.hex
+</span><span class='line'>Checking memory from 0x0 to 0x69FF...  Empty.
+</span><span class='line'>0%                            100%  Programming 0x6A00 bytes...
+</span><span class='line'>[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;]  Success
+</span><span class='line'>0%                            100%  Reading 0x7000 bytes...
+</span><span class='line'>[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;]  Success
+</span><span class='line'>Validating...  Success
+</span><span class='line'>0x6A00 bytes written into 0x7000 bytes memory (94.64%).
+</span><span class='line'>dfu-programmer atmega32u4 reset</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣子最基本的 layout 就成功了，如果不確定是不是真的有刷進去，可以改一下 <code>keymap_poker.c</code> 裡的 layout 看是不是真的刷進去了（例如把 <code>Q</code> 改成 <code>X</code> 之類的）</p>
+
+<p>再來就可以自訂 layout 了，本來想很硬派的直接寫 c code ，不過覺得 code 裡很難排版，最後還是用 <a href="http://www.keyboard-layout-editor.com/">keyboard-layout-editor (KLE)</a> 和 <a href="http://www.enjoyclick.org/tkg/">TMK Keymap Generator (TKG)</a> 來生成 c code ，我用的 layout 是：</p>
+
+<ul>
+<li>Layer 0 (Default)
+
+<ul>
+<li><a href="http://www.keyboard-layout-editor.com/#/layouts/cc85b037963edc17fe98f84e970e3ca4">http://www.keyboard-layout-editor.com/#/layouts/cc85b037963edc17fe98f84e970e3ca4</a></li>
+</ul>
+</li>
+<li>Layer 1 (Fn1 層)
+
+<ul>
+<li><a href="http://www.keyboard-layout-editor.com/#/layouts/243985ccfe04859cdb078166f60cb781">http://www.keyboard-layout-editor.com/#/layouts/243985ccfe04859cdb078166f60cb781</a></li>
+</ul>
+</li>
+<li>Layer 2 (Fn0 層)
+
+<ul>
+<li><a href="http://www.keyboard-layout-editor.com/#/layouts/e9453e67d6a099406e002812aaca8687">http://www.keyboard-layout-editor.com/#/layouts/e9453e67d6a099406e002812aaca8687</a></li>
+</ul>
+</li>
+</ul>
+
+
+<p>然後在 <a href="http://www.enjoyclick.org/tkg/">TKG</a> 上的設定為：</p>
+
+<ul>
+<li>Keyboard
+
+<ul>
+<li>GH60 (RevCHN)</li>
+</ul>
+</li>
+<li>Layer Mode
+
+<ul>
+<li>Normal</li>
+</ul>
+</li>
+<li>Number of Layers
+
+<ul>
+<li>3</li>
+</ul>
+</li>
+<li>Fn0
+
+<ul>
+<li>Layer action > Momentary layer 2</li>
+</ul>
+</li>
+<li>Fn1
+
+<ul>
+<li>Layer action > Toggle layer 1</li>
+</ul>
+</li>
+</ul>
+
+
+<p>這裡要注意，我把 Fn0 層放在 layer 2 ，是因為 key mapping 會從高層讀到低層，如果把 Fn1 層換到 layer 2 ， Fn0 換到 layer 1 ，這樣子在切到 Fn1 層之後，按著 Fn0 也沒辦法切到 Fn0 層（同樣的問題在 <a href="https://www.ptt.cc/bbs/Key_Mou_Pad/M.1390542876.A.073.html">https://www.ptt.cc/bbs/Key_Mou_Pad/M.1390542876.A.073.html</a> 也有解釋）</p>
+
+<p>接著就在 <a href="http://www.enjoyclick.org/tkg/">TKG</a> 下載 <code>.c</code> 檔，把載下來的 <code>keymap.c</code> 放到資料夾下並改名，就可以準備刷了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mv ~/Downloads/keymap.c ./keymap_tkg.c
+</span><span class='line'>make KEYMAP=tkg dfu</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這時候如果你看到以下的 error 的話</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>keymap_tkg.c:29:78: error: macro "KEYMAP_TKG" requires 62 arguments, but only 61 given
+</span><span class='line'>         LCTL,LALT,LGUI,          SPC,                     FN0, RGUI,RALT,RCTL),</span></code></pre></td></tr></table></div></figure>
+
+
+<p>是因為 <a href="http://www.enjoyclick.org/tkg/">TKG</a> 生 <code>.c</code> 檔的時候好像有 bug ，載下來的檔案，裡面的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ESC, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0    MINS,EQL, BSPC, \</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>0</code> 和 <code>MINS</code> 中間少了 <code>,</code> ，所以改成</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ESC, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,    MINS,EQL, BSPC, \</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再編一次應該就 ok 了</p>
+
+<h3>後記</h3>
+
+<p>有一些 Fn action 現在還沒摸熟，看起來可以送 key / macro 的樣子，看到 <a href="https://github.com/kairyu/tmk_keyboard_custom/blob/master/keyboard/hhkb/keymap_hasu.c">https://github.com/kairyu/tmk_keyboard_custom/blob/master/keyboard/hhkb/keymap_hasu.c</a> 有一些 function / macro 的用法還沒研究。</p>
+
+<p>另外雖然編起來了，不過因為底層不熟，還不太清楚架構，希望研究一下之後可以把它和藍牙發射器接起來，之前的 <a href="http://blog.dm4.tw/blog/2014/04/22/convert-usb-keyboard-to-bluetooth-keyboard/">自製 USB 鍵盤轉藍芽鍵盤轉接器</a> 會有點 latency ，不知道如果直接讓 GH60 送訊號給藍牙模組會不會比較好。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2141,59 +2349,6 @@ Lookup C92A14084F64@Hello._raop._tcp..local
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/27/command-line-xiao-zhi-shi/">Command Line 小知識</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-27T22:35:00+08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2013</time>
-        
-           | <a href="/blog/2013/01/27/command-line-xiao-zhi-shi/#disqus_thread"
-             data-disqus-identifier="http://blog.dm4.tw/blog/2013/01/27/command-line-xiao-zhi-shi/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>前幾天看了這篇 <a href="http://geekblog.oneandoneis2.org/index.php/2012/09/30/to-understand-the-command-line">To understand the command line&hellip;</a> 覺得蠻有趣的，大概是在說：</p>
-
-<ul>
-<li><code>awk</code>: 作者名字的縮寫</li>
-<li><code>cat</code>: concatenate</li>
-<li><code>more</code>: 螢幕最下面會顯示 &ldquo;More&rdquo;</li>
-<li><code>less</code>: more 的加強版，因為 &ldquo;less is more&rdquo; 所以叫 less</li>
-<li><code>ed</code>: editor</li>
-<li><code>sed</code>: stream editor</li>
-<li><code>grep</code>: 在 <code>ed</code> 裡要找有包含特定字串的行並印出，本來是要用 <code>g/regular expression/p</code> ，簡寫成 <code>g/re/p</code> 就變成 <code>grep</code> 了</li>
-<li>hjkl 方向鍵是因為 <a href="http://www.catonmat.net/blog/why-vim-uses-hjkl-as-arrow-keys/">ADM-3A</a></li>
-<li><code>~</code> 代表 HOME 也是因為 <a href="http://www.catonmat.net/blog/why-vim-uses-hjkl-as-arrow-keys/">ADM-3A</a></li>
-<li><code>.</code> 開頭的檔案是隱藏檔，本來只是要跳過 <code>.</code> 和 <code>..</code> ，結果寫出有 bug 的 <code>if (name[0] == '.') continue;</code></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -2207,6 +2362,10 @@ Lookup C92A14084F64@Hello._raop._tcp..local
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/17/build-gh60-revchn-on-mac/">在 Mac OSX 上編譯 GH60 RevCHN Firmware</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/07/13/secuinside-2014-final-writeup-reversing-100/">SECUINSIDE CTF Finals 2014 Writeup - Reversing 100</a>
@@ -2234,10 +2393,6 @@ Lookup C92A14084F64@Hello._raop._tcp..local
     
       <li class="post">
         <a href="/blog/2013/11/08/ebctf-2013-writeup/">ebCTF 2013 Writeup</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/11/08/yong-xxd-jie-hex-string/">用 Xxd 解 Hex String</a>
       </li>
     
   </ul>
@@ -2295,7 +2450,7 @@ Lookup C92A14084F64@Hello._raop._tcp..local
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - dm4 -
+  Copyright &copy; 2015 - dm4 -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

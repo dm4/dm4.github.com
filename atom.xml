@@ -4,7 +4,7 @@
   <title><![CDATA[blog.dm4.tw]]></title>
   <link href="http://blog.dm4.tw/atom.xml" rel="self"/>
   <link href="http://blog.dm4.tw/"/>
-  <updated>2014-07-14T12:41:27+08:00</updated>
+  <updated>2015-03-18T01:05:48+08:00</updated>
   <id>http://blog.dm4.tw/</id>
   <author>
     <name><![CDATA[dm4]]></name>
@@ -12,6 +12,198 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在 Mac OSX 上編譯 GH60 RevCHN firmware]]></title>
+    <link href="http://blog.dm4.tw/blog/2015/03/17/build-gh60-revchn-on-mac/"/>
+    <updated>2015-03-17T22:49:00+08:00</updated>
+    <id>http://blog.dm4.tw/blog/2015/03/17/build-gh60-revchn-on-mac</id>
+    <content type="html"><![CDATA[<p>來記錄一下在 Mac OSX 上，怎麼編譯和刷 GH60 RevCHN 的韌體</p>
+
+<h3>參考資料</h3>
+
+<ul>
+<li><a href="http://www.v2ex.com/t/161887">http://www.v2ex.com/t/161887</a></li>
+<li><a href="https://www.ptt.cc/bbs/Key_Mou_Pad/M.1426361327.A.EEB.html">https://www.ptt.cc/bbs/Key_Mou_Pad/M.1426361327.A.EEB.html</a></li>
+<li><a href="https://www.ptt.cc/bbs/Key_Mou_Pad/M.1390542876.A.073.html">https://www.ptt.cc/bbs/Key_Mou_Pad/M.1390542876.A.073.html</a></li>
+</ul>
+
+
+<h3>步驟</h3>
+
+<p>根據 <a href="http://www.v2ex.com/t/161887">http://www.v2ex.com/t/161887</a> 首先要先用 brew 裝crosspack 和 dfu-programmer ，不過因為時間過太久，有點忘記詳細的安裝指令， crosspack 需要 <code>brew tap</code> 的樣子。</p>
+
+<p>裝完之後可以來載 source ，因為 [tmk/tmk_keyboard] 不支援 RevCHN ，所以要用 <a href="https://github.com/kairyu/tmk_keyboard_custom">kairyu/tmk_keyboard_custom</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone https://github.com/kairyu/tmk_keyboard_custom.git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>需要在 <code>config.h</code> 加上設定，來切換成 GH60 RevCHN</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd keyboard/gh60
+</span><span class='line'>vim config.h</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在檔案裡加上（如果你不確定加在哪，加到 <code>#define CONFIG_H</code> 下面就可以了）</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define GH60_REV_CHN</span></code></pre></td></tr></table></div></figure>
+
+
+<p>本來以為這樣就可以了，沒想到一直刷失敗，後來看了 <a href="http://www.v2ex.com/t/161887">http://www.v2ex.com/t/161887</a> 和 <a href="https://www.ptt.cc/bbs/Key_Mou_Pad/M.1426361327.A.EEB.html">https://www.ptt.cc/bbs/Key_Mou_Pad/M.1426361327.A.EEB.html</a> 兩篇，發現應該是要清空 EEPROM 的問題（可是我硬體知識不足，根本不知道那是什麼啊啊啊）</p>
+
+<p>ptt 那篇的解法是「在插入 usb 前，按住 backspace 與 space 」，不過我有找到 Makefie 裡有個設定，刪掉（註解掉）也是可以的，和大家分享一下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vim Makefile</span></code></pre></td></tr></table></div></figure>
+
+
+<p>把下面這行刪掉</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>KEYMAP_IN_EEPROM_ENABLE = yes # Read keymap from eeprom</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下來就插上鍵盤，按一下背面的按鈕，直接試刷預設的 poker layout 看看</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>make dfu</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果成功，在一堆 <code>avr-gcc</code> 的編譯訊之後，會看到</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dfu-programmer atmega32u4 erase
+</span><span class='line'>Checking memory from 0x0 to 0x6FFF...  Not blank at 0x1.
+</span><span class='line'>Erasing flash...  Success
+</span><span class='line'>Checking memory from 0x0 to 0x6FFF...  Empty.
+</span><span class='line'>dfu-programmer atmega32u4 flash gh60_lufa.hex
+</span><span class='line'>Checking memory from 0x0 to 0x69FF...  Empty.
+</span><span class='line'>0%                            100%  Programming 0x6A00 bytes...
+</span><span class='line'>[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;]  Success
+</span><span class='line'>0%                            100%  Reading 0x7000 bytes...
+</span><span class='line'>[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;]  Success
+</span><span class='line'>Validating...  Success
+</span><span class='line'>0x6A00 bytes written into 0x7000 bytes memory (94.64%).
+</span><span class='line'>dfu-programmer atmega32u4 reset</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣子最基本的 layout 就成功了，如果不確定是不是真的有刷進去，可以改一下 <code>keymap_poker.c</code> 裡的 layout 看是不是真的刷進去了（例如把 <code>Q</code> 改成 <code>X</code> 之類的）</p>
+
+<p>再來就可以自訂 layout 了，本來想很硬派的直接寫 c code ，不過覺得 code 裡很難排版，最後還是用 <a href="http://www.keyboard-layout-editor.com/">keyboard-layout-editor (KLE)</a> 和 <a href="http://www.enjoyclick.org/tkg/">TMK Keymap Generator (TKG)</a> 來生成 c code ，我用的 layout 是：</p>
+
+<ul>
+<li>Layer 0 (Default)
+
+<ul>
+<li><a href="http://www.keyboard-layout-editor.com/#/layouts/cc85b037963edc17fe98f84e970e3ca4">http://www.keyboard-layout-editor.com/#/layouts/cc85b037963edc17fe98f84e970e3ca4</a></li>
+</ul>
+</li>
+<li>Layer 1 (Fn1 層)
+
+<ul>
+<li><a href="http://www.keyboard-layout-editor.com/#/layouts/243985ccfe04859cdb078166f60cb781">http://www.keyboard-layout-editor.com/#/layouts/243985ccfe04859cdb078166f60cb781</a></li>
+</ul>
+</li>
+<li>Layer 2 (Fn0 層)
+
+<ul>
+<li><a href="http://www.keyboard-layout-editor.com/#/layouts/e9453e67d6a099406e002812aaca8687">http://www.keyboard-layout-editor.com/#/layouts/e9453e67d6a099406e002812aaca8687</a></li>
+</ul>
+</li>
+</ul>
+
+
+<p>然後在 <a href="http://www.enjoyclick.org/tkg/">TKG</a> 上的設定為：</p>
+
+<ul>
+<li>Keyboard
+
+<ul>
+<li>GH60 (RevCHN)</li>
+</ul>
+</li>
+<li>Layer Mode
+
+<ul>
+<li>Normal</li>
+</ul>
+</li>
+<li>Number of Layers
+
+<ul>
+<li>3</li>
+</ul>
+</li>
+<li>Fn0
+
+<ul>
+<li>Layer action > Momentary layer 2</li>
+</ul>
+</li>
+<li>Fn1
+
+<ul>
+<li>Layer action > Toggle layer 1</li>
+</ul>
+</li>
+</ul>
+
+
+<p>這裡要注意，我把 Fn0 層放在 layer 2 ，是因為 key mapping 會從高層讀到低層，如果把 Fn1 層換到 layer 2 ， Fn0 換到 layer 1 ，這樣子在切到 Fn1 層之後，按著 Fn0 也沒辦法切到 Fn0 層（同樣的問題在 <a href="https://www.ptt.cc/bbs/Key_Mou_Pad/M.1390542876.A.073.html">https://www.ptt.cc/bbs/Key_Mou_Pad/M.1390542876.A.073.html</a> 也有解釋）</p>
+
+<p>接著就在 <a href="http://www.enjoyclick.org/tkg/">TKG</a> 下載 <code>.c</code> 檔，把載下來的 <code>keymap.c</code> 放到資料夾下並改名，就可以準備刷了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mv ~/Downloads/keymap.c ./keymap_tkg.c
+</span><span class='line'>make KEYMAP=tkg dfu</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這時候如果你看到以下的 error 的話</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>keymap_tkg.c:29:78: error: macro "KEYMAP_TKG" requires 62 arguments, but only 61 given
+</span><span class='line'>         LCTL,LALT,LGUI,          SPC,                     FN0, RGUI,RALT,RCTL),</span></code></pre></td></tr></table></div></figure>
+
+
+<p>是因為 <a href="http://www.enjoyclick.org/tkg/">TKG</a> 生 <code>.c</code> 檔的時候好像有 bug ，載下來的檔案，裡面的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ESC, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0    MINS,EQL, BSPC, \</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>0</code> 和 <code>MINS</code> 中間少了 <code>,</code> ，所以改成</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ESC, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,    MINS,EQL, BSPC, \</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再編一次應該就 ok 了</p>
+
+<h3>後記</h3>
+
+<p>有一些 Fn action 現在還沒摸熟，看起來可以送 key / macro 的樣子，看到 <a href="https://github.com/kairyu/tmk_keyboard_custom/blob/master/keyboard/hhkb/keymap_hasu.c">https://github.com/kairyu/tmk_keyboard_custom/blob/master/keyboard/hhkb/keymap_hasu.c</a> 有一些 function / macro 的用法還沒研究。</p>
+
+<p>另外雖然編起來了，不過因為底層不熟，還不太清楚架構，希望研究一下之後可以把它和藍牙發射器接起來，之前的 <a href="http://blog.dm4.tw/blog/2014/04/22/convert-usb-keyboard-to-bluetooth-keyboard/">自製 USB 鍵盤轉藍芽鍵盤轉接器</a> 會有點 latency ，不知道如果直接讓 GH60 送訊號給藍牙模組會不會比較好。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[SECUINSIDE CTF Finals 2014 Writeup - Reversing 100]]></title>
