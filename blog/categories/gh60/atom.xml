@@ -4,7 +4,7 @@
   <title><![CDATA[Category: gh60 | blog.dm4.tw]]></title>
   <link href="http://blog.dm4.tw/blog/categories/gh60/atom.xml" rel="self"/>
   <link href="http://blog.dm4.tw/"/>
-  <updated>2015-03-18T01:19:49+08:00</updated>
+  <updated>2015-03-18T12:51:11+08:00</updated>
   <id>http://blog.dm4.tw/</id>
   <author>
     <name><![CDATA[dm4]]></name>
@@ -33,7 +33,7 @@
 
 <p>根據 <a href="http://www.v2ex.com/t/161887">http://www.v2ex.com/t/161887</a> 首先要先用 brew 裝crosspack 和 dfu-programmer ，不過因為時間過太久，有點忘記詳細的安裝指令， crosspack 需要 <code>brew tap</code> 的樣子。</p>
 
-<p>裝完之後可以來載 source ，因為 [tmk/tmk_keyboard] 不支援 RevCHN ，所以要用 <a href="https://github.com/kairyu/tmk_keyboard_custom">kairyu/tmk_keyboard_custom</a></p>
+<p>裝完之後可以來載 source ，因為 <a href="https://github.com/tmk/tmk_keyboard">tmk/tmk_keyboard</a> 不支援 RevCHN ，所以要用 <a href="https://github.com/kairyu/tmk_keyboard_custom">kairyu/tmk_keyboard_custom</a></p>
 
 <p><code>
 git clone https://github.com/kairyu/tmk_keyboard_custom.git
