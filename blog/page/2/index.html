@@ -9,10 +9,10 @@
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="前幾天看了這篇 To understand the command line&hellip; 覺得蠻有趣的，大概是在說： awk: 作者名字的縮寫
-cat: concatenate
-more: 螢幕最下面會顯示 &ldquo;More&rdquo;
-less: more 的加強版，因為 & &hellip;">
+  <meta name="description" content="Usage $ dns-sd
+dns-sd -E (Enumerate recommended registration domains)
+dns-sd -F (Enumerate recommended browsing domains)
+dns-sd -R &lt;Name&gt; &lt; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -38,12 +38,10 @@ less: more 的加強版，因為 & &hellip;">
 <meta property="og:title" content="blog.dm4.tw" />
 <meta property="og:site_name" content="blog.dm4.tw" />
 <meta property="og:url" content="http://blog.dm4.tw/blog/page/2/" />
-<meta property="og:description" content="前幾天看了這篇 To understand the command line&hellip; 覺得蠻有趣的，大概是在說： awk: 作者名字的縮寫
-cat: concatenate
-more: 螢幕最下面會顯示 &ldquo;More&rdquo;
-less: more 的加強版，因為 &ldquo;less is more&rdquo; 所以叫 less
-ed: editor
-sed: &hellip;" />
+<meta property="og:description" content="Usage $ dns-sd
+dns-sd -E (Enumerate recommended registration domains)
+dns-sd -F (Enumerate recommended browsing domains)
+dns-sd -R &lt;Name&gt; &lt;Type&gt; &lt;Domain&gt; &lt;Port&gt; [&lt;TXT&gt &hellip;" />
 <meta property="og:image" content="http://www.gravatar.com/avatar/1b0b7bab4c837d80e1b110bd7127a0d8?s=200" />
 <meta property="og:type" content="website" />
 
@@ -95,6 +93,79 @@ sed: &hellip;" />
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/08/dns-sd-and-airplay-slash-airtunes/">Dns-sd &amp; AirPlay / AirTunes</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-08T11:59:00+08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2013</time>
+        
+           | <a href="/blog/2013/11/08/dns-sd-and-airplay-slash-airtunes/#disqus_thread"
+             data-disqus-identifier="http://blog.dm4.tw/blog/2013/11/08/dns-sd-and-airplay-slash-airtunes/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Usage</h2>
+
+<pre><code>$ dns-sd
+dns-sd -E                  (Enumerate recommended registration domains)
+dns-sd -F                      (Enumerate recommended browsing domains)
+dns-sd -R &lt;Name&gt; &lt;Type&gt; &lt;Domain&gt; &lt;Port&gt; [&lt;TXT&gt;...] (Register a service)
+dns-sd -B        &lt;Type&gt; &lt;Domain&gt;        (Browse for services instances)
+dns-sd -L &lt;Name&gt; &lt;Type&gt; &lt;Domain&gt;           (Look up a service instance)
+dns-sd -P &lt;Name&gt; &lt;Type&gt; &lt;Domain&gt; &lt;Port&gt; &lt;Host&gt; &lt;IP&gt; [&lt;TXT&gt;...]  (Proxy)
+dns-sd -q &lt;name&gt; &lt;rrtype&gt; &lt;rrclass&gt; (Generic query for any record type)
+dns-sd -Z        &lt;Type&gt; &lt;Domain&gt;   (Output results in Zone File format)
+dns-sd -G     v4/v6/v4v6 &lt;name&gt;  (Get address information for hostname)
+dns-sd -V    (Get version of currently running daemon / system service)
+</code></pre>
+
+<h2>Type</h2>
+
+<ul>
+<li>AirTunes 是 <code>_raop._tcp.</code></li>
+<li>AirPlay 是 <code>_airplay._tcp.</code></li>
+</ul>
+
+
+<h2>Browse &amp; Look up</h2>
+
+<pre><code>$ dns-sd -B _raop._tcp
+Browsing for _raop._tcp
+Timestamp     A/R Flags if Domain                    Service Type              Instance Name
+17:05:13.971  Add     3  8 local.                    _raop._tcp.               C92A14084F64@Hello
+
+$ dns-sd -L "C92A14084F64@Hello" _raop._tcp.
+Lookup C92A14084F64@Hello._raop._tcp..local
+17:11:26.993  C92A14084F64@Hello._raop._tcp.local. can be reached at Hello.local.:50391 (interface 8) Flags: 1
+ et=0,3,5 cn=1,2,3 da=true sf=0x4 tp=UDP vv=1 pw=false am=AppleTV3,1 txtvers=1 vn=65537 md=0,1,2 vs=150.33 sv=false ch=2 sr=44100 rhd=4.6.5 ss=16
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -612,6 +683,10 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/04/19/modify-git-commit-time/">更改 Git Commit 時間</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/03/17/build-gh60-revchn-on-mac/">在 Mac OSX 上編譯 GH60 RevCHN Firmware</a>
       </li>
     
@@ -637,10 +712,6 @@ export PATH="$PERLBREW_PATH:$PATH_WITHOUT_PERLBREW"
     
       <li class="post">
         <a href="/blog/2013/11/09/xiao-e-fu-fei-jian-xun-zha-pian/">小額付費簡訊詐騙</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/11/08/ebctf-2013-writeup/">ebCTF 2013 Writeup</a>
       </li>
     
   </ul>

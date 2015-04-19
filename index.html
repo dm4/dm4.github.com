@@ -9,9 +9,7 @@
   <meta name="author" content="dm4">
 
   
-  <meta name="description" content="來記錄一下在 Mac OSX 上，怎麼編譯和刷 GH60 RevCHN 的韌體 參考資料 http://www.v2ex.com/t/161887
-https://www.ptt.cc/bbs/Key_Mou_Pad/M.1426361327.A.EEB.html
-https://www.ptt. &hellip;">
+  <meta name="description" content="最近剛好需要更改 git repo 的 commit time ，研究了一下順便把它記錄下來。 首先需要知道的是，在 git 裡，因為 commit 是可以被修改的，在一個 commit 裡其實會記錄 author 和 committer ， author 就是寫 code 的人， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -37,9 +35,7 @@ https://www.ptt. &hellip;">
 <meta property="og:title" content="blog.dm4.tw" />
 <meta property="og:site_name" content="blog.dm4.tw" />
 <meta property="og:url" content="http://blog.dm4.tw/" />
-<meta property="og:description" content="來記錄一下在 Mac OSX 上，怎麼編譯和刷 GH60 RevCHN 的韌體 參考資料 http://www.v2ex.com/t/161887
-https://www.ptt.cc/bbs/Key_Mou_Pad/M.1426361327.A.EEB.html
-https://www.ptt.cc/bbs/Key_Mou_Pad/M.1390542876.A.073.html 步驟 根據 &hellip;" />
+<meta property="og:description" content="最近剛好需要更改 git repo 的 commit time ，研究了一下順便把它記錄下來。 首先需要知道的是，在 git 裡，因為 commit 是可以被修改的，在一個 commit 裡其實會記錄 author 和 committer ， author 就是寫 code 的人， committer 則是真正提交 code 的人， 用法大概是：對某個你不是 maintainer 的 &hellip;" />
 <meta property="og:image" content="http://www.gravatar.com/avatar/1b0b7bab4c837d80e1b110bd7127a0d8?s=200" />
 <meta property="og:type" content="website" />
 
@@ -91,6 +87,197 @@ https://www.ptt.cc/bbs/Key_Mou_Pad/M.1390542876.A.073.html 步驟 根據 &hellip
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/19/modify-git-commit-time/">更改 Git Commit 時間</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-19T22:38:00+08:00" pubdate data-updated="true">Apr 19<span>th</span>, 2015</time>
+        
+           | <a href="/blog/2015/04/19/modify-git-commit-time/#disqus_thread"
+             data-disqus-identifier="http://blog.dm4.tw/blog/2015/04/19/modify-git-commit-time/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近剛好需要更改 git repo 的 commit time ，研究了一下順便把它記錄下來。</p>
+
+<p>首先需要知道的是，在 git 裡，因為 commit 是可以被修改的，在一個 commit 裡其實會記錄 <strong>author</strong> 和 <strong>committer</strong> ， <strong>author</strong> 就是寫 code 的人， <strong>committer</strong> 則是真正提交 code 的人，</p>
+
+<p>用法大概是：對某個你不是 maintainer 的 project ，你寫了一個新功能，然後用 <code>git format-patch</code> 生出了 patch ，接著你把這個 patch 送給 maintainer ，在 maintainer 決定採用你的 patch 之後，用 <code>git apply</code> 來採用你的 commit ，接著他再 <code>git commit</code> ， code 才進到 repo 裡，這個新 commit 的 <strong>author</strong> 就是你， <strong>committer</strong> 就是真的做 <code>git commit</code> 的那個 maintainer 。</p>
+
+<p>為什麼改 commit 時間，會要知道 git 裡的 author 和 committer 呢？因為在更改 commit 時間時，如果沒有特別注意的話，會只改到 commit time ，並且該 commit 的 committer 會變成自己，原本的 author 資訊和 author time 會保留下來，所以如果不想讓人發現曾經改過 commit 的話，必須把 committer 設成原本的 author ，也要把 author time 改成想要的 commit time 。</p>
+
+<p>知道這些之後大概就沒問題了，可以用 <code>git filter-branch</code> (<a href="http://git-scm.com/docs/git-filter-branch">http://git-scm.com/docs/git-filter-branch</a>) 來做：</p>
+
+<h2>Script &amp; Setup</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[~/modify-commit-time] ➟  ls
+</span><span class='line'>modify_commit_time.sh*
+</span><span class='line'>[~/modify-commit-time] ➟  cat modify_commit_time.sh
+</span><span class='line'># clear previous backup
+</span><span class='line'>rm -rf "$(git rev-parse --git-dir)/refs/original/"
+</span><span class='line'>
+</span><span class='line'>commit="$1"
+</span><span class='line'>date=$(date -d "$2" +%s)
+</span><span class='line'>git filter-branch --env-filter \
+</span><span class='line'>    "if [ \$GIT_COMMIT = '$commit' ]; then
+</span><span class='line'>         export GIT_AUTHOR_DATE='$date'
+</span><span class='line'>         export GIT_COMMITTER_DATE='$date'
+</span><span class='line'>         export GIT_COMMITTER_NAME="\$GIT_AUTHOR_NAME"
+</span><span class='line'>         export GIT_COMMITTER_EMAIL="\$GIT_AUTHOR_EMAIL"
+</span><span class='line'>     fi"
+</span><span class='line'>[~/modify-commit-time] ➟  git init
+</span><span class='line'>Initialized empty Git repository in /home/dm4/modify-commit-time/.git/
+</span><span class='line'>(master) [~/modify-commit-time] ➟  git add modify_commit_time.sh
+</span><span class='line'>(master) [~/modify-commit-time] ➟  git commit -m 'add script'
+</span><span class='line'>[master (root-commit) 9c4c1d0] add script
+</span><span class='line'> 1 file changed, 12 insertions(+)
+</span><span class='line'> create mode 100755 modify_commit_time.sh
+</span><span class='line'>(master) [~/modify-commit-time] ➟  echo '# Hello' &gt; README.md
+</span><span class='line'>(master) [~/modify-commit-time] ➟  git add README.md
+</span><span class='line'>(master) [~/modify-commit-time] ➟  git commit -m 'add README'
+</span><span class='line'>[master a2913a7] add README
+</span><span class='line'> 1 file changed, 1 insertion(+)
+</span><span class='line'> create mode 100644 README.md</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看到現在有兩個 commit</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(master) [~/modify-commit-time] ➟  git log --pretty=fuller
+</span><span class='line'>commit a2913a7c39977dd3c4f99f8cabc6fae5b3694cb2
+</span><span class='line'>Author:     dm4 &lt;test@example.com&gt;
+</span><span class='line'>AuthorDate: Sun Apr 19 16:48:33 2015 +0000
+</span><span class='line'>Commit:     dm4 &lt;test@example.com&gt;
+</span><span class='line'>CommitDate: Sun Apr 19 16:48:33 2015 +0000
+</span><span class='line'>
+</span><span class='line'>    add README
+</span><span class='line'>
+</span><span class='line'>commit 9c4c1d0b4499683ab0ba80dd7041b477c0adb2f0
+</span><span class='line'>Author:     dm4 &lt;test@example.com&gt;
+</span><span class='line'>AuthorDate: Sun Apr 19 16:48:33 2015 +0000
+</span><span class='line'>Commit:     dm4 &lt;test@example.com&gt;
+</span><span class='line'>CommitDate: Sun Apr 19 16:48:33 2015 +0000
+</span><span class='line'>
+</span><span class='line'>    add script</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Modify Commit Time</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(master) [~/modify-commit-time] ➟  ./modify_commit_time.sh 9c4c1d0b4499683ab0ba80dd7041b477c0adb2f0 '3 month ago'
+</span><span class='line'>Rewrite a2913a7c39977dd3c4f99f8cabc6fae5b3694cb2 (2/2)
+</span><span class='line'>Ref 'refs/heads/master' was rewritten</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Result</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(master) [~/modify-commit-time] ➟  git log --pretty=fuller
+</span><span class='line'>commit 9552b631000134921a75f173fa7313c1a90cb96e
+</span><span class='line'>Author:     dm4 &lt;test@example.com&gt;
+</span><span class='line'>AuthorDate: Sun Apr 19 16:48:33 2015 +0000
+</span><span class='line'>Commit:     dm4 &lt;test@example.com&gt;
+</span><span class='line'>CommitDate: Sun Apr 19 16:48:33 2015 +0000
+</span><span class='line'>
+</span><span class='line'>    add README
+</span><span class='line'>
+</span><span class='line'>commit 67e6f5a501703e98f8d9711ade8ab3a51775c265
+</span><span class='line'>Author:     dm4 &lt;test@example.com&gt;
+</span><span class='line'>AuthorDate: Mon Jan 19 16:49:02 2015 +0000
+</span><span class='line'>Commit:     dm4 &lt;test@example.com&gt;
+</span><span class='line'>CommitDate: Mon Jan 19 16:49:02 2015 +0000
+</span><span class='line'>
+</span><span class='line'>    add script</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這裡可以看到雖然只改了 <code>add script</code> 的 commit ，但是連 <code>add README</code> 的 commit id 也變了，這是因為 git 在算 hash 的時候，也會包含 parent 的 commit id ，所以 parent 的 commit id 變了，所有的 child commit id 都會跟著變，這個在寫 script 批次處理的時候需要注意一下。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2334,79 +2521,6 @@ echo urlencode(base64_encode($b))."\n";
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/08/dns-sd-and-airplay-slash-airtunes/">Dns-sd &amp; AirPlay / AirTunes</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-08T11:59:00+08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2013</time>
-        
-           | <a href="/blog/2013/11/08/dns-sd-and-airplay-slash-airtunes/#disqus_thread"
-             data-disqus-identifier="http://blog.dm4.tw/blog/2013/11/08/dns-sd-and-airplay-slash-airtunes/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Usage</h2>
-
-<pre><code>$ dns-sd
-dns-sd -E                  (Enumerate recommended registration domains)
-dns-sd -F                      (Enumerate recommended browsing domains)
-dns-sd -R &lt;Name&gt; &lt;Type&gt; &lt;Domain&gt; &lt;Port&gt; [&lt;TXT&gt;...] (Register a service)
-dns-sd -B        &lt;Type&gt; &lt;Domain&gt;        (Browse for services instances)
-dns-sd -L &lt;Name&gt; &lt;Type&gt; &lt;Domain&gt;           (Look up a service instance)
-dns-sd -P &lt;Name&gt; &lt;Type&gt; &lt;Domain&gt; &lt;Port&gt; &lt;Host&gt; &lt;IP&gt; [&lt;TXT&gt;...]  (Proxy)
-dns-sd -q &lt;name&gt; &lt;rrtype&gt; &lt;rrclass&gt; (Generic query for any record type)
-dns-sd -Z        &lt;Type&gt; &lt;Domain&gt;   (Output results in Zone File format)
-dns-sd -G     v4/v6/v4v6 &lt;name&gt;  (Get address information for hostname)
-dns-sd -V    (Get version of currently running daemon / system service)
-</code></pre>
-
-<h2>Type</h2>
-
-<ul>
-<li>AirTunes 是 <code>_raop._tcp.</code></li>
-<li>AirPlay 是 <code>_airplay._tcp.</code></li>
-</ul>
-
-
-<h2>Browse &amp; Look up</h2>
-
-<pre><code>$ dns-sd -B _raop._tcp
-Browsing for _raop._tcp
-Timestamp     A/R Flags if Domain                    Service Type              Instance Name
-17:05:13.971  Add     3  8 local.                    _raop._tcp.               C92A14084F64@Hello
-
-$ dns-sd -L "C92A14084F64@Hello" _raop._tcp.
-Lookup C92A14084F64@Hello._raop._tcp..local
-17:11:26.993  C92A14084F64@Hello._raop._tcp.local. can be reached at Hello.local.:50391 (interface 8) Flags: 1
- et=0,3,5 cn=1,2,3 da=true sf=0x4 tp=UDP vv=1 pw=false am=AppleTV3,1 txtvers=1 vn=65537 md=0,1,2 vs=150.33 sv=false ch=2 sr=44100 rhd=4.6.5 ss=16
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -2420,6 +2534,10 @@ Lookup C92A14084F64@Hello._raop._tcp..local
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/19/modify-git-commit-time/">更改 Git Commit 時間</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/03/17/build-gh60-revchn-on-mac/">在 Mac OSX 上編譯 GH60 RevCHN Firmware</a>
@@ -2447,10 +2565,6 @@ Lookup C92A14084F64@Hello._raop._tcp..local
     
       <li class="post">
         <a href="/blog/2013/11/09/xiao-e-fu-fei-jian-xun-zha-pian/">小額付費簡訊詐騙</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/11/08/ebctf-2013-writeup/">ebCTF 2013 Writeup</a>
       </li>
     
   </ul>
