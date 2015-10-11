@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://blog.dm4.tw/blog/2015/10/11/personal-finance-softwares/</loc>
+    <lastmod>2015-10-11T20:54:03+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://blog.dm4.tw/blog/2015/04/19/modify-git-commit-time/</loc>
     <lastmod>2015-04-19T22:38:00+08:00</lastmod>
   </url>
@@ -173,6 +177,9 @@
   </url>
   <url>
     <loc>http://blog.dm4.tw/blog/categories/git/</loc>
+  </url>
+  <url>
+    <loc>http://blog.dm4.tw/blog/categories/software/</loc>
   </url>
   <url>
     <loc>http://blog.dm4.tw/posts/2/</loc>
