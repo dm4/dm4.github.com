@@ -4,7 +4,7 @@
   <title><![CDATA[Category: wargame | blog.dm4.tw]]></title>
   <link href="http://blog.dm4.tw/blog/categories/wargame/atom.xml" rel="self"/>
   <link href="http://blog.dm4.tw/"/>
-  <updated>2015-10-11T19:58:37+08:00</updated>
+  <updated>2015-10-11T20:52:55+08:00</updated>
   <id>http://blog.dm4.tw/</id>
   <author>
     <name><![CDATA[dm4]]></name>
@@ -42,8 +42,7 @@
 
 <h2>BIN300</h2>
 
-<p><code>
-$ gdb
+<pre><code>$ gdb
 (gdb) file moon
 (gdb) b luaL_loadbuffer
 Breakpoint 1 at 0x411110
@@ -53,7 +52,7 @@ Breakpoint 1, 0x0000000000411110 in luaL_loadbuffer ()
 0x627340 &lt;content.2593&gt;:    "p = 54111037\ng = 56321\n\nio.write(\"Enter your password: \")\nio.flush()\npassword=io.read()\nif string.len(password) ~= 32 then\n    print(\"Wrong!\")\n    return 0\nend\n\nv = g\nalpha = \"0123456789abcdef\"\nfor lo"...
 0x627408 &lt;content.2593+200&gt;:    "op =1,32 do\n    v = v * g\n    v = v % p\n    r = v % 16\n    good = string.sub(alpha,r+1,r+1)\n    if good ~= string.sub(password,loop,loop) then\n        print(\"Wrong!\")\n        return 0\n    end\nend\nprin"...
 0x6274d0 &lt;content.2593+400&gt;:    "t(\"Well done, the flag is: ebCTF{\"..password..\"}\")\n-- f02233aca4839124ee6ffa766883c47e\n"
-</code></p>
+</code></pre>
 
 <h3>Reference</h3>
 
@@ -77,38 +76,29 @@ Breakpoint 1, 0x0000000000411110 in luaL_loadbuffer ()
 
 <p>所以做 md5 collision ，原本檔案的內容是對自己做簡單的 hash 再從 hash 決定要印哪一句：</p>
 
-<p>```
-// by seanwu</p>
-
-<h2>include &lt;stdio.h></h2>
-
-<p>const char* str[5]= {</p>
-
-<pre><code>"All Eindbazen are wearing wooden shoes",
-"All Eindbazen live in a windmill",
-"All Eindbazen grow their own tulips",
-"All Eindbazen smoke weed all day",
-"All Eindbazen are cheap bastards"
-</code></pre>
-
-<p>};
-int main(int argc,char **argv){</p>
-
-<pre><code>FILE* f=fopen(argv[0],"rb");
-fseek(f,-20005,SEEK_END);
-int x=0;
-unsigned char z;
-for( int i=0; i&lt;20000; i++ ){
-    fread(&amp;z,1,1,f);
-    x=(x*33331+z)%5;
+<pre><code>// by seanwu
+##include &lt;stdio.h&gt;
+const char* str[5]= {
+    "All Eindbazen are wearing wooden shoes",
+    "All Eindbazen live in a windmill",
+    "All Eindbazen grow their own tulips",
+    "All Eindbazen smoke weed all day",
+    "All Eindbazen are cheap bastards"
+};
+int main(int argc,char **argv){
+    FILE* f=fopen(argv[0],"rb");
+    fseek(f,-20005,SEEK_END);
+    int x=0;
+    unsigned char z;
+    for( int i=0; i&lt;20000; i++ ){
+        fread(&amp;z,1,1,f);
+        x=(x*33331+z)%5;
+    }
+    x=(x+5)%5;
+    puts(str[x]);
+    return 0;
 }
-x=(x+5)%5;
-puts(str[x]);
-return 0;
 </code></pre>
-
-<p>}
-```</p>
 
 <h3>Reference</h3>
 
@@ -130,11 +120,10 @@ return 0;
 </ul>
 
 
-<p>```
-$ echo &lsquo;KZUJJUN06TR3T2T6ABTEAB163A3NREE1JZ6N3QFLIYHMP X7V6C6TUK53TZ653N2UNRB316WE11VZ3UV3AKKZUJJ3RV 6D6SZ6J32S11D353TDVZUN0UK68U2N6V23312T33V646N VE4VA36NJZ6N3NSAB3TQFLIYHMPX78UNRT30ETRKBTEAF QQ8U16J6VEV63KHQ8U164ES1U216W3TLL8U16EJJ13KFI Y8U1613386N3K346NRJETV62VZ321E0B4F4Q7&rsquo; | tr -d &lsquo; &rsquo; | tr KZUJN06TR32ABEQFLIYHMPX7VC54 shipngordefmba0123456789tjvc</p>
+<pre><code>$ echo 'KZUJJUN06TR3T2T6ABTEAB163A3NREE1JZ6N3QFLIYHMP X7V6C6TUK53TZ653N2UNRB316WE11VZ3UV3AKKZUJJ3RV 6D6SZ6J32S11D353TDVZUN0UK68U2N6V23312T33V646N VE4VA36NJZ6N3NSAB3TQFLIYHMPX78UNRT30ETRKBTEAF QQ8U16J6VEV63KHQ8U164ES1U216W3TLL8U16EJJ13KFI Y8U1613386N3K346NRJETV62VZ321E0B4F4Q7' | tr -d ' ' | tr KZUJN06TR32ABEQFLIYHMPX7VC54 shipngordefmba0123456789tjvc
 
-<p>shippingorderfrombramb1oemendaa1phone0123456789tojorisverhovenfindbe1oWa11theitemsshippedtoDoShopefS11DeverDthingiso8ifnotfee1freetocontactmeonphonenSmber01234567898indregardsbram1008i1opotatoes508i1ocaS1if1oWer228i1oapp1es1348i1o1ee8onesecondpartofthef1agbc1c09
-```</p>
+shippingorderfrombramb1oemendaa1phone0123456789tojorisverhovenfindbe1oWa11theitemsshippedtoDoShopefS11DeverDthingiso8ifnotfee1freetocontactmeonphonenSmber01234567898indregardsbram1008i1opotatoes508i1ocaS1if1oWer228i1oapp1es1348i1o1ee8onesecondpartofthef1agbc1c09
+</code></pre>
 
 <ul>
 <li><p>3rd PART</p>
@@ -146,10 +135,9 @@ $ echo &lsquo;KZUJJUN06TR3T2T6ABTEAB163A3NREE1JZ6N3QFLIYHMP X7V6C6TUK53TZ653N2UN
 </ul>
 
 
-<p>```
-$ echo &lsquo;thhneu hpeitr eafnw frleo otata uoghb rfirf ttseo&rsquo; | tr &lsquo; &rsquo; $&lsquo;\n&rsquo;</p>
+<pre><code>$ echo 'thhneu hpeitr eafnw frleo otata uoghb rfirf ttseo' | tr ' ' $'\n'
 
-<p>thhneu
+thhneu
 hpeitr
 eafnw
 frleo
@@ -157,7 +145,7 @@ otata
 uoghb
 rfirf
 ttseo
-```</p>
+</code></pre>
 
 <ul>
 <li><p>5th PART</p>
@@ -166,11 +154,10 @@ ttseo
 </ul>
 
 
-<p>```
-$ cat 5.txt | tr &ldquo;[:lower:]&rdquo; &ldquo;[:upper:]&rdquo; | tr SIWZGDRYUOMKQBTJPNFEHLX aistheflgbuprodywmcknxv</p>
+<pre><code>$ cat 5.txt | tr "[:lower:]" "[:upper:]" | tr SIWZGDRYUOMKQBTJPNFEHLX aistheflgbuprodywmcknxv
 
-<p>a common mistake made by foreigners is that the netherlands legaliAed the use of cannabis and other recreational soft drugs. according the law any use of drugs is still illegal, but there is a tolerancy policy called gedoogbeleid for any soft drugs. this is a set of guidelines telling public prosecutors under which circumstances offenders should not be prosecuted. according to current gedoogbeleid the possession of a maximum amount of five grams cannabis for personal use is not prosecuted. cultivation is treated in a similar way. cultivation of 5 plants or less is usually not prosecuted when they are renounced by the cultivator.  so if you come to the netherlands and want to try some recreational use of soft drugs, beware that it is not legal. the fifth part for the flag is ab1fde
-```</p>
+a common mistake made by foreigners is that the netherlands legaliAed the use of cannabis and other recreational soft drugs. according the law any use of drugs is still illegal, but there is a tolerancy policy called gedoogbeleid for any soft drugs. this is a set of guidelines telling public prosecutors under which circumstances offenders should not be prosecuted. according to current gedoogbeleid the possession of a maximum amount of five grams cannabis for personal use is not prosecuted. cultivation is treated in a similar way. cultivation of 5 plants or less is usually not prosecuted when they are renounced by the cultivator.  so if you come to the netherlands and want to try some recreational use of soft drugs, beware that it is not legal. the fifth part for the flag is ab1fde
+</code></pre>
 
 <ul>
 <li><p>6th PART</p>
@@ -179,12 +166,11 @@ $ cat 5.txt | tr &ldquo;[:lower:]&rdquo; &ldquo;[:upper:]&rdquo; | tr SIWZGDRYUO
 </ul>
 
 
-<p>```
-$ cat 6.txt | tr &ldquo;[:upper:]&rdquo; &ldquo;[:lower:]&rdquo; | tr abcdefghijklmnopqrstuvwxyz wxyzabcdefghijklmnopqrstuv</p>
+<pre><code>$ cat 6.txt | tr "[:upper:]" "[:lower:]" | tr abcdefghijklmnopqrstuvwxyz wxyzabcdefghijklmnopqrstuv
 
-<p>the delta works is a series of construction projects in the southwest of the netherlands to protect a large area of land around the rhine-meuse-scheldt delta from the sea. the works consist of dams, sluices, locks, dikes, levees, and storm surge barriers. the aim of the dams, sluices, and storm surge barriers was to shorten the dutch coastline, thus reducing the number of dikes that had to be raised.
+the delta works is a series of construction projects in the southwest of the netherlands to protect a large area of land around the rhine-meuse-scheldt delta from the sea. the works consist of dams, sluices, locks, dikes, levees, and storm surge barriers. the aim of the dams, sluices, and storm surge barriers was to shorten the dutch coastline, thus reducing the number of dikes that had to be raised.
 along with the zuiderzee works, delta works have been declared one of the seven wonders of the modern world by the american society of civil engineers. the last part of the flag is: one-five-f-three-four-}
-```</p>
+</code></pre>
 
 <h2>CRY200</h2>
 
@@ -217,48 +203,38 @@ along with the zuiderzee works, delta works have been declared one of the seven 
 
 <p>感覺就是他了！所以試著 <code>grep ctf.py</code> 沒東西之後，再試了 <code>grep sys.argv</code> 會找到一段 <code>python</code> code</p>
 
-<p>```
-import sys
+<pre><code>import sys
 import time
 import random
 import signal
 from Crypto.Cipher import AES
-key1 = &ldquo;is this where&rdquo;
+key1 = "is this where"
 key2 = sys.argv[1]
-key3 = raw_input(&ldquo;Password: &rdquo;)
-iv = &lsquo;a very random iv&rsquo;
-secret = &lsquo;./flag&rsquo;
+key3 = raw_input("Password: ")
+iv = 'a very random iv'
+secret = './flag'
 mode = AES.MODE_CBC
-def encrypt(signum, frame):</p>
-
-<pre><code>key = key1 + key2 + key3
-enc = AES.new(key, mode, iv)
-inp = raw_input("Enter secret: ")
-diff = len(inp) % 16
-if diff != 0:
-inp += ' ' * (16 - diff)
-with open(secret, 'wb') as outfile:
-    outfile.write(enc.encrypt(inp))
-del key, enc
-</code></pre>
-
-<p>def decrypt(signum, frame):</p>
-
-<pre><code>key = key1 + key2 + key3
-enc = AES.new(key, mode, iv)
-with open(secret, 'rb') as infile:
-    print(enc.decrypt(infile.read(48)))
-del key, enc
-</code></pre>
-
-<p>signal.signal(signal.SIGUSR1, encrypt)
+def encrypt(signum, frame):
+    key = key1 + key2 + key3
+    enc = AES.new(key, mode, iv)
+    inp = raw_input("Enter secret: ")
+    diff = len(inp) % 16
+    if diff != 0:
+    inp += ' ' * (16 - diff)
+    with open(secret, 'wb') as outfile:
+        outfile.write(enc.encrypt(inp))
+    del key, enc
+def decrypt(signum, frame):
+    key = key1 + key2 + key3
+    enc = AES.new(key, mode, iv)
+    with open(secret, 'rb') as infile:
+        print(enc.decrypt(infile.read(48)))
+    del key, enc
+signal.signal(signal.SIGUSR1, encrypt)
 signal.signal(signal.SIGUSR2, decrypt)
-while True:</p>
-
-<pre><code>time.sleep(1)
+while True:
+    time.sleep(1)
 </code></pre>
-
-<p>```</p>
 
 <p>接著要找 <code>key3</code> ，試著 <code>grep 'i hide my'</code> 之後找到一行</p>
 
@@ -297,8 +273,7 @@ while True:</p>
 
 <p>這題一開始只給了 <code>112 + 386 + 712 + 1398 + 8771 + 11982 + 15397 + 23984 = 51037</code> ，連到網頁看到了 <code>X-Powered-By:*knock knock*</code> ，猜測是要做 port knocking ！</p>
 
-<p><code>
-$ nc -w 1 54.216.81.14 112;
+<pre><code>$ nc -w 1 54.216.81.14 112;
 $ nc -w 1 54.216.81.14 386;
 $ nc -w 1 54.216.81.14 712;
 $ nc -w 1 54.216.81.14 1398;
@@ -309,20 +284,16 @@ $ nc -w 1 54.216.81.14 23984;
 $ nc -w 1 54.216.81.14 51037;
 So you are knocking me, how about I return the favor?
 Repeat after me and I will open the last port…
-</code></p>
+</code></pre>
 
 <p>下一階段的提示是要照著對方敲我們 port 的順序敲回去，我們是利用 <code>iptables</code> 來把進來的 tcp connection 記錄下來：</p>
 
-<p>```</p>
-
-<h1>iptables -A INPUT -p tcp -j LOG &mdash;log-prefix &lsquo; INPUT TCP &rsquo; &mdash;log-level 4</h1>
-
-<p>```</p>
+<pre><code># iptables -A INPUT -p tcp -j LOG --log-prefix ' INPUT TCP ' --log-level 4
+</code></pre>
 
 <p>接著會在 <code>/var/log/kern.log</code> 拿到記錄，接著再敲回去：</p>
 
-<p>```
-$ nc -w 1 54.216.81.14 8112;
+<pre><code>$ nc -w 1 54.216.81.14 8112;
 $ nc -w 1 54.216.81.14 33386;
 $ nc -w 1 54.216.81.14 14712;
 $ nc -w 1 54.216.81.14 4398;
@@ -331,22 +302,18 @@ $ nc -w 1 54.216.81.14 52313;
 $ nc -w 1 54.216.81.14 25697;
 $ nc -w 1 54.216.81.14 932;
 $ nc -w 1 54.216.81.14 22222;
-[Advanced]</p>
-
-<pre><code>    sequence    = 234,781,983,2411,9781,14954,23112,63991
-    seq_timeout = 15
-    command     = /sbin/iptables -A INPUT -s %IP% -p tcp --dport 32154 -j ACCEPT
-    tcpflags    = fin,urg,!ack
-    cmd_timeout = 30
-    stop_command = /sbin/iptables -D INPUT -s %IP% -p tcp --dport 32154 -j ACCEPT
+[Advanced]
+        sequence    = 234,781,983,2411,9781,14954,23112,63991
+        seq_timeout = 15
+        command     = /sbin/iptables -A INPUT -s %IP% -p tcp --dport 32154 -j ACCEPT
+        tcpflags    = fin,urg,!ack
+        cmd_timeout = 30
+        stop_command = /sbin/iptables -D INPUT -s %IP% -p tcp --dport 32154 -j ACCEPT
 </code></pre>
-
-<p>```</p>
 
 <p>拿到第三階段的提示了！查了一下發現是 <a href="http://www.zeroflux.org/projects/knock/">knockd</a> 的設定檔，這次會檢查 tcp flags ，我們是用 (hping)[<a href="http://www.hping.org/">http://www.hping.org/</a>] 來設 tcp flags</p>
 
-<p><code>
-hping3 -c 1 -F -U -p 234   54.216.81.14
+<pre><code>hping3 -c 1 -F -U -p 234   54.216.81.14
 hping3 -c 1 -F -U -p 781   54.216.81.14
 hping3 -c 1 -F -U -p 983   54.216.81.14
 hping3 -c 1 -F -U -p 2411  54.216.81.14
@@ -354,7 +321,7 @@ hping3 -c 1 -F -U -p 9781  54.216.81.14
 hping3 -c 1 -F -U -p 14954 54.216.81.14
 hping3 -c 1 -F -U -p 23112 54.216.81.14
 hping3 -c 1 -F -U -p 63991 54.216.81.14
-</code></p>
+</code></pre>
 
 <p>最後再連 port 32154 就會噴 flag 了！</p>
 

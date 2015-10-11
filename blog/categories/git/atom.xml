@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | blog.dm4.tw]]></title>
   <link href="http://blog.dm4.tw/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://blog.dm4.tw/"/>
-  <updated>2015-10-11T19:58:37+08:00</updated>
+  <updated>2015-10-11T20:52:55+08:00</updated>
   <id>http://blog.dm4.tw/</id>
   <author>
     <name><![CDATA[dm4]]></name>
@@ -30,97 +30,82 @@
 
 <h2>Script &amp; Setup</h2>
 
-<p>```
-[~/modify-commit-time] ➟  ls
+<pre><code>[~/modify-commit-time] ➟  ls
 modify_commit_time.sh*
-[~/modify-commit-time] ➟  cat modify_commit_time.sh</p>
+[~/modify-commit-time] ➟  cat modify_commit_time.sh
+# clear previous backup
+rm -rf "$(git rev-parse --git-dir)/refs/original/"
 
-<h1>clear previous backup</h1>
-
-<p>rm -rf &ldquo;$(git rev-parse &mdash;git-dir)/refs/original/&rdquo;</p>
-
-<p>commit=&ldquo;$1&rdquo;
-date=$(date -d &ldquo;$2&rdquo; +%s)
-git filter-branch &mdash;env-filter \</p>
-
-<pre><code>"if [ \$GIT_COMMIT = '$commit' ]; then
-     export GIT_AUTHOR_DATE='$date'
-     export GIT_COMMITTER_DATE='$date'
-     export GIT_COMMITTER_NAME="\$GIT_AUTHOR_NAME"
-     export GIT_COMMITTER_EMAIL="\$GIT_AUTHOR_EMAIL"
- fi"
-</code></pre>
-
-<p>[~/modify-commit-time] ➟  git init
+commit="$1"
+date=$(date -d "$2" +%s)
+git filter-branch --env-filter \
+    "if [ \$GIT_COMMIT = '$commit' ]; then
+         export GIT_AUTHOR_DATE='$date'
+         export GIT_COMMITTER_DATE='$date'
+         export GIT_COMMITTER_NAME="\$GIT_AUTHOR_NAME"
+         export GIT_COMMITTER_EMAIL="\$GIT_AUTHOR_EMAIL"
+     fi"
+[~/modify-commit-time] ➟  git init
 Initialized empty Git repository in /home/dm4/modify-commit-time/.git/
 (master) [~/modify-commit-time] ➟  git add modify_commit_time.sh
-(master) [~/modify-commit-time] ➟  git commit -m &lsquo;add script&rsquo;
+(master) [~/modify-commit-time] ➟  git commit -m 'add script'
 [master (root-commit) 9c4c1d0] add script
  1 file changed, 12 insertions(+)
  create mode 100755 modify_commit_time.sh
-(master) [~/modify-commit-time] ➟  echo &lsquo;# Hello&rsquo; > README.md
+(master) [~/modify-commit-time] ➟  echo '# Hello' &gt; README.md
 (master) [~/modify-commit-time] ➟  git add README.md
-(master) [~/modify-commit-time] ➟  git commit -m &lsquo;add README&rsquo;
+(master) [~/modify-commit-time] ➟  git commit -m 'add README'
 [master a2913a7] add README
  1 file changed, 1 insertion(+)
  create mode 100644 README.md
-```</p>
+</code></pre>
 
 <p>可以看到現在有兩個 commit</p>
 
-<p>```
-(master) [~/modify-commit-time] ➟  git log &mdash;pretty=fuller
+<pre><code>(master) [~/modify-commit-time] ➟  git log --pretty=fuller
 commit a2913a7c39977dd3c4f99f8cabc6fae5b3694cb2
-Author:     dm4 <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#x74;&#101;&#x73;&#x74;&#64;&#x65;&#x78;&#97;&#x6d;&#x70;&#x6c;&#x65;&#x2e;&#x63;&#111;&#x6d;">&#116;&#x65;&#115;&#116;&#64;&#101;&#120;&#x61;&#x6d;&#x70;&#x6c;&#101;&#46;&#99;&#111;&#109;</a>
+Author:     dm4 &lt;test@example.com&gt;
 AuthorDate: Sun Apr 19 16:48:33 2015 +0000
-Commit:     dm4 <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#58;&#116;&#x65;&#x73;&#x74;&#64;&#101;&#120;&#x61;&#109;&#x70;&#108;&#101;&#x2e;&#99;&#x6f;&#109;">&#x74;&#101;&#x73;&#x74;&#64;&#101;&#120;&#97;&#109;&#112;&#x6c;&#x65;&#x2e;&#x63;&#x6f;&#109;</a>
-CommitDate: Sun Apr 19 16:48:33 2015 +0000</p>
+Commit:     dm4 &lt;test@example.com&gt;
+CommitDate: Sun Apr 19 16:48:33 2015 +0000
 
-<pre><code>add README
-</code></pre>
+    add README
 
-<p>commit 9c4c1d0b4499683ab0ba80dd7041b477c0adb2f0
-Author:     dm4 <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#116;&#101;&#115;&#116;&#x40;&#101;&#x78;&#97;&#109;&#x70;&#x6c;&#x65;&#46;&#x63;&#x6f;&#109;">&#116;&#x65;&#115;&#x74;&#x40;&#x65;&#120;&#x61;&#109;&#x70;&#108;&#x65;&#x2e;&#99;&#x6f;&#x6d;</a>
+commit 9c4c1d0b4499683ab0ba80dd7041b477c0adb2f0
+Author:     dm4 &lt;test@example.com&gt;
 AuthorDate: Sun Apr 19 16:48:33 2015 +0000
-Commit:     dm4 <a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#116;&#101;&#x73;&#116;&#64;&#x65;&#x78;&#x61;&#x6d;&#x70;&#x6c;&#101;&#46;&#99;&#111;&#x6d;">&#116;&#101;&#x73;&#x74;&#x40;&#x65;&#x78;&#97;&#109;&#x70;&#x6c;&#101;&#x2e;&#99;&#111;&#109;</a>
-CommitDate: Sun Apr 19 16:48:33 2015 +0000</p>
+Commit:     dm4 &lt;test@example.com&gt;
+CommitDate: Sun Apr 19 16:48:33 2015 +0000
 
-<pre><code>add script
+    add script
 </code></pre>
-
-<p>```</p>
 
 <h2>Modify Commit Time</h2>
 
-<p><code>
-(master) [~/modify-commit-time] ➟  ./modify_commit_time.sh 9c4c1d0b4499683ab0ba80dd7041b477c0adb2f0 '3 month ago'
+<pre><code>(master) [~/modify-commit-time] ➟  ./modify_commit_time.sh 9c4c1d0b4499683ab0ba80dd7041b477c0adb2f0 '3 month ago'
 Rewrite a2913a7c39977dd3c4f99f8cabc6fae5b3694cb2 (2/2)
 Ref 'refs/heads/master' was rewritten
-</code></p>
+</code></pre>
 
 <h2>Result</h2>
 
-<p>```
-(master) [~/modify-commit-time] ➟  git log &mdash;pretty=fuller
+<pre><code>(master) [~/modify-commit-time] ➟  git log --pretty=fuller
 commit 9552b631000134921a75f173fa7313c1a90cb96e
-Author:     dm4 <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x74;&#101;&#x73;&#x74;&#64;&#101;&#120;&#x61;&#109;&#112;&#x6c;&#101;&#x2e;&#99;&#x6f;&#x6d;">&#116;&#101;&#115;&#116;&#x40;&#x65;&#120;&#x61;&#109;&#112;&#x6c;&#x65;&#46;&#x63;&#111;&#109;</a>
+Author:     dm4 &lt;test@example.com&gt;
 AuthorDate: Sun Apr 19 16:48:33 2015 +0000
-Commit:     dm4 <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#116;&#x65;&#115;&#116;&#64;&#x65;&#x78;&#x61;&#x6d;&#x70;&#108;&#101;&#46;&#x63;&#111;&#109;">&#x74;&#101;&#x73;&#116;&#x40;&#101;&#120;&#x61;&#109;&#112;&#108;&#101;&#x2e;&#99;&#x6f;&#x6d;</a>
-CommitDate: Sun Apr 19 16:48:33 2015 +0000</p>
+Commit:     dm4 &lt;test@example.com&gt;
+CommitDate: Sun Apr 19 16:48:33 2015 +0000
 
-<pre><code>add README
-</code></pre>
+    add README
 
-<p>commit 67e6f5a501703e98f8d9711ade8ab3a51775c265
-Author:     dm4 <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#116;&#x65;&#x73;&#116;&#64;&#101;&#x78;&#97;&#x6d;&#x70;&#x6c;&#101;&#46;&#99;&#111;&#x6d;">&#116;&#101;&#115;&#116;&#64;&#101;&#x78;&#x61;&#x6d;&#x70;&#x6c;&#x65;&#46;&#x63;&#x6f;&#x6d;</a>
+commit 67e6f5a501703e98f8d9711ade8ab3a51775c265
+Author:     dm4 &lt;test@example.com&gt;
 AuthorDate: Mon Jan 19 16:49:02 2015 +0000
-Commit:     dm4 <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#116;&#101;&#115;&#116;&#64;&#101;&#x78;&#97;&#109;&#x70;&#108;&#101;&#x2e;&#99;&#111;&#x6d;">&#x74;&#x65;&#115;&#x74;&#64;&#x65;&#120;&#x61;&#109;&#112;&#108;&#x65;&#x2e;&#x63;&#111;&#109;</a>
-CommitDate: Mon Jan 19 16:49:02 2015 +0000</p>
+Commit:     dm4 &lt;test@example.com&gt;
+CommitDate: Mon Jan 19 16:49:02 2015 +0000
 
-<pre><code>add script
+    add script
 </code></pre>
-
-<p>```</p>
 
 <p>這裡可以看到雖然只改了 <code>add script</code> 的 commit ，但是連 <code>add README</code> 的 commit id 也變了，這是因為 git 在算 hash 的時候，也會包含 parent 的 commit id ，所以 parent 的 commit id 變了，所有的 child commit id 都會跟著變，這個在寫 script 批次處理的時候需要注意一下。</p>
 ]]></content>

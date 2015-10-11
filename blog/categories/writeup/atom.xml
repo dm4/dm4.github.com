@@ -4,7 +4,7 @@
   <title><![CDATA[Category: writeup | blog.dm4.tw]]></title>
   <link href="http://blog.dm4.tw/blog/categories/writeup/atom.xml" rel="self"/>
   <link href="http://blog.dm4.tw/"/>
-  <updated>2015-10-11T19:58:37+08:00</updated>
+  <updated>2015-10-11T20:52:55+08:00</updated>
   <id>http://blog.dm4.tw/</id>
   <author>
     <name><![CDATA[dm4]]></name>
@@ -20,16 +20,15 @@
     <id>http://blog.dm4.tw/blog/2014/07/13/secuinside-2014-final-writeup-reversing-100</id>
     <content type="html"><![CDATA[<p>這題在現場沒解完&hellip;因為覺得應該只差一點點，回來之後果然弄出來了啊！</p>
 
-<p>``` text wooyaggo&rsquo;s field <a href="https://ctftime.org/task/1174">https://ctftime.org/task/1174</a>
-decrypt it and submit 4th line(without last character 0x0a)</p>
+<pre><code class="text wooyaggo's field https://ctftime.org/task/1174">decrypt it and submit 4th line(without last character 0x0a)
 
-<p>platin text example
+platin text example
 1. AAA-111-ASRT-3.1-CC[n]
-2. BBB-CCC-ASRT-9.5-DD[n]</p>
+2. BBB-CCC-ASRT-9.5-DD[n]
 
-<p><a href="http://dl.ctftime.org/144/1174/59a67b2df52c3e0a1330a5952a619462584bba28">http://dl.ctftime.org/144/1174/59a67b2df52c3e0a1330a5952a619462584bba28</a>
-<a href="http://dl.ctftime.org/144/1174/enc.txt">http://dl.ctftime.org/144/1174/enc.txt</a>
-```</p>
+http://dl.ctftime.org/144/1174/59a67b2df52c3e0a1330a5952a619462584bba28
+http://dl.ctftime.org/144/1174/enc.txt
+</code></pre>
 
 <p>第一個連結載下來之後會發現是一個 zip 檔
 <code>text
@@ -39,77 +38,60 @@ $ file 59a67b2df52c3e0a1330a5952a619462584bba28
 
 <p>看了一下內容，會發現是 iOS App 的結構</p>
 
-<p>``` text
-$ unzip -l 59a67b2df52c3e0a1330a5952a619462584bba28
+<pre><code class="text">$ unzip -l 59a67b2df52c3e0a1330a5952a619462584bba28
 Archive:  59a67b2df52c3e0a1330a5952a619462584bba28
-  Length     Date   Time    Name</p>
-
-<hr />
-
-<pre><code>    0  07-03-14 13:55   Payload/
-    0  07-03-14 13:55   Payload/Inverse.app/
-    0  07-03-14 13:55   Payload/Inverse.app/_CodeSignature/
- 3074  07-03-14 13:55   Payload/Inverse.app/_CodeSignature/CodeResources
-    0  07-03-14 13:55   Payload/Inverse.app/Base.lproj/
-    0  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/
-  258  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/Info.plist
-    0  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/UIViewController-vXZ-lx-hvc.nib/
-  953  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/UIViewController-vXZ-lx-hvc.nib/objects.nib
-  953  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/UIViewController-vXZ-lx-hvc.nib/runtime.nib
-    0  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/vXZ-lx-hvc-view-kh9-bI-dsS.nib/
- 4276  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/vXZ-lx-hvc-view-kh9-bI-dsS.nib/objects.nib
- 4454  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/vXZ-lx-hvc-view-kh9-bI-dsS.nib/runtime.nib
-13944  07-03-14 13:55   Payload/Inverse.app/embedded.mobileprovision
-    0  07-03-14 13:55   Payload/Inverse.app/en.lproj/
-   42  07-03-14 13:55   Payload/Inverse.app/en.lproj/InfoPlist.strings
- 1332  07-03-14 13:55   Payload/Inverse.app/Info.plist
+  Length     Date   Time    Name
+ --------    ----   ----    ----
+        0  07-03-14 13:55   Payload/
+        0  07-03-14 13:55   Payload/Inverse.app/
+        0  07-03-14 13:55   Payload/Inverse.app/_CodeSignature/
+     3074  07-03-14 13:55   Payload/Inverse.app/_CodeSignature/CodeResources
+        0  07-03-14 13:55   Payload/Inverse.app/Base.lproj/
+        0  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/
+      258  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/Info.plist
+        0  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/UIViewController-vXZ-lx-hvc.nib/
+      953  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/UIViewController-vXZ-lx-hvc.nib/objects.nib
+      953  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/UIViewController-vXZ-lx-hvc.nib/runtime.nib
+        0  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/vXZ-lx-hvc-view-kh9-bI-dsS.nib/
+     4276  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/vXZ-lx-hvc-view-kh9-bI-dsS.nib/objects.nib
+     4454  07-03-14 13:55   Payload/Inverse.app/Base.lproj/Main.storyboardc/vXZ-lx-hvc-view-kh9-bI-dsS.nib/runtime.nib
+    13944  07-03-14 13:55   Payload/Inverse.app/embedded.mobileprovision
+        0  07-03-14 13:55   Payload/Inverse.app/en.lproj/
+       42  07-03-14 13:55   Payload/Inverse.app/en.lproj/InfoPlist.strings
+     1332  07-03-14 13:55   Payload/Inverse.app/Info.plist
+   210368  07-03-14 13:55   Payload/Inverse.app/Inverse
+    14929  07-03-14 13:55   Payload/Inverse.app/LaunchImage-568h@2x.png
+    14929  07-03-14 13:55   Payload/Inverse.app/LaunchImage-700-568h@2x.png
+        8  07-03-14 13:55   Payload/Inverse.app/PkgInfo
+      150  07-03-14 13:55   Payload/Inverse.app/ResourceRules.plist
+ --------                   -------
+   269670                   22 files
 </code></pre>
-
-<p>   210368  07-03-14 13:55   Payload/Inverse.app/Inverse</p>
-
-<pre><code>14929  07-03-14 13:55   Payload/Inverse.app/LaunchImage-568h@2x.png
-14929  07-03-14 13:55   Payload/Inverse.app/LaunchImage-700-568h@2x.png
-    8  07-03-14 13:55   Payload/Inverse.app/PkgInfo
-  150  07-03-14 13:55   Payload/Inverse.app/ResourceRules.plist
-</code></pre>
-
-<hr />
-
-<p>   269670                   22 files
-```</p>
 
 <p>用 <code>otool</code> 看一下執行檔有沒有被加密</p>
 
-<p>``` text
-$ otool -l Payload/Inverse.app/Inverse | grep -A5 LC_ENCRYPTION_INFO</p>
-
-<pre><code>      cmd LC_ENCRYPTION_INFO
-  cmdsize 20
-cryptoff  16384
-cryptsize 16384
-cryptid   0
+<pre><code class="text">$ otool -l Payload/Inverse.app/Inverse | grep -A5 LC_ENCRYPTION_INFO
+          cmd LC_ENCRYPTION_INFO
+      cmdsize 20
+    cryptoff  16384
+    cryptsize 16384
+    cryptid   0
+Load command 13
+--
+          cmd LC_ENCRYPTION_INFO
+      cmdsize 20
+    cryptoff  16384
+    cryptsize 16384
+    cryptid   0
+Load command 13
+--
+          cmd LC_ENCRYPTION_INFO_64
+      cmdsize 24
+    cryptoff  16384
+    cryptsize 16384
+    cryptid   0
+        pad   0
 </code></pre>
-
-<h2>Load command 13</h2>
-
-<pre><code>      cmd LC_ENCRYPTION_INFO
-  cmdsize 20
-cryptoff  16384
-cryptsize 16384
-cryptid   0
-</code></pre>
-
-<h2>Load command 13</h2>
-
-<pre><code>      cmd LC_ENCRYPTION_INFO_64
-  cmdsize 24
-cryptoff  16384
-cryptsize 16384
-cryptid   0
-    pad   0
-</code></pre>
-
-<p>```</p>
 
 <p><code>cryptid</code> 是 0 表示沒有加密，所以我們可以直接來看 <code>Payload/Inverse.app/Inverse</code> ！</p>
 
@@ -117,36 +99,32 @@ cryptid   0
 
 <p>把整段用 <code>ruby</code> 重寫會長得像</p>
 
-<p>``` ruby
-require &lsquo;digest/sha1&rsquo;</p>
+<pre><code class="ruby">require 'digest/sha1'
 
-<p>def s(i)
+def s(i)
   Digest::SHA1.hexdigest i.to_s
-end</p>
+end
 
-<p>def h2i(h)
+def h2i(h)
   h.to_i(16)
-end</p>
+end
 
-<p>def all(h)
-  h.split(&ldquo;&rdquo;).map{ |x| h2i(x) }.reduce(:+)
-end</p>
+def all(h)
+  h.split("").map{ |x| h2i(x) }.reduce(:+)
+end
 
-<p>def es(plain, pass)
-  enc = &ldquo;&rdquo;
+def es(plain, pass)
+  enc = ""
   hash = s(pass)
   sum  = all(hash)
-  (0..plain.length &ndash; 1).each do |i|</p>
-
-<pre><code>result = plain[i].ord + h2i(hash[i % 40]) - sum
-sum    = all(s(plain[0..i])[0..19]) + all(s(sum)[0..19])
-enc   += result.to_s
-</code></pre>
-
-<p>  end
+  (0..plain.length - 1).each do |i|
+    result = plain[i].ord + h2i(hash[i % 40]) - sum
+    sum    = all(s(plain[0..i])[0..19]) + all(s(sum)[0..19])
+    enc   += result.to_s
+  end
   enc
 end
-```</p>
+</code></pre>
 
 <p>所以看到目前為止，我們要做的應該是「只知道 <code>enc</code> ，想辦法推回原本的 <code>plain</code> 」，原本的 <code>pass</code> 是什麼對我們來說不重要，我們只要知道 <code>hash = s(pass)</code> 是什麼就好了！</p>
 
@@ -154,8 +132,7 @@ end
 
 <p>比較討厭的是題目給的 <code>1. AAA-111-ASRT-3.1-CC[n]</code> ，真的去試的話會發現用 <code>1.</code> 開頭的 plain 是沒有解的，後面接 <code>[n]</code> 也是一樣，所以最後試出來每行的格式應該是像 <code>[0-9A-Z]{3}-[0-9A-Z]{3}-ASRT-\d\.\d-[0-9A-Z]{2}\n</code>&hellip;解這題的時候因為格式也卡了好久&hellip;</p>
 
-<p>``` ruby
-enc = [
+<pre><code class="ruby">enc = [
   -178, -189, -255, -256, -193, -257, -235, -159, -198, -227,
   -187, -187, -267, -221, -225, -228, -235, -249, -259, -287,
   -230, -190, -196, -218, -269, -230, -259, -239, -221, -205,
@@ -170,215 +147,180 @@ enc = [
   -196, -191, -216, -225, -237, -248, -222, -167, -240, -269,
   -205, -172, -208, -235, -235, -223, -201, -254, -229, -230,
   -209, -265, -312, -240, -201, -274, -258, -180, -223, -250,
-]</p>
+]
 
-<p>def dfs(plain, enc)
+def dfs(plain, enc)
   round = plain.length
-  if round > 39</p>
+  if round &gt; 39
+    p plain
+    return
+  end
 
-<pre><code>p plain
-return
-</code></pre>
-
-<p>  end</p>
-
-<p>  round %= 20
-  if round == 3 || round == 7 || round == 12 || round == 16</p>
-
-<pre><code>chars = [ "-" ]
-</code></pre>
-
-<p>  elsif round >= 8 &amp;&amp; round &lt;= 11</p>
-
-<pre><code>s = "ASRT"
-chars = [ s[round - 8] ]
-</code></pre>
-
-<p>  elsif round == 14</p>
-
-<pre><code>chars = [ "." ]
-</code></pre>
-
-<p>  elsif round == 13 || round == 15</p>
-
-<pre><code>chars = []
-('0'..'9').each { |c| chars.push(c) }
-</code></pre>
-
-<p>  elsif round == 19</p>
-
-<pre><code>chars = [ "\n" ]
-</code></pre>
-
-<p>  else</p>
-
-<pre><code>chars = []
-('0'..'9').each { |c| chars.push(c) }
-('A'..'Z').each { |c| chars.push(c) }
-</code></pre>
-
-<p>  end
-  chars.each do |c|</p>
-
-<pre><code>plain = plain + c
-(0..15).each do |i|
-  if brute_es(plain, enc, i)
-    dfs(plain, enc)
-    break
+  round %= 20
+  if round == 3 || round == 7 || round == 12 || round == 16
+    chars = [ "-" ]
+  elsif round &gt;= 8 &amp;&amp; round &lt;= 11
+    s = "ASRT"
+    chars = [ s[round - 8] ]
+  elsif round == 14
+    chars = [ "." ]
+  elsif round == 13 || round == 15
+    chars = []
+    ('0'..'9').each { |c| chars.push(c) }
+  elsif round == 19
+    chars = [ "\n" ]
+  else
+    chars = []
+    ('0'..'9').each { |c| chars.push(c) }
+    ('A'..'Z').each { |c| chars.push(c) }
+  end
+  chars.each do |c|
+    plain = plain + c
+    (0..15).each do |i|
+      if brute_es(plain, enc, i)
+        dfs(plain, enc)
+        break
+      end
+    end
+    plain = plain[0..-2]
   end
 end
-plain = plain[0..-2]
+
+dfs("", enc)
 </code></pre>
-
-<p>  end
-end</p>
-
-<p>dfs(&ldquo;&rdquo;, enc)
-```</p>
 
 <p>一共會跑出 34 組，看到 <code>SEC-</code> 和 <code>KOR-</code> 就覺得應該沒解錯，不過直接用 ruby 跑其實有點久，有時間再來看一下怎麼加速 XD</p>
 
-<p>``` text
-$ time ruby solve.rb
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-J1\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-J2\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KD\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KE\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KJ\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KM\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KN\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KO\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-L0\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-L2\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-MR\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-MX\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-N5\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-NB\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-NC\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-ND\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-PT\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-PY\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q0\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q1\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q2\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q3\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-RX\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SN\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SQ\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SR\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SU\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-T7\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-TE\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-UP\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-UU\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-W0\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-W6\n&rdquo;
-&ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-W8\n&rdquo;</p>
+<pre><code class="text">$ time ruby solve.rb
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-J1\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-J2\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KD\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KE\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KJ\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KM\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KN\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KO\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-L0\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-L2\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-MR\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-MX\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-N5\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-NB\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-NC\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-ND\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-PT\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-PY\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q0\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q1\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q2\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q3\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-RX\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SN\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SQ\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SR\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SU\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-T7\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-TE\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-UP\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-UU\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-W0\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-W6\n"
+"SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-W8\n"
 
-<p>real    92m16.033s
+real    92m16.033s
 user    92m12.464s
 sys     0m3.675s
-```</p>
+</code></pre>
 
 <p>接下來就對這幾組，看他們的 <code>hash</code> 和 <code>sum == all(hash)</code> 了</p>
 
-<p>``` ruby
-plains = [
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-J1\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-J2\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KD\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KE\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KJ\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KM\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KN\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KO\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-L0\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-L2\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-MR\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-MX\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-N5\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-NB\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-NC\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-ND\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-PT\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-PY\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q0\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q1\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q2\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q3\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-RX\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SN\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SQ\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SR\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SU\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-T7\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-TE\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-UP\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-UU\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-W0\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-W6\n&rdquo;,
-  &ldquo;SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-W8\n&rdquo;,
-]</p>
+<pre><code class="ruby">plains = [
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-J1\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-J2\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KD\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KE\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KJ\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KM\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KN\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KO\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-L0\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-L2\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-MR\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-MX\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-N5\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-NB\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-NC\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-ND\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-PT\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-PY\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q0\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q1\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q2\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-Q3\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-RX\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SN\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SQ\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SR\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-SU\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-T7\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-TE\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-UP\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-UU\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-W0\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-W6\n",
+  "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-W8\n",
+]
 
-<p>def rev_es(plain, enc, start)
-  hash = &ldquo;&rdquo;
-  hash += start.to_s(16)</p>
+def rev_es(plain, enc, start)
+  hash = ""
+  hash += start.to_s(16)
 
-<p>  first_sum = plain[0].ord + start &ndash; enc[0]
+  first_sum = plain[0].ord + start - enc[0]
   sum = first_sum;
-  sum = all(s(plain[0])[0..19]) + all(s(sum)[0..19])</p>
+  sum = all(s(plain[0])[0..19]) + all(s(sum)[0..19])
 
-<p>  (1..plain.length &ndash; 1).each do |i|</p>
+  (1..plain.length - 1).each do |i|
+    r   = enc[i] - plain[i].ord + sum
+    sum = all(s(plain[0..i])[0..19]) + all(s(sum)[0..19])
+    return 0 if r &lt; 0 || r &gt; 15
+    hash += r.to_s(16)
+  end
 
-<pre><code>r   = enc[i] - plain[i].ord + sum
-sum = all(s(plain[0..i])[0..19]) + all(s(sum)[0..19])
-return 0 if r &lt; 0 || r &gt; 15
-hash += r.to_s(16)
+  p hash if all(hash) == first_sum
+end
+
+decode_hash(plains, enc)
 </code></pre>
-
-<p>  end</p>
-
-<p>  p hash if all(hash) == first_sum
-end</p>
-
-<p>decode_hash(plains, enc)
-```</p>
 
 <p>只有兩組符合條件</p>
 
-<p><code>text
-$ ruby solve.rb
+<pre><code class="text">$ ruby solve.rb
 "011c945f30ce2cbafc452f39840f025693339c42"
 "011c945f30ce2cbafc452f39840f025693339909"
-</code></p>
+</code></pre>
 
 <p>接著就直接用這兩組來解 enc ，看看哪個才是正解！</p>
 
-<p>``` ruby
-def es_hash(enc, hash)
-  output = &ldquo;&rdquo;
+<pre><code class="ruby">def es_hash(enc, hash)
+  output = ""
   sum  = all(hash)
-  (0..enc.length &ndash; 1).each do |i|</p>
-
-<pre><code>c = enc[i] - h2i(hash[i % 40]) + sum
-output += c.chr
-sum    = all(s(output)[0..19]) + all(s(sum)[0..19])
-</code></pre>
-
-<p>  end
+  (0..enc.length - 1).each do |i|
+    c = enc[i] - h2i(hash[i % 40]) + sum
+    output += c.chr
+    sum    = all(s(output)[0..19]) + all(s(sum)[0..19])
+  end
   output
-end</p>
+end
 
-<p>p es_hash(enc, &ldquo;011c945f30ce2cbafc452f39840f025693339c42&rdquo;)
-p es_hash(enc, &ldquo;011c945f30ce2cbafc452f39840f025693339909&rdquo;) # error
-```</p>
+p es_hash(enc, "011c945f30ce2cbafc452f39840f025693339c42")
+p es_hash(enc, "011c945f30ce2cbafc452f39840f025693339909") # error
+</code></pre>
 
 <p>用第一個 <code>hash</code> 可以成功還原 <code>plain</code></p>
 
-<p><code>text
-$ ruby solve.rb
+<pre><code class="text">$ ruby solve.rb
 "SEC-41A-ASRT-3.1-OK\nKOR-A43-ASRT-9.3-KO\nCOV-718-ASRT-7.9-QE\nCON-C1D-ASRT-1.1-CO\nCOM-ICQ-ASRT-1.9-KR\nLSA-IQ1-ASRT-3.0-KR\nAES-JOO-ASRT-9.9-KR\n"
-</code></p>
+</code></pre>
 
 <p>所以 flag 應該就是第四行的 <code>CON-C1D-ASRT-1.1-CO</code> ！</p>
 
@@ -415,8 +357,7 @@ $ ruby solve.rb
 
 <h2>BIN300</h2>
 
-<p><code>
-$ gdb
+<pre><code>$ gdb
 (gdb) file moon
 (gdb) b luaL_loadbuffer
 Breakpoint 1 at 0x411110
@@ -426,7 +367,7 @@ Breakpoint 1, 0x0000000000411110 in luaL_loadbuffer ()
 0x627340 &lt;content.2593&gt;:    "p = 54111037\ng = 56321\n\nio.write(\"Enter your password: \")\nio.flush()\npassword=io.read()\nif string.len(password) ~= 32 then\n    print(\"Wrong!\")\n    return 0\nend\n\nv = g\nalpha = \"0123456789abcdef\"\nfor lo"...
 0x627408 &lt;content.2593+200&gt;:    "op =1,32 do\n    v = v * g\n    v = v % p\n    r = v % 16\n    good = string.sub(alpha,r+1,r+1)\n    if good ~= string.sub(password,loop,loop) then\n        print(\"Wrong!\")\n        return 0\n    end\nend\nprin"...
 0x6274d0 &lt;content.2593+400&gt;:    "t(\"Well done, the flag is: ebCTF{\"..password..\"}\")\n-- f02233aca4839124ee6ffa766883c47e\n"
-</code></p>
+</code></pre>
 
 <h3>Reference</h3>
 
@@ -450,38 +391,29 @@ Breakpoint 1, 0x0000000000411110 in luaL_loadbuffer ()
 
 <p>所以做 md5 collision ，原本檔案的內容是對自己做簡單的 hash 再從 hash 決定要印哪一句：</p>
 
-<p>```
-// by seanwu</p>
-
-<h2>include &lt;stdio.h></h2>
-
-<p>const char* str[5]= {</p>
-
-<pre><code>"All Eindbazen are wearing wooden shoes",
-"All Eindbazen live in a windmill",
-"All Eindbazen grow their own tulips",
-"All Eindbazen smoke weed all day",
-"All Eindbazen are cheap bastards"
-</code></pre>
-
-<p>};
-int main(int argc,char **argv){</p>
-
-<pre><code>FILE* f=fopen(argv[0],"rb");
-fseek(f,-20005,SEEK_END);
-int x=0;
-unsigned char z;
-for( int i=0; i&lt;20000; i++ ){
-    fread(&amp;z,1,1,f);
-    x=(x*33331+z)%5;
+<pre><code>// by seanwu
+##include &lt;stdio.h&gt;
+const char* str[5]= {
+    "All Eindbazen are wearing wooden shoes",
+    "All Eindbazen live in a windmill",
+    "All Eindbazen grow their own tulips",
+    "All Eindbazen smoke weed all day",
+    "All Eindbazen are cheap bastards"
+};
+int main(int argc,char **argv){
+    FILE* f=fopen(argv[0],"rb");
+    fseek(f,-20005,SEEK_END);
+    int x=0;
+    unsigned char z;
+    for( int i=0; i&lt;20000; i++ ){
+        fread(&amp;z,1,1,f);
+        x=(x*33331+z)%5;
+    }
+    x=(x+5)%5;
+    puts(str[x]);
+    return 0;
 }
-x=(x+5)%5;
-puts(str[x]);
-return 0;
 </code></pre>
-
-<p>}
-```</p>
 
 <h3>Reference</h3>
 
@@ -503,11 +435,10 @@ return 0;
 </ul>
 
 
-<p>```
-$ echo &lsquo;KZUJJUN06TR3T2T6ABTEAB163A3NREE1JZ6N3QFLIYHMP X7V6C6TUK53TZ653N2UNRB316WE11VZ3UV3AKKZUJJ3RV 6D6SZ6J32S11D353TDVZUN0UK68U2N6V23312T33V646N VE4VA36NJZ6N3NSAB3TQFLIYHMPX78UNRT30ETRKBTEAF QQ8U16J6VEV63KHQ8U164ES1U216W3TLL8U16EJJ13KFI Y8U1613386N3K346NRJETV62VZ321E0B4F4Q7&rsquo; | tr -d &lsquo; &rsquo; | tr KZUJN06TR32ABEQFLIYHMPX7VC54 shipngordefmba0123456789tjvc</p>
+<pre><code>$ echo 'KZUJJUN06TR3T2T6ABTEAB163A3NREE1JZ6N3QFLIYHMP X7V6C6TUK53TZ653N2UNRB316WE11VZ3UV3AKKZUJJ3RV 6D6SZ6J32S11D353TDVZUN0UK68U2N6V23312T33V646N VE4VA36NJZ6N3NSAB3TQFLIYHMPX78UNRT30ETRKBTEAF QQ8U16J6VEV63KHQ8U164ES1U216W3TLL8U16EJJ13KFI Y8U1613386N3K346NRJETV62VZ321E0B4F4Q7' | tr -d ' ' | tr KZUJN06TR32ABEQFLIYHMPX7VC54 shipngordefmba0123456789tjvc
 
-<p>shippingorderfrombramb1oemendaa1phone0123456789tojorisverhovenfindbe1oWa11theitemsshippedtoDoShopefS11DeverDthingiso8ifnotfee1freetocontactmeonphonenSmber01234567898indregardsbram1008i1opotatoes508i1ocaS1if1oWer228i1oapp1es1348i1o1ee8onesecondpartofthef1agbc1c09
-```</p>
+shippingorderfrombramb1oemendaa1phone0123456789tojorisverhovenfindbe1oWa11theitemsshippedtoDoShopefS11DeverDthingiso8ifnotfee1freetocontactmeonphonenSmber01234567898indregardsbram1008i1opotatoes508i1ocaS1if1oWer228i1oapp1es1348i1o1ee8onesecondpartofthef1agbc1c09
+</code></pre>
 
 <ul>
 <li><p>3rd PART</p>
@@ -519,10 +450,9 @@ $ echo &lsquo;KZUJJUN06TR3T2T6ABTEAB163A3NREE1JZ6N3QFLIYHMP X7V6C6TUK53TZ653N2UN
 </ul>
 
 
-<p>```
-$ echo &lsquo;thhneu hpeitr eafnw frleo otata uoghb rfirf ttseo&rsquo; | tr &lsquo; &rsquo; $&lsquo;\n&rsquo;</p>
+<pre><code>$ echo 'thhneu hpeitr eafnw frleo otata uoghb rfirf ttseo' | tr ' ' $'\n'
 
-<p>thhneu
+thhneu
 hpeitr
 eafnw
 frleo
@@ -530,7 +460,7 @@ otata
 uoghb
 rfirf
 ttseo
-```</p>
+</code></pre>
 
 <ul>
 <li><p>5th PART</p>
@@ -539,11 +469,10 @@ ttseo
 </ul>
 
 
-<p>```
-$ cat 5.txt | tr &ldquo;[:lower:]&rdquo; &ldquo;[:upper:]&rdquo; | tr SIWZGDRYUOMKQBTJPNFEHLX aistheflgbuprodywmcknxv</p>
+<pre><code>$ cat 5.txt | tr "[:lower:]" "[:upper:]" | tr SIWZGDRYUOMKQBTJPNFEHLX aistheflgbuprodywmcknxv
 
-<p>a common mistake made by foreigners is that the netherlands legaliAed the use of cannabis and other recreational soft drugs. according the law any use of drugs is still illegal, but there is a tolerancy policy called gedoogbeleid for any soft drugs. this is a set of guidelines telling public prosecutors under which circumstances offenders should not be prosecuted. according to current gedoogbeleid the possession of a maximum amount of five grams cannabis for personal use is not prosecuted. cultivation is treated in a similar way. cultivation of 5 plants or less is usually not prosecuted when they are renounced by the cultivator.  so if you come to the netherlands and want to try some recreational use of soft drugs, beware that it is not legal. the fifth part for the flag is ab1fde
-```</p>
+a common mistake made by foreigners is that the netherlands legaliAed the use of cannabis and other recreational soft drugs. according the law any use of drugs is still illegal, but there is a tolerancy policy called gedoogbeleid for any soft drugs. this is a set of guidelines telling public prosecutors under which circumstances offenders should not be prosecuted. according to current gedoogbeleid the possession of a maximum amount of five grams cannabis for personal use is not prosecuted. cultivation is treated in a similar way. cultivation of 5 plants or less is usually not prosecuted when they are renounced by the cultivator.  so if you come to the netherlands and want to try some recreational use of soft drugs, beware that it is not legal. the fifth part for the flag is ab1fde
+</code></pre>
 
 <ul>
 <li><p>6th PART</p>
@@ -552,12 +481,11 @@ $ cat 5.txt | tr &ldquo;[:lower:]&rdquo; &ldquo;[:upper:]&rdquo; | tr SIWZGDRYUO
 </ul>
 
 
-<p>```
-$ cat 6.txt | tr &ldquo;[:upper:]&rdquo; &ldquo;[:lower:]&rdquo; | tr abcdefghijklmnopqrstuvwxyz wxyzabcdefghijklmnopqrstuv</p>
+<pre><code>$ cat 6.txt | tr "[:upper:]" "[:lower:]" | tr abcdefghijklmnopqrstuvwxyz wxyzabcdefghijklmnopqrstuv
 
-<p>the delta works is a series of construction projects in the southwest of the netherlands to protect a large area of land around the rhine-meuse-scheldt delta from the sea. the works consist of dams, sluices, locks, dikes, levees, and storm surge barriers. the aim of the dams, sluices, and storm surge barriers was to shorten the dutch coastline, thus reducing the number of dikes that had to be raised.
+the delta works is a series of construction projects in the southwest of the netherlands to protect a large area of land around the rhine-meuse-scheldt delta from the sea. the works consist of dams, sluices, locks, dikes, levees, and storm surge barriers. the aim of the dams, sluices, and storm surge barriers was to shorten the dutch coastline, thus reducing the number of dikes that had to be raised.
 along with the zuiderzee works, delta works have been declared one of the seven wonders of the modern world by the american society of civil engineers. the last part of the flag is: one-five-f-three-four-}
-```</p>
+</code></pre>
 
 <h2>CRY200</h2>
 
@@ -590,48 +518,38 @@ along with the zuiderzee works, delta works have been declared one of the seven 
 
 <p>感覺就是他了！所以試著 <code>grep ctf.py</code> 沒東西之後，再試了 <code>grep sys.argv</code> 會找到一段 <code>python</code> code</p>
 
-<p>```
-import sys
+<pre><code>import sys
 import time
 import random
 import signal
 from Crypto.Cipher import AES
-key1 = &ldquo;is this where&rdquo;
+key1 = "is this where"
 key2 = sys.argv[1]
-key3 = raw_input(&ldquo;Password: &rdquo;)
-iv = &lsquo;a very random iv&rsquo;
-secret = &lsquo;./flag&rsquo;
+key3 = raw_input("Password: ")
+iv = 'a very random iv'
+secret = './flag'
 mode = AES.MODE_CBC
-def encrypt(signum, frame):</p>
-
-<pre><code>key = key1 + key2 + key3
-enc = AES.new(key, mode, iv)
-inp = raw_input("Enter secret: ")
-diff = len(inp) % 16
-if diff != 0:
-inp += ' ' * (16 - diff)
-with open(secret, 'wb') as outfile:
-    outfile.write(enc.encrypt(inp))
-del key, enc
-</code></pre>
-
-<p>def decrypt(signum, frame):</p>
-
-<pre><code>key = key1 + key2 + key3
-enc = AES.new(key, mode, iv)
-with open(secret, 'rb') as infile:
-    print(enc.decrypt(infile.read(48)))
-del key, enc
-</code></pre>
-
-<p>signal.signal(signal.SIGUSR1, encrypt)
+def encrypt(signum, frame):
+    key = key1 + key2 + key3
+    enc = AES.new(key, mode, iv)
+    inp = raw_input("Enter secret: ")
+    diff = len(inp) % 16
+    if diff != 0:
+    inp += ' ' * (16 - diff)
+    with open(secret, 'wb') as outfile:
+        outfile.write(enc.encrypt(inp))
+    del key, enc
+def decrypt(signum, frame):
+    key = key1 + key2 + key3
+    enc = AES.new(key, mode, iv)
+    with open(secret, 'rb') as infile:
+        print(enc.decrypt(infile.read(48)))
+    del key, enc
+signal.signal(signal.SIGUSR1, encrypt)
 signal.signal(signal.SIGUSR2, decrypt)
-while True:</p>
-
-<pre><code>time.sleep(1)
+while True:
+    time.sleep(1)
 </code></pre>
-
-<p>```</p>
 
 <p>接著要找 <code>key3</code> ，試著 <code>grep 'i hide my'</code> 之後找到一行</p>
 
@@ -670,8 +588,7 @@ while True:</p>
 
 <p>這題一開始只給了 <code>112 + 386 + 712 + 1398 + 8771 + 11982 + 15397 + 23984 = 51037</code> ，連到網頁看到了 <code>X-Powered-By:*knock knock*</code> ，猜測是要做 port knocking ！</p>
 
-<p><code>
-$ nc -w 1 54.216.81.14 112;
+<pre><code>$ nc -w 1 54.216.81.14 112;
 $ nc -w 1 54.216.81.14 386;
 $ nc -w 1 54.216.81.14 712;
 $ nc -w 1 54.216.81.14 1398;
@@ -682,20 +599,16 @@ $ nc -w 1 54.216.81.14 23984;
 $ nc -w 1 54.216.81.14 51037;
 So you are knocking me, how about I return the favor?
 Repeat after me and I will open the last port…
-</code></p>
+</code></pre>
 
 <p>下一階段的提示是要照著對方敲我們 port 的順序敲回去，我們是利用 <code>iptables</code> 來把進來的 tcp connection 記錄下來：</p>
 
-<p>```</p>
-
-<h1>iptables -A INPUT -p tcp -j LOG &mdash;log-prefix &lsquo; INPUT TCP &rsquo; &mdash;log-level 4</h1>
-
-<p>```</p>
+<pre><code># iptables -A INPUT -p tcp -j LOG --log-prefix ' INPUT TCP ' --log-level 4
+</code></pre>
 
 <p>接著會在 <code>/var/log/kern.log</code> 拿到記錄，接著再敲回去：</p>
 
-<p>```
-$ nc -w 1 54.216.81.14 8112;
+<pre><code>$ nc -w 1 54.216.81.14 8112;
 $ nc -w 1 54.216.81.14 33386;
 $ nc -w 1 54.216.81.14 14712;
 $ nc -w 1 54.216.81.14 4398;
@@ -704,22 +617,18 @@ $ nc -w 1 54.216.81.14 52313;
 $ nc -w 1 54.216.81.14 25697;
 $ nc -w 1 54.216.81.14 932;
 $ nc -w 1 54.216.81.14 22222;
-[Advanced]</p>
-
-<pre><code>    sequence    = 234,781,983,2411,9781,14954,23112,63991
-    seq_timeout = 15
-    command     = /sbin/iptables -A INPUT -s %IP% -p tcp --dport 32154 -j ACCEPT
-    tcpflags    = fin,urg,!ack
-    cmd_timeout = 30
-    stop_command = /sbin/iptables -D INPUT -s %IP% -p tcp --dport 32154 -j ACCEPT
+[Advanced]
+        sequence    = 234,781,983,2411,9781,14954,23112,63991
+        seq_timeout = 15
+        command     = /sbin/iptables -A INPUT -s %IP% -p tcp --dport 32154 -j ACCEPT
+        tcpflags    = fin,urg,!ack
+        cmd_timeout = 30
+        stop_command = /sbin/iptables -D INPUT -s %IP% -p tcp --dport 32154 -j ACCEPT
 </code></pre>
-
-<p>```</p>
 
 <p>拿到第三階段的提示了！查了一下發現是 <a href="http://www.zeroflux.org/projects/knock/">knockd</a> 的設定檔，這次會檢查 tcp flags ，我們是用 (hping)[<a href="http://www.hping.org/">http://www.hping.org/</a>] 來設 tcp flags</p>
 
-<p><code>
-hping3 -c 1 -F -U -p 234   54.216.81.14
+<pre><code>hping3 -c 1 -F -U -p 234   54.216.81.14
 hping3 -c 1 -F -U -p 781   54.216.81.14
 hping3 -c 1 -F -U -p 983   54.216.81.14
 hping3 -c 1 -F -U -p 2411  54.216.81.14
@@ -727,7 +636,7 @@ hping3 -c 1 -F -U -p 9781  54.216.81.14
 hping3 -c 1 -F -U -p 14954 54.216.81.14
 hping3 -c 1 -F -U -p 23112 54.216.81.14
 hping3 -c 1 -F -U -p 63991 54.216.81.14
-</code></p>
+</code></pre>
 
 <p>最後再連 port 32154 就會噴 flag 了！</p>
 

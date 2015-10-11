@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | blog.dm4.tw]]></title>
   <link href="http://blog.dm4.tw/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://blog.dm4.tw/"/>
-  <updated>2015-10-11T19:58:37+08:00</updated>
+  <updated>2015-10-11T20:52:55+08:00</updated>
   <id>http://blog.dm4.tw/</id>
   <author>
     <name><![CDATA[dm4]]></name>
@@ -24,41 +24,36 @@
 
 <p>官網的 <a href="http://phantomjs.org/quick-start.html">Quick Start</a> 寫的蠻清楚的， <a href="http://phantomjs.org/examples/index.html">Examples</a> 也有很多範例可以參考，我自己用到的功能只有連線一個網頁後，對網頁的 <code>document</code> 作操作，然後把結果印出來，下面這段簡單的 code 就是連上 <a href="http://blog.dm4.tw">http://blog.dm4.tw</a> 首頁，拿到最新一篇文章的標題，印出標題之後截圖：</p>
 
-<p>``` javascript
-var page = require(&lsquo;webpage&rsquo;).create();</p>
+<pre><code class="javascript">var page = require('webpage').create();
 
-<p>page.open(&lsquo;<a href="http://blog.dm4.tw">http://blog.dm4.tw</a>&rsquo;, function() {</p>
-
-<pre><code>var article_title = page.evaluate(function() {
-    return document.getElementsByClassName("entry-title")[0].children[0].innerHTML;
+page.open('http://blog.dm4.tw', function() {
+    var article_title = page.evaluate(function() {
+        return document.getElementsByClassName("entry-title")[0].children[0].innerHTML;
+    });
+    console.log(article_title);
+    page.render('blog.png');
+    phantom.exit();
 });
-console.log(article_title);
-page.render('blog.png');
-phantom.exit();
 </code></pre>
-
-<p>});
-```</p>
 
 <h2>PhantomJS + Node.js</h2>
 
 <p>可以用 <a href="https://github.com/Medium/phantomjs">https://github.com/Medium/phantomjs</a> ，裡面也有提到怎麼用 <code>node</code> 跑起來：</p>
 
-<p>``` javascript
-var path = require(&lsquo;path&rsquo;)
-var childProcess = require(&lsquo;child_process&rsquo;)
-var phantomjs = require(&lsquo;phantomjs&rsquo;)
-var binPath = phantomjs.path</p>
+<pre><code class="javascript">var path = require('path')
+var childProcess = require('child_process')
+var phantomjs = require('phantomjs')
+var binPath = phantomjs.path
 
-<p>var childArgs = [
-  path.join(__dirname, &lsquo;phantomjs-script.js&rsquo;),
-  &lsquo;some other argument (passed to phantomjs script)&rsquo;
-]</p>
+var childArgs = [
+  path.join(__dirname, 'phantomjs-script.js'),
+  'some other argument (passed to phantomjs script)'
+]
 
-<p>childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
+childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
   // handle results
 })
-```</p>
+</code></pre>
 
 <p>不過要注意他是開 process 跑的，不要像我一不注意開太多結果……</p>
 
@@ -77,13 +72,12 @@ var binPath = phantomjs.path</p>
 
 <p>有些 https 網頁憑證沒設好，預設很貼心把它擋下來了，如果要打開的話，執行時要加上參數 <code>phantomjs --ignore-ssl-errors=true</code> ，如果是用 <code>node</code> 跑的話是要加在 arguments 裡：</p>
 
-<p><code>javascript
-var childArgs = [
+<pre><code class="javascript">var childArgs = [
   '--ignore-ssl-errors=true',
   path.join(__dirname, 'phantomjs-script.js'),
   'some other argument (passed to phantomjs script)'
 ]
-</code></p>
+</code></pre>
 
 <p>雖然跑起來有點慢，不過功能太強了啊！讓我以後有點懶的去看 http request 用 <code>curl</code> 送 query 了 XD</p>
 ]]></content>

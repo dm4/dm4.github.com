@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xxd | blog.dm4.tw]]></title>
   <link href="http://blog.dm4.tw/blog/categories/xxd/atom.xml" rel="self"/>
   <link href="http://blog.dm4.tw/"/>
-  <updated>2015-10-11T19:58:37+08:00</updated>
+  <updated>2015-10-11T20:52:55+08:00</updated>
   <id>http://blog.dm4.tw/</id>
   <author>
     <name><![CDATA[dm4]]></name>
@@ -20,32 +20,29 @@
     <id>http://blog.dm4.tw/blog/2013/11/08/yong-xxd-jie-hex-string</id>
     <content type="html"><![CDATA[<p>本來解 hex string 都是用有點醜的 perl one-liner</p>
 
-<p><code>
-$ perl -ne 'print map chr hex, m/../g' &lt;&lt;&lt; 646d340a
+<pre><code>$ perl -ne 'print map chr hex, m/../g' &lt;&lt;&lt; 646d340a
 dm4
-</code></p>
+</code></pre>
 
 <p>不過昨天又研究了一下 <code>xxd</code> 發現一些神秘的功能，像是發現有 C style 的 output ！</p>
 
-<p><code>
-$ xxd -i data
+<pre><code>$ xxd -i data
 unsigned char data[] = {
   0x74, 0x68, 0x69, 0x73, 0x20, 0x69, 0x73, 0x20, 0x62, 0x69, 0x61, 0x6e,
   0x72, 0x79, 0x3f, 0x0a
 };
 unsigned int data_len = 16;
-</code></p>
+</code></pre>
 
 <p>還可以調 column 數</p>
 
-<p><code>
-$ xxd -i -c 8 data
+<pre><code>$ xxd -i -c 8 data
 unsigned char data[] = {
   0x74, 0x68, 0x69, 0x73, 0x20, 0x69, 0x73, 0x20,
   0x62, 0x69, 0x61, 0x6e, 0x72, 0x79, 0x3f, 0x0a
 };
 unsigned int data_len = 16;
-</code></p>
+</code></pre>
 
 <p>然後 <a href="http://blog.atdog.org">atdog</a> 大大看到之後，又教了我怎麼用 <code>xxd</code> 解 hex string</p>
 
@@ -54,20 +51,18 @@ unsigned int data_len = 16;
 </ul>
 
 
-<p><code>
-$ xxd -p &lt;&lt;&lt; dm4
+<pre><code>$ xxd -p &lt;&lt;&lt; dm4
 646d340a
-</code></p>
+</code></pre>
 
 <ul>
 <li>解 hex string</li>
 </ul>
 
 
-<p><code>
-$ xxd -p -r &lt;&lt;&lt; 646d340a
+<pre><code>$ xxd -p -r &lt;&lt;&lt; 646d340a
 dm4
-</code></p>
+</code></pre>
 
 <p>太帥了！而且比原本 perl one-liner 短好多啊啊啊</p>
 ]]></content>
